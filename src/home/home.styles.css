@@ -1,0 +1,27 @@
+.div-home {
+    width: 100%;
+    min-height: 100vh;
+    background-color: #6498FF;
+}
+
+.div-header {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    position: fixed;
+    z-index: 1;
+    background: whitesmoke;
+    color: yellow;
+    -webkit-text-stroke: 1px #3761A8;
+    font-family: pokemon;
+    font-size: 24px;
+}
+
+.div-lista-pokemons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}

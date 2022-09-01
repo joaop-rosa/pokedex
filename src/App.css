@@ -1,0 +1,52 @@
+*,
+*:after,
+*:before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+html {
+  min-height: 100vh;
+}
+
+img {
+  max-width: 100%;
+}
+
+li {
+  list-style: none;
+}
+
+button {
+  border: none;
+}
+
+body,
+#root {
+  list-style-type: none;
+  min-height: 100vh;
+}
+
+.div-background {
+  width: 100%;
+  min-height: 100vh;
+  background: #232931;
+}
+
+.padding-header {
+  padding-top: 120px;
+}
+
+.container {
+  position: relative;
+  width: 65%;
+  min-height: 100vh;
+  margin: 0 auto;
+}
+
+@font-face {
+  font-family: pokemon;
+  src: url(./assets/font/Pokemon\ Solid.ttf);
+}
