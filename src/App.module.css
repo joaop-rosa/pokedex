@@ -35,17 +35,6 @@ body,
   background: #232931;
 }
 
-.padding-header {
-  padding-top: 120px;
-}
-
-.container {
-  position: relative;
-  width: 65%;
-  min-height: 100vh;
-  margin: 0 auto;
-}
-
 @font-face {
   font-family: pokemon;
   src: url(./assets/font/Pokemon\ Solid.ttf);

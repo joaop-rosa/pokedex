@@ -1,0 +1,40 @@
+.sectionHome {
+  position: relative;
+  background-color: #6498ff;
+  margin: 0 auto;
+}
+
+.container {
+  padding: 130px 30px 0;
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  display: block;
+}
+
+.header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  z-index: 1;
+  background: whitesmoke;
+  color: yellow;
+  -webkit-text-stroke: 1px #3761a8;
+  font-family: pokemon;
+  font-size: 24px;
+}
+
+.pokemonList {
+  width: 100%;
+  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 300px));
+  grid-template-rows: minmax(300px, 300px);
+  gap: 30px;
+}
