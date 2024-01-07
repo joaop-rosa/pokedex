@@ -9,7 +9,10 @@
   max-width: 1280px;
   width: 100%;
   margin: 0 auto;
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
 }
 
 .header {
@@ -28,6 +31,15 @@
   -webkit-text-stroke: 1px #3761a8;
   font-family: pokemon;
   font-size: 24px;
+}
+
+.inputText {
+  position: relative;
+  margin-bottom: 30px;
+  width: 400px;
+  height: 40px;
+  padding: 10px 15px;
+  font-size: 18px;
 }
 
 .pokemonList {

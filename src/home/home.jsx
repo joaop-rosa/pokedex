@@ -3,8 +3,9 @@ import { useState, useEffect, useRef } from "react"
 import s from "./home.module.css"
 import { URL_BASE_ENDPOINT } from "../contants/endpoints"
 import { CardPokemon } from "../card-pokemon/card-pokemon"
+import { Spinner } from "../components/Spinner"
 
-const POKEMONS_PER_PAGE = 10
+const POKEMONS_PER_PAGE = 12
 
 export function Home() {
   const [listaPokemons, setListaPokemons] = useState([])
@@ -73,7 +74,7 @@ export function Home() {
             )
           })}
         </div>
-        {isListLoading ? "Loading..." : null}
+        {isListLoading ? <Spinner /> : null}
       </div>
     </section>
   )

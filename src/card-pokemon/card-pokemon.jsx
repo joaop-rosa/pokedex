@@ -4,6 +4,7 @@ import axios from "axios"
 import { useState } from "react"
 import { URL_BASE_ENDPOINT } from "../contants/endpoints"
 import { backgroundTipos } from "../contants/typesColors"
+import { Spinner } from "../components/Spinner"
 
 export function CardPokemon({ pokemon, lastElementRef }) {
   const [isPokemonLoading, setIsPokemonLoading] = useState(true)
@@ -25,9 +26,7 @@ export function CardPokemon({ pokemon, lastElementRef }) {
       setIsPokemonLoading(false)
     }
     fetchDetalhePokemon()
-  }, [])
-
-  console.log(tipoPokemon)
+  }, [pokemon.name])
 
   return (
     <div
@@ -45,7 +44,7 @@ export function CardPokemon({ pokemon, lastElementRef }) {
       ref={lastElementRef}
     >
       {isPokemonLoading ? (
-        "Loading..."
+        <Spinner />
       ) : (
         <>
           <h3 className={s.numberPokemon}>{`#${pokemonDetalhado.id}`}</h3>

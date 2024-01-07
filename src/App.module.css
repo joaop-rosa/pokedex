@@ -1,3 +1,5 @@
+@import url(../src/assets/global/global.css);
+
 *,
 *:after,
 *:before {
@@ -32,7 +34,7 @@ body,
 .div-background {
   width: 100%;
   min-height: 100vh;
-  background: #232931;
+  background: var(--ebony-clay);
 }
 
 @font-face {

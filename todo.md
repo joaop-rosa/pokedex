@@ -2,7 +2,7 @@ Listagem de pokemons
 
 - [x] Ajustar para lista páginada
 - [x] Adicionar Loader no pokemon
-- [ ] Estilizar loaders
+- [x] Estilizar loaders
 - [x] Utilizar css modules
 - [x] Padronizar css para inglês
 - [ ] Padronizar js para inglês
