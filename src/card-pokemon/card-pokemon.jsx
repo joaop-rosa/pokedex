@@ -5,28 +5,31 @@ import { useState } from "react"
 import { URL_BASE_ENDPOINT } from "../contants/endpoints"
 import { backgroundTipos } from "../contants/typesColors"
 import { Spinner } from "../components/Spinner"
+import cn from "classnames"
 
-export function CardPokemon({ pokemon, lastElementRef }) {
+export function CardPokemon({ pokemon, lastElementRef, selectedType }) {
   const [isPokemonLoading, setIsPokemonLoading] = useState(true)
   const [pokemonDetalhado, setPokemonDetalhado] = useState([])
   const [fotoPokemon, setFotoPokemon] = useState([])
-  const [tipoPokemon, setTipoPokemon] = useState()
+  const [pokemonType, setPokemonType] = useState()
 
   useEffect(() => {
     async function fetchDetalhePokemon() {
       const response = await axios.get(
-        `${URL_BASE_ENDPOINT}/pokemon/${pokemon.name}`
+        `${URL_BASE_ENDPOINT}/pokemon/${pokemon}`
       )
       setFotoPokemon(
         response.data.sprites.versions["generation-v"]["black-white"].animated
           .front_default
       )
-      setTipoPokemon(response.data.types)
+      setPokemonType(
+        response.data.types.reduce((acc, type) => [...acc, type.type.name], [])
+      )
       setPokemonDetalhado(response.data)
       setIsPokemonLoading(false)
     }
     fetchDetalhePokemon()
-  }, [pokemon.name])
+  }, [pokemon])
 
   return (
     <div
@@ -34,13 +37,18 @@ export function CardPokemon({ pokemon, lastElementRef }) {
         backgroundColor:
           backgroundTipos[
             Object.keys(backgroundTipos).find((tipo) => {
-              if (tipoPokemon) {
-                return tipo === tipoPokemon[0].type.name
+              if (pokemonType) {
+                return tipo === pokemonType[0]
               }
             })
           ],
       }}
-      className={s.cardPokemon}
+      className={cn(s.cardPokemon, {
+        [s.displayNone]:
+          selectedType.length === 2
+            ? !selectedType?.every((type) => pokemonType?.includes(type))
+            : false,
+      })}
       ref={lastElementRef}
     >
       {isPokemonLoading ? (
@@ -52,17 +60,17 @@ export function CardPokemon({ pokemon, lastElementRef }) {
             loading="lazy"
             className={s.photoPokemon}
             src={fotoPokemon}
-            alt={`Foto do pokemon ${pokemon.name}`}
+            alt={`Foto do pokemon ${pokemon}`}
           />
           <div className={s.typesWrapper}>
-            {tipoPokemon.map((type, index) => (
+            {pokemonType.map((type, index) => (
               <div key={index} className={s.type}>
-                <p className={s.typeName}>{type.type.name.toUpperCase()}</p>
+                <p className={s.typeName}>{type.toUpperCase()}</p>
               </div>
             ))}
           </div>
           <div className={s.namePokemonWrapper}>
-            <h2 className={s.namePokemon}>{pokemon.name}</h2>
+            <h2 className={s.namePokemon}>{pokemon}</h2>
           </div>
         </>
       )}

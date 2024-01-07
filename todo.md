@@ -8,12 +8,20 @@ Listagem de pokemons
 - [ ] Padronizar js para inglês
 - [x] Ajustar para mobile
 - [x] Ajustar imagens dos pokemons
-- [ ] Adicionar filtro de tipos
-- [ ] Adicionar filtro de nome
+- [x] Adicionar filtro de tipos
+- [x] Adicionar filtro de nome
 - [ ] Adicionar filtro de geração
-- [ ] Detalhamento do pokemon
+- [x] Adicionar filtro para mais de 1 tipo
 - [x] Adicionar tipagem na lista
-- [ ] estilizar tipagem
+- [ ] Estilizar tipagem nos pokemons(tipos e background) e filtro
+- [ ] Estilizar tipagem quando estiver selecionada
+- [ ] Alterar imagem quando não possuir animação
+- [ ] Adicionar aviso de nenhum pokemon encontrado
+- [ ] Refatorar listagem
+
+Detalhamento do pokemo
+
+- [ ] -
 
 Websockets (Batalha pokemon)
 

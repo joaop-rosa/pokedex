@@ -9,6 +9,10 @@
   background-color: var(--white);
 }
 
+.displayNone {
+  display: none;
+}
+
 .photoPokemon {
   max-height: 100%;
   flex: 1;
