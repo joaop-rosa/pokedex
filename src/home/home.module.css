@@ -66,3 +66,7 @@
 .buttonTypeFilter {
   padding: 5px 10px;
 }
+
+.buttonTypeFilterSelected {
+  border: solid 3px red;
+}

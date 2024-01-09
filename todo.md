@@ -5,23 +5,30 @@ Listagem de pokemons
 - [x] Estilizar loaders
 - [x] Utilizar css modules
 - [x] Padronizar css para inglês
-- [ ] Padronizar js para inglês
+- [x] Adicionar filtro para mais de 1 tipo
+- [x] Adicionar tipagem na lista
 - [x] Ajustar para mobile
 - [x] Ajustar imagens dos pokemons
 - [x] Adicionar filtro de tipos
 - [x] Adicionar filtro de nome
-- [ ] Adicionar filtro de geração
-- [x] Adicionar filtro para mais de 1 tipo
-- [x] Adicionar tipagem na lista
+- [x] Adicionar aviso de nenhum pokemon encontrado
+- [x] Refatorar listagem
+- [x] caso tenha texto no input e filtre por tipo manter o filtro de texto
+- [ ] Padronizar js para inglês
+- [x] Adicionar filtro de geração
 - [ ] Estilizar tipagem nos pokemons(tipos e background) e filtro
 - [ ] Estilizar tipagem quando estiver selecionada
 - [ ] Alterar imagem quando não possuir animação
-- [ ] Adicionar aviso de nenhum pokemon encontrado
-- [ ] Refatorar listagem
+- [ ] Estilizar aviso de lista vazia
+- [ ] Adicionar forma de voltar ao topo
+- [ ] Adicionar aviso de lista vazia
+- [ ] Remover tipos unknown e shadow
+- [ ] Estiliza filtro de geração
+- [ ] FIX - ao selecionar 2 tipos a lista atualiza mas os cards não
 
-Detalhamento do pokemo
+Detalhamento do pokemon
 
-- [ ] -
+- [ ] Mostrar variações
 
 Websockets (Batalha pokemon)
 
