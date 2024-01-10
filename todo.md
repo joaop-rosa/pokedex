@@ -14,17 +14,18 @@ Listagem de pokemons
 - [x] Adicionar aviso de nenhum pokemon encontrado
 - [x] Refatorar listagem
 - [x] caso tenha texto no input e filtre por tipo manter o filtro de texto
-- [ ] Padronizar js para inglês
 - [x] Adicionar filtro de geração
-- [ ] Estilizar tipagem nos pokemons(tipos e background) e filtro
-- [ ] Estilizar tipagem quando estiver selecionada
-- [ ] Alterar imagem quando não possuir animação
-- [ ] Estilizar aviso de lista vazia
-- [ ] Adicionar forma de voltar ao topo
-- [ ] Adicionar aviso de lista vazia
-- [ ] Remover tipos unknown e shadow
-- [ ] Estiliza filtro de geração
-- [ ] FIX - ao selecionar 2 tipos a lista atualiza mas os cards não
+- [x] Alterar imagem quando não possuir animação
+- [x] Estilizar tipagem nos pokemons(tipos e background) e filtro
+- [x] Estilizar tipagem quando estiver selecionada
+- [x] Estiliza filtro de geração
+- [x] Estilizar aviso de lista vazia
+- [x] Padronizar js para inglês
+- [x] Adicionar forma de voltar ao topo
+- [x] Remover tipos unknown e shadow
+- [ ] Verificar causa de muita renderizações
+- [ ] Adicionar algo pra abrir e fechar o filtro
+- [ ] Ajustar forma de voltar ao topo
 
 Detalhamento do pokemon
 

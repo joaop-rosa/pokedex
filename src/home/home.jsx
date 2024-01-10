@@ -1,12 +1,15 @@
 import axios from "axios"
 import { useState, useEffect, useRef, useCallback } from "react"
 import s from "./home.module.css"
+import pikachuNotFound from "../assets/img/pikachu-not-found.png"
+import { ReactComponent as ArrowUp } from "../assets/icons/arrow-up.svg"
 import { URL_BASE_ENDPOINT } from "../contants/endpoints"
 import { CardPokemon } from "../card-pokemon/card-pokemon"
 import { Spinner } from "../components/Spinner"
-import _, { toInteger } from "lodash"
+import _, { set, toInteger } from "lodash"
 import cn from "classnames"
 import { GENERATIONS, LAST_POKEMON_NUMBER } from "../contants/generations"
+import { POKEMON_TYPES, renderTypeClassnames } from "../contants/types"
 
 const POKEMONS_PER_PAGE = 12
 
@@ -22,22 +25,30 @@ export function Home() {
   const [inputTextFilter, setInputTextFilter] = useState("")
   const [selectedGeneration, setSelectedGeneration] = useState(null)
   const [pokemonListRender, setPokemonListRender] = useState([])
-
-  console.log("pokemonList", pokemonList)
-  console.log("pokemonListRender", pokemonListRender)
+  const [isButtonToTopVisible, setIsButtonToTopVisible] = useState(false)
+  const [scrollY, setScrollY] = useState(0)
 
   useEffect(() => {
     async function fetchTypes() {
       const response = await axios.get(`${URL_BASE_ENDPOINT}/type`)
-      setTypeList(response.data.results)
+      setTypeList(
+        response.data.results
+          .map((type) => type.name)
+          .filter((type) => Object.values(POKEMON_TYPES).includes(type))
+      )
     }
     fetchTypes()
   }, [])
 
   // Used to fix render bug
   useEffect(() => {
-    setPokemonListRender([])
-    setPokemonListRender(pokemonList)
+    if (pokemonList instanceof Promise) {
+      pokemonList.then((res) => {
+        setPokemonListRender(res)
+      })
+    } else {
+      setPokemonListRender(pokemonList)
+    }
   }, [pokemonList])
 
   useEffect(() => {
@@ -151,9 +162,7 @@ export function Home() {
 
     if (selectedType.length) {
       if (selectedType.length > 1) {
-        getDetailedPokemons().then((filteredPokemonList) => {
-          setPokemonList(filteredPokemonList)
-        })
+        setPokemonList(getDetailedPokemons())
       } else {
         setPokemonList(applyBasicFilter(pokemonByTypeFullList))
       }
@@ -184,7 +193,7 @@ export function Home() {
     return () => {
       observer.disconnect()
     }
-  }, [pageSize, pokemonList])
+  }, [pageSize, pokemonListRender])
 
   useEffect(() => {
     if (selectedType.length) {
@@ -195,13 +204,32 @@ export function Home() {
 
   useEffect(() => {
     setPageSize(POKEMONS_PER_PAGE)
-  }, [pokemonList])
+  }, [pokemonListRender])
+
+  useEffect(() => {
+    function watchScroll() {
+      window.addEventListener("scroll", setScrollY(window.scrollY))
+    }
+    watchScroll()
+    return () => {
+      window.removeEventListener("scroll", setScrollY(window.scrollY))
+    }
+  })
+
+  useEffect(() => {
+    if (scrollY > 500) {
+      setIsButtonToTopVisible(true)
+    } else {
+      setIsButtonToTopVisible(false)
+    }
+  }, [scrollY])
 
   const handleElementVisibility = (entries, observer) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         observer.disconnect()
         setPageSize((prev) => prev + POKEMONS_PER_PAGE)
+        setIsButtonToTopVisible(true)
       }
     })
   }
@@ -237,6 +265,14 @@ export function Home() {
     }
   }
 
+  function handleButtonToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    })
+    setIsButtonToTopVisible(false)
+  }
+
   return (
     <section className={s.sectionHome}>
       <div className={s.container}>
@@ -250,21 +286,20 @@ export function Home() {
           onChange={handlePokemonName}
           placeholder="Digite o nome do pokemon"
         />
+
         <div className={s.typesFilterWrapper}>
           {typeList.map((type) => {
             return (
               <button
-                key={type.name}
+                key={type}
                 className={cn(s.buttonTypeFilter, {
-                  [s.buttonTypeFilterSelected]: selectedType.includes(
-                    type.name
-                  ),
+                  [s.buttonTypeFilterSelected]: selectedType.includes(type),
+                  ...renderTypeClassnames(type, s),
                 })}
                 onClick={handleButtonType}
-                name={type.name}
+                name={type}
               >
-                {type.name.toUpperCase()}
-                {selectedType.includes(type.name) ? <span>X</span> : null}
+                {type.toUpperCase()}
               </button>
             )
           })}
@@ -272,25 +307,26 @@ export function Home() {
         <div className={s.generationWrapper}>
           {GENERATIONS.map((generation) => (
             <button
+              className={cn(s.generation, {
+                [s.generationSelected]:
+                  selectedGeneration?.number === generation.number,
+              })}
               key={generation.number}
               onClick={() => handleGeneration(generation)}
             >
               {`Geração ${generation.number}`}
-              {selectedGeneration?.number === generation.number ? (
-                <span>X</span>
-              ) : null}
             </button>
           ))}
         </div>
-        <div className={s.pokemonList}>
-          {pokemonListRender.length && !isListLoading ? (
-            pokemonListRender.slice(0, pageSize).map((pokemon, index) => {
+        {pokemonListRender.length && !isListLoading ? (
+          <div className={s.pokemonList}>
+            {pokemonListRender.slice(0, pageSize).map((pokemon, index) => {
               return (
                 <CardPokemon
-                  key={index}
+                  key={pokemon.id}
                   pokemon={
                     selectedType.length === 2
-                      ? pokemon.name
+                      ? pokemon
                       : fetchDetailedPokemon(pokemon.name)
                   }
                   lastElementRef={
@@ -298,13 +334,26 @@ export function Home() {
                   }
                 />
               )
-            })
-          ) : (
+            })}
+          </div>
+        ) : (
+          <>
+            <img
+              className={s.pikachuNotFound}
+              src={pikachuNotFound}
+              loading="lazy"
+              alt="Pikachu com uma lupa"
+            />
             <p className={s.listEmpty}>Nenhum pokemon encontrado</p>
-          )}
-        </div>
-        {isListLoading ? <Spinner /> : null}
+          </>
+        )}
       </div>
+      {isListLoading ? <Spinner /> : null}
+      {isButtonToTopVisible ? (
+        <button onClick={handleButtonToTop} className={s.buttonToTop}>
+          <ArrowUp className={s.arrowUp} />
+        </button>
+      ) : null}
     </section>
   )
 }

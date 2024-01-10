@@ -5,4 +5,24 @@
   --malibu: #6498ff;
   --ebony-clay: #232931;
   --whitesmoke: #f5f5f5;
+  --black: #000000;
+
+  --color-water: #4592c4;
+  --color-normal: #a4acaf;
+  --color-fire: #fd7d24;
+  --color-grass: #9bcc50;
+  --color-flying: #3dc7ef;
+  --color-fighting: #d56723;
+  --color-poison: #b97fc9;
+  --color-electric: #eed535;
+  --color-ground: #f7de3f;
+  --color-rock: #a38c21;
+  --color-psychic: #f366b9;
+  --color-ice: #51c4e7;
+  --color-bug: #729f3f;
+  --color-ghost: #7b62a3;
+  --color-steel: #9eb7b8;
+  --color-dragon: #53a4cf;
+  --color-dark: #707070;
+  --color-fairy: #fdb9e9;
 }
