@@ -53,6 +53,44 @@
   padding-bottom: 50px;
 }
 
+.filtersWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.buttonOpenFilters {
+  background-color: var(--black);
+  color: var(--white);
+  padding: 10px 30px;
+  font-size: 18px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.filters {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-height: 0px;
+  overflow: hidden;
+  width: 100%;
+  transition: all 0.5s ease;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.filtersOpen {
+  max-height: 1000px;
+}
+
 .generationWrapper {
   margin-bottom: 30px;
   max-width: 900px;
@@ -72,14 +110,11 @@
   cursor: pointer;
   background-color: var(--black);
   color: var(--white);
+  border: solid 2px var(--black);
   gap: 5px;
 }
 
-.generation:hover {
-  background-color: var(--white);
-  color: var(--black);
-}
-
+.generation:hover,
 .generationSelected {
   background-color: var(--white);
   color: var(--black);

@@ -3,18 +3,21 @@ import { renderTypeClassnames } from "../contants/types"
 import { Spinner } from "../components/Spinner"
 import { useEffect, useState } from "react"
 import cn from "classnames"
-export function CardPokemon({ pokemon, lastElementRef }) {
+export function CardPokemon({ pokemon, lastElementRef, fetchDetailedPokemon }) {
   const [pokemonData, setPokemonData] = useState(pokemon)
 
   useEffect(() => {
-    if (pokemon instanceof Promise) {
-      pokemon.then((res) => {
-        setPokemonData(res)
-      })
-    } else {
-      setPokemonData(pokemon)
+    async function fetchPokemon() {
+      const pokemonDetailed = await fetchDetailedPokemon(pokemon.name)
+      setPokemonData(pokemonDetailed)
     }
-  }, [pokemon])
+
+    if (!pokemon.sprite) {
+      fetchPokemon()
+    }
+
+    setPokemonData(pokemon)
+  }, [fetchDetailedPokemon, pokemon])
 
   return (
     <div className={s.cardPokemon} ref={lastElementRef}>

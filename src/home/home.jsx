@@ -6,7 +6,7 @@ import { ReactComponent as ArrowUp } from "../assets/icons/arrow-up.svg"
 import { URL_BASE_ENDPOINT } from "../contants/endpoints"
 import { CardPokemon } from "../card-pokemon/card-pokemon"
 import { Spinner } from "../components/Spinner"
-import _, { set, toInteger } from "lodash"
+import _, { toInteger } from "lodash"
 import cn from "classnames"
 import { GENERATIONS, LAST_POKEMON_NUMBER } from "../contants/generations"
 import { POKEMON_TYPES, renderTypeClassnames } from "../contants/types"
@@ -24,48 +24,53 @@ export function Home() {
   const [pageSize, setPageSize] = useState(POKEMONS_PER_PAGE)
   const [inputTextFilter, setInputTextFilter] = useState("")
   const [selectedGeneration, setSelectedGeneration] = useState(null)
-  const [pokemonListRender, setPokemonListRender] = useState([])
   const [isButtonToTopVisible, setIsButtonToTopVisible] = useState(false)
-  const [scrollY, setScrollY] = useState(0)
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false)
+
+  const fetchTypes = useCallback(async () => {
+    const response = await axios.get(`${URL_BASE_ENDPOINT}/type`)
+    setTypeList(
+      response.data.results
+        .map((type) => type.name)
+        .filter((type) => Object.values(POKEMON_TYPES).includes(type))
+    )
+  }, [])
+
+  const fetchPokemonsFullList = useCallback(async () => {
+    const response = await axios.get(
+      `${URL_BASE_ENDPOINT}/pokemon/?limit=${LAST_POKEMON_NUMBER}&offset=0`
+    )
+    const mappedResponse = response.data.results.map((pokemon) => ({
+      name: pokemon.name,
+      id: toInteger(pokemon.url.match(/\/(\d+)\/$/)[1]),
+    }))
+
+    setPokemonFullList(mappedResponse)
+  }, [])
 
   useEffect(() => {
-    async function fetchTypes() {
-      const response = await axios.get(`${URL_BASE_ENDPOINT}/type`)
-      setTypeList(
-        response.data.results
-          .map((type) => type.name)
-          .filter((type) => Object.values(POKEMON_TYPES).includes(type))
-      )
+    function checkToActivateButtonToTopVisible() {
+      if (window.scrollY > 500) {
+        setIsButtonToTopVisible(true)
+      } else {
+        setIsButtonToTopVisible(false)
+      }
     }
+
+    window.addEventListener("scroll", checkToActivateButtonToTopVisible)
+
+    return () => {
+      window.removeEventListener("scroll", checkToActivateButtonToTopVisible)
+    }
+  }, [])
+
+  useEffect(() => {
     fetchTypes()
-  }, [])
-
-  // Used to fix render bug
-  useEffect(() => {
-    if (pokemonList instanceof Promise) {
-      pokemonList.then((res) => {
-        setPokemonListRender(res)
-      })
-    } else {
-      setPokemonListRender(pokemonList)
-    }
-  }, [pokemonList])
+  }, [fetchTypes])
 
   useEffect(() => {
-    async function fetchPokemonsFullList() {
-      const response = await axios.get(
-        `${URL_BASE_ENDPOINT}/pokemon/?limit=${LAST_POKEMON_NUMBER}&offset=0`
-      )
-      const mappedResponse = response.data.results.map((pokemon) => ({
-        name: pokemon.name,
-        id: toInteger(pokemon.url.match(/\/(\d+)\/$/)[1]),
-      }))
-
-      setPokemonFullList(mappedResponse)
-      setPokemonList(mappedResponse)
-    }
     fetchPokemonsFullList()
-  }, [])
+  }, [fetchPokemonsFullList])
 
   const applyBasicFilter = useCallback(
     (list) => {
@@ -86,49 +91,6 @@ export function Home() {
     [inputTextFilter, selectedGeneration]
   )
 
-  const fetchPokemonByType = useCallback(async () => {
-    if (selectedType.length) {
-      let joinedList = []
-
-      const responseType1 = await axios.get(
-        `${URL_BASE_ENDPOINT}/type/${selectedType[0]}`
-      )
-
-      joinedList = [
-        ...responseType1.data.pokemon.map((pokemon) => ({
-          name: pokemon.pokemon.name,
-          id: toInteger(pokemon.pokemon.url.match(/\/(\d+)\/$/)[1]),
-        })),
-      ]
-
-      if (selectedType.length > 1) {
-        const responseType2 = await axios.get(
-          `${URL_BASE_ENDPOINT}/type/${selectedType[1]}`
-        )
-
-        joinedList = [
-          ...joinedList,
-          ...responseType2.data.pokemon.map((pokemon) => ({
-            name: pokemon.pokemon.name,
-            id: toInteger(pokemon.pokemon.url.match(/\/(\d+)\/$/)[1]),
-          })),
-        ]
-
-        joinedList = joinedList.filter(
-          (pokemon, index, self) =>
-            index ===
-            self.findIndex((selfPokemon) => selfPokemon.name === pokemon.name)
-        )
-      }
-
-      joinedList = joinedList.filter(
-        (pokemon) => pokemon.id < LAST_POKEMON_NUMBER
-      )
-
-      setPokemonByTypeFullList(joinedList)
-    }
-  }, [selectedType])
-
   const fetchDetailedPokemon = useCallback(async (pokemonName) => {
     const response = await axios.get(
       `${URL_BASE_ENDPOINT}/pokemon/${pokemonName}`
@@ -146,26 +108,76 @@ export function Home() {
     }
   }, [])
 
-  useEffect(() => {
-    async function getDetailedPokemons() {
-      const pokemonListByTypeDetailed = await Promise.all(
-        applyBasicFilter(pokemonByTypeFullList).map(async (pokemon) => {
-          const detailedPokemon = await fetchDetailedPokemon(pokemon.name)
-          return detailedPokemon
-        })
-      )
-
-      return pokemonListByTypeDetailed.filter((pokemon) =>
-        selectedType.every((type) => pokemon.types.includes(type))
-      )
-    }
-
+  const fetchPokemonByType = useCallback(async () => {
     if (selectedType.length) {
+      const responseType1 = await axios.get(
+        `${URL_BASE_ENDPOINT}/type/${selectedType[0]}`
+      )
+
+      const pokemonType1ListMapped = responseType1.data.pokemon
+        .map((pokemon) => ({
+          name: pokemon.pokemon.name,
+          id: toInteger(pokemon.pokemon.url.match(/\/(\d+)\/$/)[1]),
+        }))
+        .filter((pokemon) => pokemon.id < LAST_POKEMON_NUMBER)
+
       if (selectedType.length > 1) {
-        setPokemonList(getDetailedPokemons())
+        const responseType2 = await axios.get(
+          `${URL_BASE_ENDPOINT}/type/${selectedType[1]}`
+        )
+
+        const pokemonType2ListMapped = responseType2.data.pokemon
+          .map((pokemon) => ({
+            name: pokemon.pokemon.name,
+            id: toInteger(pokemon.pokemon.url.match(/\/(\d+)\/$/)[1]),
+          }))
+          .filter((pokemon) => pokemon.id < LAST_POKEMON_NUMBER)
+
+        const pokemonListByTypeJoined = [
+          ...pokemonType1ListMapped,
+          ...pokemonType2ListMapped,
+        ]
+
+        //Remove duplicated pokemons
+        const pokemonListByType = pokemonListByTypeJoined.filter(
+          (pokemon, index, self) =>
+            index ===
+            self.findIndex((selfPokemon) => selfPokemon.name === pokemon.name)
+        )
+
+        const pokemonListByTypeFiltered = applyBasicFilter(pokemonListByType)
+
+        const pokemonDetailedListByTypePromised = Promise.all(
+          pokemonListByTypeFiltered.map(async (pokemon) => {
+            return await fetchDetailedPokemon(pokemon.name)
+          })
+        )
+
+        pokemonDetailedListByTypePromised.then((pokemonDetailedListByType) => {
+          //Keep only pokemons with the two types
+          const pokemonDetailedListFilteredBy2Types =
+            pokemonDetailedListByType.filter((pokemon) =>
+              selectedType.every((type) => pokemon.types.includes(type))
+            )
+
+          setPokemonByTypeFullList(pokemonDetailedListFilteredBy2Types)
+        })
       } else {
-        setPokemonList(applyBasicFilter(pokemonByTypeFullList))
+        setPokemonByTypeFullList(pokemonType1ListMapped)
       }
+    }
+  }, [applyBasicFilter, fetchDetailedPokemon, selectedType])
+
+  useEffect(() => {
+    fetchPokemonByType()
+  }, [fetchPokemonByType, selectedType])
+
+  useEffect(() => {
+    setIsListLoading(true)
+    if (selectedType.length > 1) {
+      setPokemonList(pokemonByTypeFullList)
+    } else if (selectedType.length) {
+      setPokemonList(applyBasicFilter(pokemonByTypeFullList))
     } else {
       setPokemonList(applyBasicFilter(pokemonFullList))
     }
@@ -173,10 +185,21 @@ export function Home() {
   }, [
     applyBasicFilter,
     fetchDetailedPokemon,
+    fetchPokemonByType,
     pokemonByTypeFullList,
     pokemonFullList,
     selectedType,
   ])
+
+  const handleElementVisibility = useCallback((entries, observer) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        observer.disconnect()
+        setPageSize((prev) => prev + POKEMONS_PER_PAGE)
+        setIsButtonToTopVisible(true)
+      }
+    })
+  }, [])
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -193,48 +216,9 @@ export function Home() {
     return () => {
       observer.disconnect()
     }
-  }, [pageSize, pokemonListRender])
+  }, [handleElementVisibility, pageSize, pokemonList])
 
-  useEffect(() => {
-    if (selectedType.length) {
-      fetchPokemonByType()
-    }
-    setPokemonList(applyBasicFilter(pokemonFullList))
-  }, [applyBasicFilter, fetchPokemonByType, pokemonFullList, selectedType])
-
-  useEffect(() => {
-    setPageSize(POKEMONS_PER_PAGE)
-  }, [pokemonListRender])
-
-  useEffect(() => {
-    function watchScroll() {
-      window.addEventListener("scroll", setScrollY(window.scrollY))
-    }
-    watchScroll()
-    return () => {
-      window.removeEventListener("scroll", setScrollY(window.scrollY))
-    }
-  })
-
-  useEffect(() => {
-    if (scrollY > 500) {
-      setIsButtonToTopVisible(true)
-    } else {
-      setIsButtonToTopVisible(false)
-    }
-  }, [scrollY])
-
-  const handleElementVisibility = (entries, observer) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        observer.disconnect()
-        setPageSize((prev) => prev + POKEMONS_PER_PAGE)
-        setIsButtonToTopVisible(true)
-      }
-    })
-  }
-
-  function handleButtonType(event) {
+  const handleButtonType = useCallback((event) => {
     const typeClicked = event.target.name
     setSelectedType((prev) => {
       if (prev.includes(typeClicked)) {
@@ -247,31 +231,40 @@ export function Home() {
 
       return [...prev, typeClicked]
     })
-  }
+  }, [])
 
-  function handlePokemonName(event) {
+  const handlePokemonName = useCallback((event) => {
     const inputValue = event.target.value
     const onChange = _.debounce(() => {
       setInputTextFilter(inputValue)
     }, 700)
     onChange()
-  }
+  }, [])
 
-  function handleGeneration(generation) {
-    if (selectedGeneration && selectedGeneration.number === generation.number) {
-      setSelectedGeneration(null)
-    } else {
-      setSelectedGeneration(generation)
-    }
-  }
+  const handleGeneration = useCallback(
+    (generation) => {
+      if (
+        selectedGeneration &&
+        selectedGeneration.number === generation.number
+      ) {
+        setSelectedGeneration(null)
+      } else {
+        setSelectedGeneration(generation)
+      }
+    },
+    [selectedGeneration]
+  )
 
-  function handleButtonToTop() {
+  const handleButtonToTop = useCallback(() => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     })
-    setIsButtonToTopVisible(false)
-  }
+  }, [])
+
+  const handleOpenFilter = useCallback(() => {
+    setIsFiltersOpen((prev) => !prev)
+  }, [])
 
   return (
     <section className={s.sectionHome}>
@@ -286,49 +279,53 @@ export function Home() {
           onChange={handlePokemonName}
           placeholder="Digite o nome do pokemon"
         />
-
-        <div className={s.typesFilterWrapper}>
-          {typeList.map((type) => {
-            return (
-              <button
-                key={type}
-                className={cn(s.buttonTypeFilter, {
-                  [s.buttonTypeFilterSelected]: selectedType.includes(type),
-                  ...renderTypeClassnames(type, s),
-                })}
-                onClick={handleButtonType}
-                name={type}
-              >
-                {type.toUpperCase()}
-              </button>
-            )
-          })}
-        </div>
-        <div className={s.generationWrapper}>
-          {GENERATIONS.map((generation) => (
-            <button
-              className={cn(s.generation, {
-                [s.generationSelected]:
-                  selectedGeneration?.number === generation.number,
+        <div className={s.filtersWrapper}>
+          <button onClick={handleOpenFilter} className={s.buttonOpenFilters}>
+            Ver mais filtros
+          </button>
+          <div className={cn(s.filters, { [s.filtersOpen]: isFiltersOpen })}>
+            <div className={s.typesFilterWrapper}>
+              {typeList.map((type) => {
+                return (
+                  <button
+                    key={type}
+                    className={cn(s.buttonTypeFilter, {
+                      [s.buttonTypeFilterSelected]: selectedType.includes(type),
+                      ...renderTypeClassnames(type, s),
+                    })}
+                    onClick={handleButtonType}
+                    name={type}
+                  >
+                    {type.toUpperCase()}
+                  </button>
+                )
               })}
-              key={generation.number}
-              onClick={() => handleGeneration(generation)}
-            >
-              {`Geração ${generation.number}`}
-            </button>
-          ))}
+            </div>
+            <div className={s.generationWrapper}>
+              {GENERATIONS.map((generation) => (
+                <button
+                  className={cn(s.generation, {
+                    [s.generationSelected]:
+                      selectedGeneration?.number === generation.number,
+                  })}
+                  key={generation.number}
+                  onClick={() => handleGeneration(generation)}
+                >
+                  {`Geração ${generation.number}`}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
-        {pokemonListRender.length && !isListLoading ? (
+
+        {pokemonList.length && !isListLoading ? (
           <div className={s.pokemonList}>
-            {pokemonListRender.slice(0, pageSize).map((pokemon, index) => {
+            {pokemonList.slice(0, pageSize).map((pokemon, index) => {
               return (
                 <CardPokemon
                   key={pokemon.id}
-                  pokemon={
-                    selectedType.length === 2
-                      ? pokemon
-                      : fetchDetailedPokemon(pokemon.name)
-                  }
+                  fetchDetailedPokemon={fetchDetailedPokemon}
+                  pokemon={pokemon}
                   lastElementRef={
                     pageSize === index + 1 ? lastElementRef : null
                   }

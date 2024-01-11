@@ -23,9 +23,9 @@ Listagem de pokemons
 - [x] Padronizar js para inglês
 - [x] Adicionar forma de voltar ao topo
 - [x] Remover tipos unknown e shadow
-- [ ] Verificar causa de muita renderizações
-- [ ] Adicionar algo pra abrir e fechar o filtro
-- [ ] Ajustar forma de voltar ao topo
+- [x] Adicionar algo pra abrir e fechar o filtro
+- [x] Ajustar muitas renderizações
+- [x] Ajustar bug no botão de voltar ao topo
 
 Detalhamento do pokemon
 
