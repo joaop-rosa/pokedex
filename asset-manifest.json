@@ -1,14 +1,17 @@
 {
   "files": {
-    "main.css": "/pokedex/static/css/main.b2d0b63a.css",
-    "main.js": "/pokedex/static/js/main.18c10e9d.js",
+    "main.css": "/pokedex/static/css/main.7f403e61.css",
+    "main.js": "/pokedex/static/js/main.83a30340.js",
+    "static/media/pikachu-not-found.png": "/pokedex/static/media/pikachu-not-found.44abed6ce0543d728f94.png",
     "static/media/Pokemon Solid.ttf": "/pokedex/static/media/Pokemon Solid.5d60be1f7ff5fcc21fc1.ttf",
+    "static/media/pokeball.svg": "/pokedex/static/media/pokeball.1efcb6bdad237caee99312eac9004de9.svg",
     "index.html": "/pokedex/index.html",
-    "main.b2d0b63a.css.map": "/pokedex/static/css/main.b2d0b63a.css.map",
-    "main.18c10e9d.js.map": "/pokedex/static/js/main.18c10e9d.js.map"
+    "static/media/arrow-up.svg": "/pokedex/static/media/arrow-up.aaba7c9b1283fa31b2890ece4695d983.svg",
+    "main.7f403e61.css.map": "/pokedex/static/css/main.7f403e61.css.map",
+    "main.83a30340.js.map": "/pokedex/static/js/main.83a30340.js.map"
   },
   "entrypoints": [
-    "static/css/main.b2d0b63a.css",
-    "static/js/main.18c10e9d.js"
+    "static/css/main.7f403e61.css",
+    "static/js/main.83a30340.js"
   ]
 }
