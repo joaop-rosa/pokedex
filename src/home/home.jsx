@@ -1,5 +1,5 @@
 import axios from "axios"
-import { useState, useEffect, useRef, useCallback } from "react"
+import { useState, useEffect, useCallback } from "react"
 import s from "./home.module.css"
 import pikachuNotFound from "../assets/img/pikachu-not-found.png"
 import { ReactComponent as ArrowUp } from "../assets/icons/arrow-up.svg"
@@ -10,6 +10,7 @@ import _, { toInteger } from "lodash"
 import cn from "classnames"
 import { GENERATIONS, LAST_POKEMON_NUMBER } from "../contants/generations"
 import { POKEMON_TYPES, renderTypeClassnames } from "../contants/types"
+import PokemonDetailed from "../components/PokemonDetailed"
 
 const POKEMONS_PER_PAGE = 12
 
@@ -17,15 +18,15 @@ export function Home() {
   const [pokemonFullList, setPokemonFullList] = useState([])
   const [pokemonByTypeFullList, setPokemonByTypeFullList] = useState([])
   const [pokemonList, setPokemonList] = useState([])
-  const lastElementRef = useRef(null)
-  const [isListLoading, setIsListLoading] = useState(true)
   const [typeList, setTypeList] = useState([])
   const [selectedType, setSelectedType] = useState([])
   const [pageSize, setPageSize] = useState(POKEMONS_PER_PAGE)
   const [inputTextFilter, setInputTextFilter] = useState("")
   const [selectedGeneration, setSelectedGeneration] = useState(null)
+  const [isListLoading, setIsListLoading] = useState(true)
   const [isButtonToTopVisible, setIsButtonToTopVisible] = useState(false)
   const [isFiltersOpen, setIsFiltersOpen] = useState(false)
+  const [selectedPokemon, setSelectedPokemon] = useState(null)
 
   const fetchTypes = useCallback(async () => {
     const response = await axios.get(`${URL_BASE_ENDPOINT}/type`)
@@ -57,10 +58,24 @@ export function Home() {
       }
     }
 
-    window.addEventListener("scroll", checkToActivateButtonToTopVisible)
+    function checkScrollEnd() {
+      const scrollPosition = window.scrollY + window.innerHeight
+      const documentHeight = document.documentElement.offsetHeight
+
+      if (scrollPosition >= documentHeight - 100) {
+        setPageSize((prev) => prev + POKEMONS_PER_PAGE)
+      }
+    }
+
+    function handleScroll() {
+      checkToActivateButtonToTopVisible()
+      checkScrollEnd()
+    }
+
+    window.addEventListener("scroll", handleScroll)
 
     return () => {
-      window.removeEventListener("scroll", checkToActivateButtonToTopVisible)
+      window.removeEventListener("scroll", handleScroll)
     }
   }, [])
 
@@ -97,7 +112,8 @@ export function Home() {
     )
 
     return {
-      sprite: response.data.sprites.front_default,
+      sprite: response.data.sprites.other["official-artwork"].front_default,
+      spriteAnimated: response.data.sprites.other.showdown.front_default,
       types: response.data.types.reduce(
         (acc, type) => [...acc, type.type.name],
         []
@@ -147,6 +163,8 @@ export function Home() {
 
         const pokemonListByTypeFiltered = applyBasicFilter(pokemonListByType)
 
+        setIsListLoading(true)
+
         const pokemonDetailedListByTypePromised = Promise.all(
           pokemonListByTypeFiltered.map(async (pokemon) => {
             return await fetchDetailedPokemon(pokemon.name)
@@ -174,6 +192,7 @@ export function Home() {
 
   useEffect(() => {
     setIsListLoading(true)
+    setPageSize(POKEMONS_PER_PAGE)
     if (selectedType.length > 1) {
       setPokemonList(pokemonByTypeFullList)
     } else if (selectedType.length) {
@@ -191,32 +210,15 @@ export function Home() {
     selectedType,
   ])
 
-  const handleElementVisibility = useCallback((entries, observer) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        observer.disconnect()
-        setPageSize((prev) => prev + POKEMONS_PER_PAGE)
-        setIsButtonToTopVisible(true)
-      }
-    })
-  }, [])
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => handleElementVisibility(entries, observer),
-      {
-        threshold: 0.5,
-      }
-    )
-
-    if (lastElementRef.current) {
-      observer.observe(lastElementRef.current)
-    }
-
-    return () => {
-      observer.disconnect()
-    }
-  }, [handleElementVisibility, pageSize, pokemonList])
+  // const handleElementVisibility = useCallback((entries, observer) => {
+  //   entries.forEach((entry) => {
+  //     if (entry.isIntersecting) {
+  //       observer.disconnect()
+  //       setPageSize((prev) => prev + POKEMONS_PER_PAGE)
+  //       setIsButtonToTopVisible(true)
+  //     }
+  //   })
+  // }, [])
 
   const handleButtonType = useCallback((event) => {
     const typeClicked = event.target.name
@@ -255,7 +257,7 @@ export function Home() {
     [selectedGeneration]
   )
 
-  const handleButtonToTop = useCallback(() => {
+  const handleButtonToTop = useCallback(async () => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
@@ -265,6 +267,43 @@ export function Home() {
   const handleOpenFilter = useCallback(() => {
     setIsFiltersOpen((prev) => !prev)
   }, [])
+
+  const renderPokemonList = () => {
+    if (isListLoading) {
+      return <Spinner />
+    }
+
+    if (pokemonList.length) {
+      return (
+        <div className={s.pokemonList}>
+          {pokemonList.slice(0, pageSize).map((pokemon, index) => {
+            return (
+              <CardPokemon
+                setSelectedPokemon={setSelectedPokemon}
+                key={pokemon.id}
+                fetchDetailedPokemon={fetchDetailedPokemon}
+                pokemon={pokemon}
+              />
+            )
+          })}
+        </div>
+      )
+    }
+
+    if (!isListLoading && !pokemonList.length) {
+      return (
+        <>
+          <img
+            className={s.pikachuNotFound}
+            src={pikachuNotFound}
+            loading="lazy"
+            alt="Pikachu com uma lupa"
+          />
+          <p className={s.listEmpty}>Nenhum pokemon encontrado</p>
+        </>
+      )
+    }
+  }
 
   return (
     <section className={s.sectionHome}>
@@ -317,40 +356,16 @@ export function Home() {
             </div>
           </div>
         </div>
-
-        {pokemonList.length && !isListLoading ? (
-          <div className={s.pokemonList}>
-            {pokemonList.slice(0, pageSize).map((pokemon, index) => {
-              return (
-                <CardPokemon
-                  key={pokemon.id}
-                  fetchDetailedPokemon={fetchDetailedPokemon}
-                  pokemon={pokemon}
-                  lastElementRef={
-                    pageSize === index + 1 ? lastElementRef : null
-                  }
-                />
-              )
-            })}
-          </div>
-        ) : (
-          <>
-            <img
-              className={s.pikachuNotFound}
-              src={pikachuNotFound}
-              loading="lazy"
-              alt="Pikachu com uma lupa"
-            />
-            <p className={s.listEmpty}>Nenhum pokemon encontrado</p>
-          </>
-        )}
+        {renderPokemonList()}
       </div>
-      {isListLoading ? <Spinner /> : null}
+
       {isButtonToTopVisible ? (
         <button onClick={handleButtonToTop} className={s.buttonToTop}>
           <ArrowUp className={s.arrowUp} />
         </button>
       ) : null}
+
+      <PokemonDetailed pokemon={selectedPokemon} />
     </section>
   )
 }

@@ -26,6 +26,10 @@ Listagem de pokemons
 - [x] Adicionar algo pra abrir e fechar o filtro
 - [x] Ajustar muitas renderizações
 - [x] Ajustar bug no botão de voltar ao topo
+- [x] Loader até finalizar request para o segundo tipo
+- [x] Ajustar Loader
+- [x] Piscando lista durante troca de filtros
+- [x] Reduzir pagesize ao trocar o filtro
 
 Detalhamento do pokemon
 

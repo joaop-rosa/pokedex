@@ -13,6 +13,7 @@
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
+  padding-bottom: 50px;
 }
 
 .header {
@@ -47,10 +48,10 @@
   width: 100%;
   justify-content: center;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(290px, 300px));
-  grid-template-rows: minmax(300px, 300px);
+  grid-template-columns: repeat(auto-fit, 300px);
+  grid-template-rows: repeat(auto-fit, 300px);
   gap: 30px;
-  padding-bottom: 50px;
+  padding-bottom: 20px;
 }
 
 .filtersWrapper {

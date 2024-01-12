@@ -3,8 +3,14 @@ import { renderTypeClassnames } from "../contants/types"
 import { Spinner } from "../components/Spinner"
 import { useEffect, useState } from "react"
 import cn from "classnames"
-export function CardPokemon({ pokemon, lastElementRef, fetchDetailedPokemon }) {
+export function CardPokemon({
+  pokemon,
+  lastElementRef,
+  fetchDetailedPokemon,
+  setSelectedPokemon,
+}) {
   const [pokemonData, setPokemonData] = useState(pokemon)
+  const [isPokemonAnimated, setIsPokemonAnimated] = useState(false)
 
   useEffect(() => {
     async function fetchPokemon() {
@@ -20,7 +26,13 @@ export function CardPokemon({ pokemon, lastElementRef, fetchDetailedPokemon }) {
   }, [fetchDetailedPokemon, pokemon])
 
   return (
-    <div className={s.cardPokemon} ref={lastElementRef}>
+    <button
+      className={s.cardPokemon}
+      ref={lastElementRef}
+      onClick={() => setSelectedPokemon(pokemonData)}
+      onMouseEnter={() => setIsPokemonAnimated(true)}
+      onMouseLeave={() => setIsPokemonAnimated(false)}
+    >
       <div
         className={cn(
           s.cardPokemonContent,
@@ -32,12 +44,19 @@ export function CardPokemon({ pokemon, lastElementRef, fetchDetailedPokemon }) {
         ) : (
           <>
             <h3 className={s.numberPokemon}>{`#${pokemonData.id}`}</h3>
-            <img
-              loading="lazy"
-              className={s.photoPokemon}
-              src={pokemonData.sprite}
-              alt={`Foto do pokemon ${pokemonData.name}`}
-            />
+            <div className={s.pokemonPhotoWrapper}>
+              <img
+                loading="lazy"
+                className={s.photoPokemon}
+                src={
+                  isPokemonAnimated && pokemonData.spriteAnimated
+                    ? pokemonData.spriteAnimated
+                    : pokemonData.sprite
+                }
+                alt={`Foto do pokemon ${pokemonData.name}`}
+              />
+            </div>
+
             <div className={s.typesWrapper}>
               {pokemonData.types.map((type, index) => (
                 <div
@@ -54,6 +73,6 @@ export function CardPokemon({ pokemon, lastElementRef, fetchDetailedPokemon }) {
           </>
         )}
       </div>
-    </div>
+    </button>
   )
 }
