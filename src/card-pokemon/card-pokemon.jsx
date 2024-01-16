@@ -10,7 +10,6 @@ export function CardPokemon({
   setSelectedPokemon,
 }) {
   const [pokemonData, setPokemonData] = useState(pokemon)
-  const [isPokemonAnimated, setIsPokemonAnimated] = useState(false)
 
   useEffect(() => {
     async function fetchPokemon() {
@@ -18,7 +17,7 @@ export function CardPokemon({
       setPokemonData(pokemonDetailed)
     }
 
-    if (!pokemon.sprite) {
+    if (!pokemon.sprites) {
       fetchPokemon()
     }
 
@@ -30,8 +29,6 @@ export function CardPokemon({
       className={s.cardPokemon}
       ref={lastElementRef}
       onClick={() => setSelectedPokemon(pokemonData)}
-      onMouseEnter={() => setIsPokemonAnimated(true)}
-      onMouseLeave={() => setIsPokemonAnimated(false)}
     >
       <div
         className={cn(
@@ -39,7 +36,7 @@ export function CardPokemon({
           renderTypeClassnames(pokemonData?.types?.[0], s)
         )}
       >
-        {!pokemonData?.sprite ? (
+        {!pokemonData?.sprites ? (
           <Spinner />
         ) : (
           <>
@@ -48,11 +45,7 @@ export function CardPokemon({
               <img
                 loading="lazy"
                 className={s.photoPokemon}
-                src={
-                  isPokemonAnimated && pokemonData.spriteAnimated
-                    ? pokemonData.spriteAnimated
-                    : pokemonData.sprite
-                }
+                src={pokemonData.sprites.front}
                 alt={`Foto do pokemon ${pokemonData.name}`}
               />
             </div>

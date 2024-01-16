@@ -20,9 +20,10 @@
 }
 
 .pokemonPhotoWrapper {
+  padding: 10px 0;
   width: 100%;
+  overflow: hidden;
   flex: 1;
-  height: 157px;
   text-align: center;
 }
 

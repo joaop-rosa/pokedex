@@ -112,14 +112,42 @@ export function Home() {
     )
 
     return {
-      sprite: response.data.sprites.other["official-artwork"].front_default,
-      spriteAnimated: response.data.sprites.other.showdown.front_default,
+      sprites: {
+        front: response.data.sprites.other["official-artwork"].front_default,
+        back: response.data.sprites.other["official-artwork"].back_default,
+        frontAnimated: response.data.sprites.other.showdown.front_default,
+        backAnimated: response.data.sprites.other.showdown.back_default,
+        frontAnimatedFemale:
+          response.data.sprites.other.showdown.front_default_female,
+        backAnimatedFemale:
+          response.data.sprites.other.showdown.back_default_female,
+        frontAnimatedShiny: response.data.sprites.other.showdown.front_shiny,
+        backAnimatedShiny: response.data.sprites.other.showdown.back_shiny,
+        frontAnimatedFemaleShiny:
+          response.data.sprites.other.showdown.front_shiny_female,
+        backAnimatedFemaleShiny:
+          response.data.sprites.other.showdown.back_shiny_female,
+      },
       types: response.data.types.reduce(
         (acc, type) => [...acc, type.type.name],
         []
       ),
       id: response.data.id,
       name: response.data.name,
+      stats: response.data.stats.reduce(
+        (acc, stat) => ({ ...acc, [stat.name]: stat.base_stat }),
+        {}
+      ),
+      weight: toInteger(response.data.weight) * 10,
+      height: toInteger(response.data.height) * 10,
+      // Mapear abilidades
+      abilities: response.data.abilities,
+      // mapear moves
+      // mapear formas
+      // mapear descrição
+      // mapear cadeia evolutiva
+      // mapear versão shiny
+      // mapear sprites por geração
       otherParams: response.data,
     }
   }, [])
@@ -210,16 +238,6 @@ export function Home() {
     selectedType,
   ])
 
-  // const handleElementVisibility = useCallback((entries, observer) => {
-  //   entries.forEach((entry) => {
-  //     if (entry.isIntersecting) {
-  //       observer.disconnect()
-  //       setPageSize((prev) => prev + POKEMONS_PER_PAGE)
-  //       setIsButtonToTopVisible(true)
-  //     }
-  //   })
-  // }, [])
-
   const handleButtonType = useCallback((event) => {
     const typeClicked = event.target.name
     setSelectedType((prev) => {
@@ -262,10 +280,6 @@ export function Home() {
       top: 0,
       behavior: "smooth",
     })
-  }, [])
-
-  const handleOpenFilter = useCallback(() => {
-    setIsFiltersOpen((prev) => !prev)
   }, [])
 
   const renderPokemonList = () => {
@@ -319,7 +333,10 @@ export function Home() {
           placeholder="Digite o nome do pokemon"
         />
         <div className={s.filtersWrapper}>
-          <button onClick={handleOpenFilter} className={s.buttonOpenFilters}>
+          <button
+            onClick={() => setIsFiltersOpen((prev) => !prev)}
+            className={s.buttonOpenFilters}
+          >
             Ver mais filtros
           </button>
           <div className={cn(s.filters, { [s.filtersOpen]: isFiltersOpen })}>
@@ -365,7 +382,10 @@ export function Home() {
         </button>
       ) : null}
 
-      <PokemonDetailed pokemon={selectedPokemon} />
+      <PokemonDetailed
+        pokemon={selectedPokemon}
+        setSelectedPokemon={setSelectedPokemon}
+      />
     </section>
   )
 }

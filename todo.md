@@ -33,7 +33,13 @@ Listagem de pokemons
 
 Detalhamento do pokemon
 
+- [ ] Fechar apenas ao clicar no backdrop
+- [ ] Adicionar botão de fechar
 - [ ] Mostrar variações
+- [ ] Mapear dados que serão utizados
+- [ ] Configurar botões
+- [ ] Estilizar botões
+- [ ] Tela com dados
 
 Websockets (Batalha pokemon)
 
