@@ -1,5 +1,10 @@
 @import url(./variables.css);
 
+@font-face {
+  font-family: pokemon;
+  src: url(../font/Pokemon\ Solid.ttf);
+}
+
 .poisonType {
   background-color: var(--color-poison);
   color: var(--white);

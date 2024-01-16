@@ -11,6 +11,7 @@
 
 html {
   min-height: 100vh;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 img {
@@ -23,6 +24,7 @@ li {
 
 button {
   border: none;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 body,
@@ -35,9 +37,4 @@ body,
   width: 100%;
   min-height: 100vh;
   background: var(--ebony-clay);
-}
-
-@font-face {
-  font-family: pokemon;
-  src: url(./assets/font/Pokemon\ Solid.ttf);
 }

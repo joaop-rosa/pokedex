@@ -30,16 +30,20 @@ Listagem de pokemons
 - [x] Ajustar Loader
 - [x] Piscando lista durante troca de filtros
 - [x] Reduzir pagesize ao trocar o filtro
+- [ ] Esta mostrando pokemon não encontrado antes de terminar de carregar
 
 Detalhamento do pokemon
 
-- [ ] Fechar apenas ao clicar no backdrop
+- [x] Fechar apenas ao clicar no backdrop
 - [ ] Adicionar botão de fechar
 - [ ] Mostrar variações
 - [ ] Mapear dados que serão utizados
 - [ ] Configurar botões
 - [ ] Estilizar botões
 - [ ] Tela com dados
+- [ ] Fazer fetch para pokemon-species
+- [ ] Tela com cadeia evolutiva
+- [ ] Travar scroll da lista quando detalhamento estiver aberto
 
 Websockets (Batalha pokemon)
 
