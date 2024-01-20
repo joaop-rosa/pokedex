@@ -51,14 +51,18 @@
   background-color: lightgray;
   border: 5px double var(--black);
   border-radius: 20px 20px 20px 100px;
-  padding: 40px 40px 50px 50px;
+  padding: 40px 40px 0 50px;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .screen {
   width: 100%;
   background-color: var(--black);
   display: flex;
+  flex: 1;
   flex-direction: column;
   align-items: stretch;
   justify-content: center;
@@ -83,7 +87,9 @@
   flex: 1;
   z-index: 1;
   padding: 30px;
-  text-align: center;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
 }
 
 .photoPokemon {
@@ -92,10 +98,53 @@
   height: 100%;
 }
 
+.screenButtons {
+  margin: 10px 0;
+  min-height: 30px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.rotateButton {
+  background-color: var(--yellow);
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  cursor: pointer;
+}
+
+.rotateIcon {
+  width: 26px;
+  height: auto;
+  color: var(--black);
+}
+
+.toggleSwitchWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  width: auto;
+}
+
+.sexIcon {
+  width: 25px;
+  height: auto;
+  color: var(--male-color);
+}
+
+.sexIcon:last-child {
+  color: var(--female-color);
+}
+
 .pokemonInfoWrapper {
   display: flex;
   z-index: 1;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   padding: 10px;
   background-color: aliceblue;
@@ -118,6 +167,51 @@
   background-color: var(--boston-blue-variant);
 }
 
+.infoScreenContentInfo {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+}
+
+.infoScreenContentRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--white);
+  border-bottom: 1px solid var(--white);
+  line-height: 40px;
+}
+
+.infoScreenContentRow:last-child {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  justify-content: center;
+  border-bottom: none;
+  line-height: normal;
+}
+
+.typesWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+
+.type {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3px 7px;
+  border-radius: 20px;
+  font-weight: 600;
+  line-height: normal;
+}
+
 .buttonsWrapper {
   display: grid;
   width: 100%;
@@ -133,4 +227,128 @@
   background-color: var(--boston-blue);
   font-size: 16px;
   font-weight: 700;
+  cursor: pointer;
+}
+
+.variationsWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.variation {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background: none;
+  max-height: 100%;
+  border-bottom: solid 2px var(--white);
+  gap: 25px;
+  cursor: pointer;
+  padding: 10px 0;
+}
+
+.variation:hover .variationImage {
+  scale: 1.1;
+}
+
+.variation:last-child {
+  border-bottom: none;
+}
+
+.variationImage {
+  flex: 1;
+  height: auto;
+  max-width: 180px;
+}
+
+.variationInfos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.poisonType {
+  composes: poisonType from global;
+}
+
+.rockType {
+  composes: rockType from global;
+}
+
+.fireType {
+  composes: fireType from global;
+}
+
+.normalType {
+  composes: normalType from global;
+}
+
+.waterType {
+  composes: waterType from global;
+}
+
+.grassType {
+  composes: grassType from global;
+}
+
+.flyingType {
+  composes: flyingType from global;
+}
+
+.fightingType {
+  composes: fightingType from global;
+}
+
+.electricType {
+  composes: electricType from global;
+}
+
+.groundType {
+  composes: groundType from global;
+}
+
+.psychicType {
+  composes: psychicType from global;
+}
+
+.iceType {
+  composes: iceType from global;
+}
+
+.bugType {
+  composes: bugType from global;
+}
+
+.ghostType {
+  composes: ghostType from global;
+}
+
+.steelType {
+  composes: steelType from global;
+}
+
+.dragonType {
+  composes: dragonType from global;
+}
+
+.darkType {
+  composes: darkType from global;
+}
+
+.fairyType {
+  composes: fairyType from global;
+}
+
+@media screen and (max-width: 400px) {
+  .photoPokemon {
+    height: auto;
+    width: auto;
+    min-width: 120px;
+    max-width: 220px;
+  }
 }

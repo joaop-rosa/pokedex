@@ -35,15 +35,24 @@ Listagem de pokemons
 Detalhamento do pokemon
 
 - [x] Fechar apenas ao clicar no backdrop
+- [x] Mostrar variações
+- [x] Configurar botões
+- [x] Fazer fetch para pokemon-species
+- [x] Extrair variações do pokemon mega/gmax/deoxys-speed
+- [x] Resetar seleções ao fechar detalhamento
+- [x] Tela com dados
+- [ ] Mapear abilities
+- [ ] Mapear moves
+- [ ] Mapear Evolution line
+- [ ] Tela abilities
+- [ ] Tela moves
+- [ ] Tela stats
+- [ ] Tela Evolution line
+- [ ] Estilizar scrolls
+- [ ] Melhorar estilização no geral
 - [ ] Adicionar botão de fechar
-- [ ] Mostrar variações
-- [ ] Mapear dados que serão utizados
-- [ ] Configurar botões
-- [ ] Estilizar botões
-- [ ] Tela com dados
-- [ ] Fazer fetch para pokemon-species
-- [ ] Tela com cadeia evolutiva
 - [ ] Travar scroll da lista quando detalhamento estiver aberto
+- [ ] Melhorar estilização botões
 
 Websockets (Batalha pokemon)
 

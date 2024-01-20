@@ -91,7 +91,7 @@ export function Home() {
     (list) => {
       let tempList = [...list]
       tempList = list.filter((pokemon) =>
-        pokemon.name.includes(inputTextFilter)
+        pokemon.name.includes(inputTextFilter.toLowerCase())
       )
       if (selectedGeneration) {
         tempList = tempList.filter(
@@ -117,10 +117,8 @@ export function Home() {
         back: response.data.sprites.other["official-artwork"].back_default,
         frontAnimated: response.data.sprites.other.showdown.front_default,
         backAnimated: response.data.sprites.other.showdown.back_default,
-        frontAnimatedFemale:
-          response.data.sprites.other.showdown.front_default_female,
-        backAnimatedFemale:
-          response.data.sprites.other.showdown.back_default_female,
+        frontAnimatedFemale: response.data.sprites.other.showdown.front_female,
+        backAnimatedFemale: response.data.sprites.other.showdown.back_female,
         frontAnimatedShiny: response.data.sprites.other.showdown.front_shiny,
         backAnimatedShiny: response.data.sprites.other.showdown.back_shiny,
         frontAnimatedFemaleShiny:
@@ -138,16 +136,9 @@ export function Home() {
         (acc, stat) => ({ ...acc, [stat.name]: stat.base_stat }),
         {}
       ),
-      weight: toInteger(response.data.weight) * 10,
+      weight: (toInteger(response.data.weight) * 1000) / 10000,
       height: toInteger(response.data.height) * 10,
-      // Mapear abilidades
       abilities: response.data.abilities,
-      // mapear moves
-      // mapear formas
-      // mapear descrição
-      // mapear cadeia evolutiva
-      // mapear versão shiny
-      // mapear sprites por geração
       otherParams: response.data,
     }
   }, [])
@@ -257,7 +248,7 @@ export function Home() {
     const inputValue = event.target.value
     const onChange = _.debounce(() => {
       setInputTextFilter(inputValue)
-    }, 700)
+    }, 1200)
     onChange()
   }, [])
 
@@ -384,6 +375,7 @@ export function Home() {
 
       <PokemonDetailed
         pokemon={selectedPokemon}
+        fetchDetailedPokemon={fetchDetailedPokemon}
         setSelectedPokemon={setSelectedPokemon}
       />
     </section>

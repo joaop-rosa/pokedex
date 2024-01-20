@@ -1,9 +1,15 @@
-import React, { useState } from "react"
+import React, { useCallback, useEffect, useMemo, useState } from "react"
 import s from "./PokemonDetailed.module.css"
 import cn from "classnames"
 import background from "../assets/img/detailed-background.png"
 import { upperFirst } from "lodash"
 import { renderTypeClassnames } from "../contants/types"
+import { URL_BASE_ENDPOINT } from "../contants/endpoints"
+import axios from "axios"
+import ToggleSwitch from "./ToggleSwitch"
+import { ReactComponent as FemaleIcon } from "../assets/icons/female.svg"
+import { ReactComponent as MaleIcon } from "../assets/icons/male.svg"
+import { ReactComponent as Rotate } from "../assets/icons/rotate.svg"
 
 const SEX_VARIATIONS = {
   MALE: "MALE",
@@ -27,12 +33,16 @@ const INFOS_VARIATION = {
   ABILITIES: "ABILITIES",
   MOVES: "MOVES",
   EVOLUTION_LINE: "EVOLUTION_LINE",
+  FORMS: "FORMS",
+  STATS: "STATS",
 }
 
-export default function PokemonDetailed({ pokemon, setSelectedPokemon }) {
-  const [hasFemale, setHasFemale] = useState(false)
-  const [hasGmax, setHasGmax] = useState(false)
-  const [hasMega, setHasMega] = useState(false)
+export default function PokemonDetailed({
+  pokemon,
+  setSelectedPokemon,
+  fetchDetailedPokemon,
+}) {
+  const [speciesInfo, setSpeciesInfo] = useState(null)
   const [infoScreenContent, setInfoScreenContent] = useState(
     INFOS_VARIATION.DEFAULT
   )
@@ -44,18 +54,70 @@ export default function PokemonDetailed({ pokemon, setSelectedPokemon }) {
   )
   const [sexVariation, setSexVariation] = useState(SEX_VARIATIONS.MALE)
 
-  //Pensar em como fazer com formas alternativas
+  const isFemale = useMemo(
+    () => sexVariation === SEX_VARIATIONS.FEMALE,
+    [sexVariation]
+  )
+  const isBack = useMemo(
+    () => positionVariation === POSITION_VARIATIONS.BACK,
+    [positionVariation]
+  )
+  const isShiny = useMemo(
+    () => spriteVariation === SPRITE_VARIATIONS.SHINY,
+    [spriteVariation]
+  )
+
+  // Reset on pokemon selected change
+  useEffect(() => {
+    if (!pokemon) {
+      setSpeciesInfo(null)
+      setInfoScreenContent(INFOS_VARIATION.DEFAULT)
+      setSpriteVariation(SPRITE_VARIATIONS.DEFAULT)
+      setPositionVariation(POSITION_VARIATIONS.FRONT)
+      setSexVariation(SEX_VARIATIONS.MALE)
+    }
+  }, [pokemon])
+
+  const fetchPokemonSpecies = useCallback(async () => {
+    if (pokemon) {
+      const response = await axios.get(
+        `${URL_BASE_ENDPOINT}/pokemon-species/${pokemon.id}/`
+      )
+
+      const description = response.data.flavor_text_entries
+
+      const varietiesMapped = Promise.all(
+        response.data.varieties.map(async (variation) => {
+          return await fetchDetailedPokemon(variation.pokemon.name)
+        })
+      )
+
+      varietiesMapped.then((varietiesMappedResolved) => {
+        setSpeciesInfo({
+          variations: varietiesMappedResolved,
+          //mapear cadeia evolutiva
+          hasFemale: response.data.has_gender_differences,
+          isLegendary: response.data.is_legendary,
+          isMythical: response.data.is_mythical,
+          description:
+            description[
+              description.findIndex((entry) => entry.language.name === "en")
+            ].flavor_text,
+        })
+      })
+    }
+  }, [fetchDetailedPokemon, pokemon])
+
+  useEffect(() => {
+    fetchPokemonSpecies()
+  }, [fetchPokemonSpecies])
 
   function renderImage() {
-    const isFemale = sexVariation === SEX_VARIATIONS.FEMALE
-    const isBack = positionVariation === POSITION_VARIATIONS.BACK
-    const isShiny = spriteVariation === SPRITE_VARIATIONS.SHINY
-
     if (!pokemon.sprites.frontAnimated) {
       return pokemon.sprites.front
     }
 
-    if (hasFemale && isFemale) {
+    if (speciesInfo?.hasFemale && isFemale) {
       if (isBack && isShiny) {
         return pokemon.sprites.backAnimatedFemaleShiny
       }
@@ -87,13 +149,11 @@ export default function PokemonDetailed({ pokemon, setSelectedPokemon }) {
   }
 
   function renderInfoScreen() {
-    console.log(pokemon)
-
     if (infoScreenContent === INFOS_VARIATION.DEFAULT) {
       return (
         <div className={s.infoScreenContent}>
           <div className={s.infoScreenContentInfo}>
-            <div>
+            <div className={s.infoScreenContentRow}>
               <span>Types</span>
               <div className={s.typesWrapper}>
                 {pokemon.types.map((type, index) => (
@@ -106,22 +166,44 @@ export default function PokemonDetailed({ pokemon, setSelectedPokemon }) {
                 ))}
               </div>
             </div>
-            <p>
+            <p className={s.infoScreenContentRow}>
               <span>Weight</span>
               {`${pokemon.weight}kg`}
             </p>
-            <p>
+            <p className={s.infoScreenContentRow}>
               <span>Height</span>
               {`${pokemon.height}cm`}
             </p>
-            <p>
+            <p className={s.infoScreenContentRow}>
               <span>Description</span>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
+              {speciesInfo?.description}
             </p>
           </div>
+        </div>
+      )
+    }
+
+    if (infoScreenContent === INFOS_VARIATION.FORMS) {
+      return (
+        <div className={s.variationsWrapper}>
+          {speciesInfo?.variations.map((variation) => {
+            return (
+              <button
+                onClick={() => setSelectedPokemon(variation)}
+                key={variation.name}
+                className={s.variation}
+              >
+                <img
+                  className={s.variationImage}
+                  src={variation.sprites.front}
+                  alt={`Foto do pokemon ${pokemon.name}`}
+                />
+                <div className={s.variationInfos}>
+                  <p>{upperFirst(variation.name)}</p>
+                </div>
+              </button>
+            )
+          })}
         </div>
       )
     }
@@ -146,7 +228,8 @@ export default function PokemonDetailed({ pokemon, setSelectedPokemon }) {
     {
       name: "Shiny",
       action: () => setSpriteVariation(SPRITE_VARIATIONS.SHINY),
-      isDisabled: false,
+      isDisabled:
+        !pokemon?.sprites?.backAnimatedFemaleShiny && isFemale && isBack,
     },
     {
       name: "Evolution line",
@@ -159,14 +242,14 @@ export default function PokemonDetailed({ pokemon, setSelectedPokemon }) {
       isDisabled: false,
     },
     {
-      name: "GMAX",
-      action: () => setSpriteVariation(SPRITE_VARIATIONS.GMAX),
-      isDisabled: !hasGmax,
+      name: "Forms",
+      action: () => setInfoScreenContent(INFOS_VARIATION.FORMS),
+      isDisabled: false,
     },
     {
-      name: "Mega",
-      action: () => setSpriteVariation(SPRITE_VARIATIONS.MEGA),
-      isDisabled: !hasMega,
+      name: "Stats",
+      action: () => setInfoScreenContent(INFOS_VARIATION.STATS),
+      isDisabled: false,
     },
   ]
 
@@ -174,6 +257,51 @@ export default function PokemonDetailed({ pokemon, setSelectedPokemon }) {
     if (event.target.id === "backdrop") {
       setSelectedPokemon(null)
     }
+  }
+
+  function handleSexSwitch(event) {
+    if (event.target.checked) {
+      return setSexVariation(SEX_VARIATIONS.FEMALE)
+    }
+
+    return setSexVariation(SEX_VARIATIONS.MALE)
+  }
+
+  function handleRotateButton() {
+    if (positionVariation === POSITION_VARIATIONS.FRONT) {
+      return setPositionVariation(POSITION_VARIATIONS.BACK)
+    }
+
+    setPositionVariation(POSITION_VARIATIONS.FRONT)
+  }
+
+  function renderRotateButton() {
+    if (!pokemon?.sprites?.backAnimatedFemaleShiny && isFemale && isShiny) {
+      return null
+    }
+    return (
+      <button className={s.rotateButton} onClick={handleRotateButton}>
+        <Rotate className={s.rotateIcon} />
+      </button>
+    )
+  }
+
+  function renderToggleSwitchSex() {
+    if (!speciesInfo?.hasFemale) {
+      return null
+    }
+
+    if (!pokemon?.sprites?.backAnimatedFemaleShiny && isBack && isShiny) {
+      return null
+    }
+
+    return (
+      <div className={s.toggleSwitchWrapper}>
+        <MaleIcon className={s.sexIcon} />
+        <ToggleSwitch onChange={handleSexSwitch} />
+        <FemaleIcon className={s.sexIcon} />
+      </div>
+    )
   }
 
   return (
@@ -200,11 +328,15 @@ export default function PokemonDetailed({ pokemon, setSelectedPokemon }) {
                     </div>
 
                     <div className={s.pokemonInfoWrapper}>
-                      <p>{`#${pokemon.id}`}</p>
                       <p>{upperFirst(pokemon.name)}</p>
+                      <p>{`#${pokemon.id}`}</p>
                     </div>
                   </>
                 ) : null}
+              </div>
+              <div className={s.screenButtons}>
+                {renderRotateButton()}
+                {renderToggleSwitchSex()}
               </div>
             </div>
             <div className={s.infoScreen}>
