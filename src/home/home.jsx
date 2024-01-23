@@ -111,7 +111,40 @@ export function Home() {
       `${URL_BASE_ENDPOINT}/pokemon/${pokemonName}`
     )
 
-    return {
+    const abilitiesMapped = await Promise.all(
+      response.data.abilities.map(async (ability) => {
+        const { data: abilityData } = await axios.get(ability.ability.url)
+        const abilityMapped = {
+          effectDescription:
+            abilityData.effect_entries[
+              abilityData.effect_entries.findIndex(
+                (entry) => entry.language.name === "en"
+              )
+            ].effect,
+          effectShortDescription:
+            abilityData.flavor_text_entries[
+              abilityData.flavor_text_entries.findIndex(
+                (entry) => entry.language.name === "en"
+              )
+            ].flavor_text,
+          effectException: abilityData.effect_changes.length
+            ? abilityData.effect_changes[0].effect_entries[
+                abilityData.effect_entries.findIndex(
+                  (entry) => entry.language.name === "en"
+                )
+              ].effect
+            : null,
+        }
+
+        return {
+          name: ability.ability.name,
+          isHidden: ability.is_hidden,
+          ...abilityMapped,
+        }
+      })
+    )
+
+    const detailsMapped = {
       sprites: {
         front: response.data.sprites.other["official-artwork"].front_default,
         back: response.data.sprites.other["official-artwork"].back_default,
@@ -133,14 +166,18 @@ export function Home() {
       id: response.data.id,
       name: response.data.name,
       stats: response.data.stats.reduce(
-        (acc, stat) => ({ ...acc, [stat.name]: stat.base_stat }),
+        (acc, stat) => ({ ...acc, [stat.stat.name]: stat.base_stat }),
         {}
       ),
       weight: (toInteger(response.data.weight) * 1000) / 10000,
       height: toInteger(response.data.height) * 10,
-      abilities: response.data.abilities,
+      abilities: abilitiesMapped,
       otherParams: response.data,
     }
+
+    console.log(detailsMapped)
+
+    return detailsMapped
   }, [])
 
   const fetchPokemonByType = useCallback(async () => {

@@ -41,7 +41,7 @@ Detalhamento do pokemon
 - [x] Extrair variações do pokemon mega/gmax/deoxys-speed
 - [x] Resetar seleções ao fechar detalhamento
 - [x] Tela com dados
-- [ ] Mapear abilities
+- [x] Mapear abilities
 - [ ] Mapear moves
 - [ ] Mapear Evolution line
 - [ ] Tela abilities
