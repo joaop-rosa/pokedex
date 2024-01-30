@@ -272,6 +272,44 @@
   color: var(--white);
 }
 
+/* Ability screen */
+.abilitiesWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.abilityHeader {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 16px;
+  gap: 10px;
+  text-align: left;
+}
+
+.abilityHeaderInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.abilityButtonOpen {
+  font-size: 24px;
+}
+
+.abilityContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 10px;
+}
+
 .poisonType {
   composes: poisonType from global;
 }

@@ -6,11 +6,12 @@ import { ReactComponent as ArrowUp } from "../assets/icons/arrow-up.svg"
 import { URL_BASE_ENDPOINT } from "../contants/endpoints"
 import { CardPokemon } from "../card-pokemon/card-pokemon"
 import { Spinner } from "../components/Spinner"
-import _, { toInteger } from "lodash"
+import _, { toInteger, upperFirst } from "lodash"
 import cn from "classnames"
 import { GENERATIONS, LAST_POKEMON_NUMBER } from "../contants/generations"
 import { POKEMON_TYPES, renderTypeClassnames } from "../contants/types"
 import PokemonDetailed from "../components/PokemonDetailed"
+import { MOVE_LEARN_METHOD } from "../contants/moves"
 
 const POKEMONS_PER_PAGE = 12
 
@@ -120,7 +121,7 @@ export function Home() {
               abilityData.effect_entries.findIndex(
                 (entry) => entry.language.name === "en"
               )
-            ].effect,
+            ]?.effect,
           effectShortDescription:
             abilityData.flavor_text_entries[
               abilityData.flavor_text_entries.findIndex(
@@ -143,6 +144,16 @@ export function Home() {
         }
       })
     )
+
+    const movesMapped = response.data.moves.map((move) => ({
+      name: upperFirst(move.move.name),
+      url: move.move.url,
+      method:
+        move.version_group_details.at(-1).move_learn_method.name === "machine"
+          ? MOVE_LEARN_METHOD.TM
+          : MOVE_LEARN_METHOD.LEVEL_UP,
+      level: move.version_group_details.at(-1).level_learned_at,
+    }))
 
     const detailsMapped = {
       sprites: {
@@ -173,9 +184,8 @@ export function Home() {
       height: toInteger(response.data.height) * 10,
       abilities: abilitiesMapped,
       otherParams: response.data,
+      moves: movesMapped,
     }
-
-    console.log(detailsMapped)
 
     return detailsMapped
   }, [])

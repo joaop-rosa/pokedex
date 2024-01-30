@@ -42,13 +42,15 @@ Detalhamento do pokemon
 - [x] Resetar seleções ao fechar detalhamento
 - [x] Tela com dados
 - [x] Mapear abilities
-- [ ] Mapear moves
-- [ ] Mapear Evolution line
-- [ ] Tela abilities
-- [ ] Tela moves
+- [x] Mapear moves
+- [x] Mapear Evolution line
+- [x] Tela abilities
 - [ ] Tela stats
-- [ ] Tela Evolution line
+- [x] Tela Evolution line
+- [ ] Busca detalhada de moves
+- [ ] Tela moves
 - [ ] Estilizar scrolls
+- [ ] fetch de /pokemon-species de formas alternativas retorna erro
 - [ ] Melhorar estilização no geral
 - [ ] Adicionar botão de fechar
 - [ ] Travar scroll da lista quando detalhamento estiver aberto

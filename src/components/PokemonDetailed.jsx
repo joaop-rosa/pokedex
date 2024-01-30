@@ -10,6 +10,7 @@ import ToggleSwitch from "./ToggleSwitch"
 import { ReactComponent as FemaleIcon } from "../assets/icons/female.svg"
 import { ReactComponent as MaleIcon } from "../assets/icons/male.svg"
 import { ReactComponent as Rotate } from "../assets/icons/rotate.svg"
+import { Accordion } from "./Accordion"
 
 const SEX_VARIATIONS = {
   MALE: "MALE",
@@ -67,6 +68,8 @@ export default function PokemonDetailed({
     [spriteVariation]
   )
 
+  console.log("pokemon", pokemon)
+
   // Reset on pokemon selected change
   useEffect(() => {
     if (!pokemon) {
@@ -86,24 +89,43 @@ export default function PokemonDetailed({
 
       const description = response.data.flavor_text_entries
 
-      const varietiesMapped = Promise.all(
+      const varietiesMapped = await Promise.all(
         response.data.varieties.map(async (variation) => {
           return await fetchDetailedPokemon(variation.pokemon.name)
         })
       )
 
-      varietiesMapped.then((varietiesMappedResolved) => {
-        setSpeciesInfo({
-          variations: varietiesMappedResolved,
-          //mapear cadeia evolutiva
-          hasFemale: response.data.has_gender_differences,
-          isLegendary: response.data.is_legendary,
-          isMythical: response.data.is_mythical,
-          description:
-            description[
-              description.findIndex((entry) => entry.language.name === "en")
-            ].flavor_text,
-        })
+      const { data: evolutionLine } = await axios.get(
+        response.data.evolution_chain.url
+      )
+
+      async function evolutionLineMap(evolutionLine) {
+        if (!evolutionLine.evolves_to.length) {
+          return [await fetchDetailedPokemon(evolutionLine.species.name)]
+        }
+
+        return [
+          await fetchDetailedPokemon(evolutionLine.species.name),
+          ...(await Promise.all(
+            evolutionLine.evolves_to.map((pokemon) => {
+              return evolutionLineMap(pokemon)
+            })
+          ).then((res) => res.flat(Infinity))),
+        ]
+      }
+
+      const evolutionLineMapped = await evolutionLineMap(evolutionLine.chain)
+
+      setSpeciesInfo({
+        variations: varietiesMapped,
+        evolutionLine: evolutionLineMapped,
+        hasFemale: response.data.has_gender_differences,
+        isLegendary: response.data.is_legendary,
+        isMythical: response.data.is_mythical,
+        description:
+          description[
+            description.findIndex((entry) => entry.language.name === "en")
+          ].flavor_text,
       })
     }
   }, [fetchDetailedPokemon, pokemon])
@@ -206,6 +228,65 @@ export default function PokemonDetailed({
           })}
         </div>
       )
+    }
+
+    if (infoScreenContent === INFOS_VARIATION.EVOLUTION_LINE) {
+      return (
+        <div className={s.variationsWrapper}>
+          {speciesInfo?.evolutionLine.map((variation) => {
+            return (
+              <button
+                onClick={() => setSelectedPokemon(variation)}
+                key={variation.name}
+                className={s.variation}
+              >
+                <img
+                  className={s.variationImage}
+                  src={variation.sprites.front}
+                  alt={`Foto do pokemon ${pokemon.name}`}
+                />
+                <div className={s.variationInfos}>
+                  <p>{upperFirst(variation.name)}</p>
+                </div>
+              </button>
+            )
+          })}
+        </div>
+      )
+    }
+
+    if (infoScreenContent === INFOS_VARIATION.ABILITIES) {
+      return (
+        <div className={s.abilitiesWrapper}>
+          {pokemon.abilities.map((ability) => (
+            <Accordion
+              key={ability.name}
+              header={
+                <div className={s.abilityHeader}>
+                  <div className={s.abilityHeaderInfo}>
+                    <h4>
+                      {upperFirst(ability.name)}
+                      {ability.isHidden ? <span> (hidden)</span> : null}
+                    </h4>
+                    <p>{ability.effectShortDescription}</p>
+                  </div>
+                  <span className={s.abilityButtonOpen}>+</span>
+                </div>
+              }
+              content={
+                <div className={s.abilityContent}>
+                  <p>{ability.effectDescription}</p>
+                  <p>{ability.effectException}</p>
+                </div>
+              }
+            />
+          ))}
+        </div>
+      )
+    }
+
+    if (infoScreenContent === INFOS_VARIATION.MOVES) {
+      return <div className={s.variationsWrapper}></div>
     }
   }
 
