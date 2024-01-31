@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react"
 import s from "./PokemonDetailed.module.css"
 import cn from "classnames"
 import background from "../assets/img/detailed-background.png"
-import { upperFirst } from "lodash"
+import { toInteger, upperFirst } from "lodash"
 import { renderTypeClassnames } from "../contants/types"
 import { URL_BASE_ENDPOINT } from "../contants/endpoints"
 import axios from "axios"
@@ -11,6 +11,7 @@ import { ReactComponent as FemaleIcon } from "../assets/icons/female.svg"
 import { ReactComponent as MaleIcon } from "../assets/icons/male.svg"
 import { ReactComponent as Rotate } from "../assets/icons/rotate.svg"
 import { Accordion } from "./Accordion"
+import RadarChart from "./RadarChart"
 
 const SEX_VARIATIONS = {
   MALE: "MALE",
@@ -91,7 +92,9 @@ export default function PokemonDetailed({
 
       const varietiesMapped = await Promise.all(
         response.data.varieties.map(async (variation) => {
-          return await fetchDetailedPokemon(variation.pokemon.name)
+          return await fetchDetailedPokemon(
+            toInteger(variation.pokemon.url.match(/\/(\d+)\/$/)[1])
+          )
         })
       )
 
@@ -99,13 +102,21 @@ export default function PokemonDetailed({
         response.data.evolution_chain.url
       )
 
+      console.log(evolutionLine)
+
       async function evolutionLineMap(evolutionLine) {
         if (!evolutionLine.evolves_to.length) {
-          return [await fetchDetailedPokemon(evolutionLine.species.name)]
+          return [
+            await fetchDetailedPokemon(
+              toInteger(evolutionLine.species.url.match(/\/(\d+)\/$/)[1])
+            ),
+          ]
         }
 
         return [
-          await fetchDetailedPokemon(evolutionLine.species.name),
+          await fetchDetailedPokemon(
+            toInteger(evolutionLine.species.url.match(/\/(\d+)\/$/)[1])
+          ),
           ...(await Promise.all(
             evolutionLine.evolves_to.map((pokemon) => {
               return evolutionLineMap(pokemon)
@@ -283,6 +294,10 @@ export default function PokemonDetailed({
           ))}
         </div>
       )
+    }
+
+    if (infoScreenContent === INFOS_VARIATION.STATS) {
+      return <RadarChart stats={pokemon.stats} />
     }
 
     if (infoScreenContent === INFOS_VARIATION.MOVES) {

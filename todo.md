@@ -31,6 +31,7 @@ Listagem de pokemons
 - [x] Piscando lista durante troca de filtros
 - [x] Reduzir pagesize ao trocar o filtro
 - [ ] Esta mostrando pokemon não encontrado antes de terminar de carregar
+- [ ] Clique para detalhar em pokemon que esta carregando
 
 Detalhamento do pokemon
 
@@ -45,7 +46,7 @@ Detalhamento do pokemon
 - [x] Mapear moves
 - [x] Mapear Evolution line
 - [x] Tela abilities
-- [ ] Tela stats
+- [x] Tela stats
 - [x] Tela Evolution line
 - [ ] Busca detalhada de moves
 - [ ] Tela moves
