@@ -52,7 +52,7 @@ function getOffsetFromQuadrant(i, sides, offset) {
 
   // bottom we push out a bit more
   if ((rads > (3 * Math.PI) / 4) & (rads < (5 * Math.PI) / 4)) {
-    return offset + 2 // magic numbers are bad :-(
+    return offset + 13
   } else {
     return offset
   }
@@ -78,7 +78,7 @@ export default function RadarChart({ stats }) {
     const sides = 6
     const traitMin = 0
     const traitMax = 200
-    const textOffset = 10
+    const textOffset = 20
 
     const svg = d3
       .create("svg")
@@ -134,7 +134,7 @@ export default function RadarChart({ stats }) {
       .join("text")
       .attr("text-anchor", (d, i) => getLabelFromQuadrant(i, sides))
       .attr("font-family", "verdana")
-      .attr("font-size", "13px")
+      .attr("font-size", "14px")
       .attr("fill", "white")
       .attr(
         "x",

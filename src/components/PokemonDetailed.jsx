@@ -12,6 +12,7 @@ import { ReactComponent as MaleIcon } from "../assets/icons/male.svg"
 import { ReactComponent as Rotate } from "../assets/icons/rotate.svg"
 import { Accordion } from "./Accordion"
 import RadarChart from "./RadarChart"
+import { MovesScreen } from "./pokedex-screens/MovesScreen"
 
 const SEX_VARIATIONS = {
   MALE: "MALE",
@@ -301,7 +302,7 @@ export default function PokemonDetailed({
     }
 
     if (infoScreenContent === INFOS_VARIATION.MOVES) {
-      return <div className={s.variationsWrapper}></div>
+      return <MovesScreen pokemon={pokemon} />
     }
   }
 

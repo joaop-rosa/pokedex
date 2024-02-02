@@ -1,0 +1,21 @@
+.movesMethodsWrapper {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 10px;
+}
+
+.moveMethod {
+  background: transparent;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--white);
+  padding-bottom: 5px;
+  cursor: pointer;
+}
+
+.moveMethodSelected {
+  border-bottom: solid 2px var(--white);
+}
+
+.move {
+}

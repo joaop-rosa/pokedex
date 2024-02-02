@@ -6,7 +6,7 @@ import { ReactComponent as ArrowUp } from "../assets/icons/arrow-up.svg"
 import { URL_BASE_ENDPOINT } from "../contants/endpoints"
 import { CardPokemon } from "../card-pokemon/card-pokemon"
 import { Spinner } from "../components/Spinner"
-import _, { toInteger, upperFirst } from "lodash"
+import _, { toInteger, upperCase, upperFirst } from "lodash"
 import cn from "classnames"
 import { GENERATIONS, LAST_POKEMON_NUMBER } from "../contants/generations"
 import { POKEMON_TYPES, renderTypeClassnames } from "../contants/types"
@@ -145,15 +145,29 @@ export function Home() {
       })
     )
 
-    const movesMapped = response.data.moves.map((move) => ({
-      name: upperFirst(move.move.name),
-      url: move.move.url,
-      method:
-        move.version_group_details.at(-1).move_learn_method.name === "machine"
-          ? MOVE_LEARN_METHOD.TM
-          : MOVE_LEARN_METHOD.LEVEL_UP,
-      level: move.version_group_details.at(-1).level_learned_at,
-    }))
+    const movesMapped = response.data.moves.reduce((acc, move) => {
+      const moveMapped = {
+        name: upperFirst(move.move.name),
+        url: move.move.url,
+        level: move.version_group_details.at(-1).level_learned_at,
+      }
+
+      const method = upperCase(
+        move.version_group_details.at(-1).move_learn_method.name
+      )
+
+      if (!acc[method]) {
+        return {
+          ...acc,
+          [method]: [moveMapped],
+        }
+      }
+
+      return {
+        ...acc,
+        [method]: [...acc[method], moveMapped],
+      }
+    }, {})
 
     const detailsMapped = {
       sprites: {
