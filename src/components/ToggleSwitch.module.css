@@ -24,6 +24,10 @@
   border-radius: 34px;
 }
 
+.sliderDisabled {
+  background-color: var(--disabled-grey);
+}
+
 .slider:before {
   position: absolute;
   content: "";
@@ -41,8 +45,12 @@ input:checked + .slider {
   background-color: var(--female-color);
 }
 
+input:checked + .sliderDisabled {
+  background-color: var(--disabled-grey);
+}
+
 input:focus + .slider {
-  box-shadow: 0 0 1px var(--female-color);
+  box-shadow: 0 0 1px var(--black);
 }
 
 input:checked + .slider:before {

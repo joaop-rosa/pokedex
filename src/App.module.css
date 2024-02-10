@@ -38,3 +38,15 @@ body,
   min-height: 100vh;
   background: var(--ebony-clay);
 }
+
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--black);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--white);
+}

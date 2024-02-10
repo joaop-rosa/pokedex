@@ -1,15 +1,16 @@
 import s from "./card-pokemon.module.css"
-import { renderTypeClassnames } from "../contants/types"
-import { Spinner } from "../components/Spinner"
+import { renderTypeClassnames } from "../../contants/types"
+import { Spinner } from "../Spinner"
 import { useEffect, useState } from "react"
 import cn from "classnames"
+import { noop, upperFirst } from "lodash"
 export function CardPokemon({
   pokemon,
   lastElementRef,
   fetchDetailedPokemon,
   setSelectedPokemon,
 }) {
-  const [pokemonData, setPokemonData] = useState(pokemon)
+  const [pokemonData, setPokemonData] = useState(null)
 
   useEffect(() => {
     async function fetchPokemon() {
@@ -19,16 +20,18 @@ export function CardPokemon({
 
     if (!pokemon.sprites) {
       fetchPokemon()
+    } else {
+      setPokemonData(pokemon)
     }
-
-    setPokemonData(pokemon)
   }, [fetchDetailedPokemon, pokemon])
+
+  console.log(pokemonData)
 
   return (
     <button
       className={s.cardPokemon}
       ref={lastElementRef}
-      onClick={() => setSelectedPokemon(pokemonData)}
+      onClick={pokemonData ? () => setSelectedPokemon(pokemonData) : noop}
     >
       <div
         className={cn(
@@ -61,7 +64,7 @@ export function CardPokemon({
               ))}
             </div>
             <div className={s.namePokemonWrapper}>
-              <h2 className={s.namePokemon}>{pokemonData.name}</h2>
+              <h2 className={s.namePokemon}>{upperFirst(pokemonData.name)}</h2>
             </div>
           </>
         )}

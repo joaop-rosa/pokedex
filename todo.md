@@ -30,8 +30,8 @@ Listagem de pokemons
 - [x] Ajustar Loader
 - [x] Piscando lista durante troca de filtros
 - [x] Reduzir pagesize ao trocar o filtro
-- [ ] Esta mostrando pokemon não encontrado antes de terminar de carregar
-- [ ] Clique para detalhar em pokemon que esta carregando
+- [ ] Esta mostrando pokemon não encontrado antes de terminar de carregar a página
+- [x] Clique para detalhar em pokemon que esta carregando
 
 Detalhamento do pokemon
 
@@ -48,14 +48,21 @@ Detalhamento do pokemon
 - [x] Tela abilities
 - [x] Tela stats
 - [x] Tela Evolution line
-- [ ] Busca detalhada de moves
-- [ ] Tela moves
-- [ ] Estilizar scrolls
-- [ ] fetch de /pokemon-species de formas alternativas retorna erro
-- [ ] Melhorar estilização no geral
-- [ ] Adicionar botão de fechar
-- [ ] Travar scroll da lista quando detalhamento estiver aberto
+- [x] Busca detalhada de moves
+- [x] Tela moves
+- [x] Estilizar scrolls
+- [x] fetch de /pokemon-species de formas alternativas retorna erro
+- [x] Travar scroll da lista quando detalhamento estiver aberto
+- [x] Adicionar loader na tela
+- [x] Centralizar stats
+- [x] Erro de imagens gmax
+- [x] Desabilitar botões invés de remover
+- [x] Desabilitar botão de shiny quando não tiver foto animada
+- [x] Adicionar botão de fechar pokedex detalhada
+- [x] Ajustar itens esmagados ao fechar pokedex
+- [x] Ajustar tamanho do gráfico de status no mobile
 - [ ] Melhorar estilização botões
+- [ ] Melhorar estilização no geral
 
 Websockets (Batalha pokemon)
 

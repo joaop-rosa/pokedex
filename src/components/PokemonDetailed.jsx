@@ -13,6 +13,8 @@ import { ReactComponent as Rotate } from "../assets/icons/rotate.svg"
 import { Accordion } from "./Accordion"
 import RadarChart from "./RadarChart"
 import { MovesScreen } from "./pokedex-screens/MovesScreen"
+import { LAST_POKEMON_NUMBER } from "../contants/generations"
+import { Spinner } from "./Spinner"
 
 const SEX_VARIATIONS = {
   MALE: "MALE",
@@ -56,6 +58,7 @@ export default function PokemonDetailed({
     POSITION_VARIATIONS.FRONT
   )
   const [sexVariation, setSexVariation] = useState(SEX_VARIATIONS.MALE)
+  const [isLoadingScreen, setIsLoadingScreen] = useState(true)
 
   const isFemale = useMemo(
     () => sexVariation === SEX_VARIATIONS.FEMALE,
@@ -70,21 +73,30 @@ export default function PokemonDetailed({
     [spriteVariation]
   )
 
-  console.log("pokemon", pokemon)
+  // lock scroll
+  useEffect(() => {
+    if (pokemon) {
+      document.body.style.overflow = "hidden"
+    }
+
+    return () => (document.body.style.overflow = "auto")
+  }, [pokemon])
 
   // Reset on pokemon selected change
   useEffect(() => {
     if (!pokemon) {
       setSpeciesInfo(null)
-      setInfoScreenContent(INFOS_VARIATION.DEFAULT)
-      setSpriteVariation(SPRITE_VARIATIONS.DEFAULT)
-      setPositionVariation(POSITION_VARIATIONS.FRONT)
-      setSexVariation(SEX_VARIATIONS.MALE)
     }
+
+    setIsLoadingScreen(true)
+    setInfoScreenContent(INFOS_VARIATION.DEFAULT)
+    setSpriteVariation(SPRITE_VARIATIONS.DEFAULT)
+    setPositionVariation(POSITION_VARIATIONS.FRONT)
+    setSexVariation(SEX_VARIATIONS.MALE)
   }, [pokemon])
 
   const fetchPokemonSpecies = useCallback(async () => {
-    if (pokemon) {
+    if (pokemon && pokemon.id <= LAST_POKEMON_NUMBER) {
       const response = await axios.get(
         `${URL_BASE_ENDPOINT}/pokemon-species/${pokemon.id}/`
       )
@@ -102,8 +114,6 @@ export default function PokemonDetailed({
       const { data: evolutionLine } = await axios.get(
         response.data.evolution_chain.url
       )
-
-      console.log(evolutionLine)
 
       async function evolutionLineMap(evolutionLine) {
         if (!evolutionLine.evolves_to.length) {
@@ -139,6 +149,10 @@ export default function PokemonDetailed({
             description.findIndex((entry) => entry.language.name === "en")
           ].flavor_text,
       })
+
+      setIsLoadingScreen(false)
+    } else {
+      setIsLoadingScreen(false)
     }
   }, [fetchDetailedPokemon, pokemon])
 
@@ -147,24 +161,24 @@ export default function PokemonDetailed({
   }, [fetchPokemonSpecies])
 
   function renderImage() {
-    if (!pokemon.sprites.frontAnimated) {
-      return pokemon.sprites.front
+    if (!pokemon?.sprites?.frontAnimated) {
+      return pokemon?.sprites.front
     }
 
     if (speciesInfo?.hasFemale && isFemale) {
       if (isBack && isShiny) {
-        return pokemon.sprites.backAnimatedFemaleShiny
+        return pokemon?.sprites.backAnimatedFemaleShiny
       }
 
       if (isBack) {
-        return pokemon.sprites.backAnimatedFemale
+        return pokemon?.sprites.backAnimatedFemale
       }
 
       if (isShiny) {
-        return pokemon.sprites.frontAnimatedFemaleShiny
+        return pokemon?.sprites.frontAnimatedFemaleShiny
       }
 
-      return pokemon.sprites.frontAnimatedFemale
+      return pokemon?.sprites.frontAnimatedFemale
     }
 
     if (isBack && isShiny) {
@@ -308,6 +322,24 @@ export default function PokemonDetailed({
 
   const BUTTONS = [
     {
+      name: "Default",
+      action: () => setSpriteVariation(SPRITE_VARIATIONS.DEFAULT),
+      isDisabled: spriteVariation === SPRITE_VARIATIONS.DEFAULT,
+    },
+    {
+      name: "Shiny",
+      action: () => setSpriteVariation(SPRITE_VARIATIONS.SHINY),
+      isDisabled:
+        (!pokemon?.sprites?.backAnimatedFemaleShiny && isFemale && isBack) ||
+        spriteVariation === SPRITE_VARIATIONS.SHINY ||
+        !pokemon?.sprites?.frontAnimatedShiny,
+    },
+    {
+      name: "Forms",
+      action: () => setInfoScreenContent(INFOS_VARIATION.FORMS),
+      isDisabled: isLoadingScreen || speciesInfo?.variations.length === 1,
+    },
+    {
       name: "General",
       action: () => setInfoScreenContent(INFOS_VARIATION.DEFAULT),
       isDisabled: false,
@@ -320,13 +352,7 @@ export default function PokemonDetailed({
     {
       name: "Moves",
       action: () => setInfoScreenContent(INFOS_VARIATION.MOVES),
-      isDisabled: false,
-    },
-    {
-      name: "Shiny",
-      action: () => setSpriteVariation(SPRITE_VARIATIONS.SHINY),
-      isDisabled:
-        !pokemon?.sprites?.backAnimatedFemaleShiny && isFemale && isBack,
+      isDisabled: Object.keys(pokemon?.moves ?? {}).length === 0,
     },
     {
       name: "Evolution line",
@@ -334,19 +360,15 @@ export default function PokemonDetailed({
       isDisabled: false,
     },
     {
-      name: "Default",
-      action: () => setSpriteVariation(SPRITE_VARIATIONS.DEFAULT),
-      isDisabled: false,
-    },
-    {
-      name: "Forms",
-      action: () => setInfoScreenContent(INFOS_VARIATION.FORMS),
-      isDisabled: false,
-    },
-    {
       name: "Stats",
       action: () => setInfoScreenContent(INFOS_VARIATION.STATS),
       isDisabled: false,
+    },
+    {
+      name: "Close",
+      action: () => setSelectedPokemon(null),
+      isDisabled: false,
+      class: s.closeButton,
     },
   ]
 
@@ -373,29 +395,60 @@ export default function PokemonDetailed({
   }
 
   function renderRotateButton() {
-    if (!pokemon?.sprites?.backAnimatedFemaleShiny && isFemale && isShiny) {
-      return null
+    const isDisabled = () => {
+      if (!pokemon?.sprites?.backAnimatedFemaleShiny && isFemale && isShiny) {
+        return true
+      }
+
+      if (!pokemon?.sprites?.backAnimatedShiny && isShiny) {
+        return true
+      }
+
+      if (!pokemon?.sprites?.backAnimatedFemale && isFemale) {
+        return true
+      }
+
+      if (!pokemon?.sprites?.backAnimated) {
+        return true
+      }
+
+      return false
     }
+
     return (
-      <button className={s.rotateButton} onClick={handleRotateButton}>
+      <button
+        className={cn(s.rotateButton, {
+          [s.rotateButtonDisabled]: isDisabled(),
+        })}
+        onClick={handleRotateButton}
+        disabled={isDisabled()}
+      >
         <Rotate className={s.rotateIcon} />
       </button>
     )
   }
 
   function renderToggleSwitchSex() {
-    if (!speciesInfo?.hasFemale) {
-      return null
-    }
+    const isDisabled = () => {
+      if (!speciesInfo?.hasFemale || !pokemon?.sprites?.frontAnimatedFemale) {
+        return true
+      }
 
-    if (!pokemon?.sprites?.backAnimatedFemaleShiny && isBack && isShiny) {
-      return null
+      if (!pokemon?.sprites?.backAnimatedFemaleShiny && isBack && isShiny) {
+        return true
+      }
+
+      return false
     }
 
     return (
-      <div className={s.toggleSwitchWrapper}>
+      <div
+        className={cn(s.toggleSwitchWrapper, {
+          [s.toggleSwitchWrapperDisabled]: isDisabled(),
+        })}
+      >
         <MaleIcon className={s.sexIcon} />
-        <ToggleSwitch onChange={handleSexSwitch} />
+        <ToggleSwitch onChange={handleSexSwitch} isDisabled={isDisabled()} />
         <FemaleIcon className={s.sexIcon} />
       </div>
     )
@@ -436,10 +489,17 @@ export default function PokemonDetailed({
                 {renderToggleSwitchSex()}
               </div>
             </div>
-            <div className={s.infoScreen}>
+
+            <div
+              className={cn(s.infoScreen, { [s.infoScreenActive]: pokemon })}
+            >
               {pokemon ? (
                 <div className={s.infoScreenContentWrapper}>
-                  {renderInfoScreen()}
+                  {!isLoadingScreen ? (
+                    renderInfoScreen()
+                  ) : (
+                    <Spinner containerClassname={s.spinnerScreen} />
+                  )}
                 </div>
               ) : null}
             </div>
@@ -448,7 +508,7 @@ export default function PokemonDetailed({
                 <button
                   key={button.name}
                   disabled={button.isDisabled}
-                  className={cn(s.button, {
+                  className={cn(s.button, button?.class, {
                     [s.buttonDisabled]: button.isDisabled,
                   })}
                   onClick={button.action}

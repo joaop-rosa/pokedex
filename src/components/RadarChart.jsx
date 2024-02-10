@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from "react"
 import s from "./RadarChart.module.css"
 import * as d3 from "d3"
-import { upperFirst } from "lodash"
 
 function getAngleForIndex(i, sides) {
   return (i / sides) * 2 * Math.PI
@@ -68,12 +67,21 @@ function radarFillGenerator(sides) {
   return fill
 }
 
+const STATS_NAMES = {
+  hp: "HP",
+  "special-attack": "Spc. Atk.",
+  "special-defense": "Spc. Def.",
+  speed: "Speed",
+  attack: "Attack",
+  defense: "Defense",
+}
+
 export default function RadarChart({ stats }) {
   const chartRef = useRef()
 
   useEffect(() => {
-    const width = 400
-    const height = 170
+    const width = 310
+    const height = 220
     const radius = 80
     const sides = 6
     const traitMin = 0
@@ -84,7 +92,7 @@ export default function RadarChart({ stats }) {
       .create("svg")
       .attr("width", width)
       .attr("height", height)
-      .attr("viewBox", "0 100 170 200")
+      .attr("viewBox", "0 25 220 250")
 
     // linear scale from 0 to the Radius
     // give it a value in trait-space and it gives you the radius
@@ -94,11 +102,9 @@ export default function RadarChart({ stats }) {
       .range([0, radius])
 
     const statsMapped = Object.keys(stats).map((statKey) => ({
-      label: `${upperFirst(statKey)}(${stats[statKey]})`,
+      label: `${STATS_NAMES[statKey]} (${stats[statKey]})`,
       value: scaleTrait(stats[statKey]),
     }))
-
-    console.log("statsMapped", statsMapped)
 
     //outline
     svg

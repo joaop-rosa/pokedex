@@ -1,5 +1,6 @@
 :root {
   --max-width-container: 450px;
+  --mobile-width: 610px;
 }
 
 .backdrop {
@@ -22,7 +23,7 @@
 .contentWrapper {
   width: 100%;
   height: 100%;
-  max-width: 600px;
+  max-width: var(--mobile-width);
   background-color: var(--color-pokedex);
   box-shadow: 0 0 20px 5px rgba(0, 0, 0, 0.25);
   overflow: hidden;
@@ -32,26 +33,30 @@
 .container {
   width: 100%;
   height: 100%;
-  padding: 100px 20px 90px;
+  padding: 70px 20px 70px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   width: 100%;
-  height: 100%;
+  min-width: 300px;
+  overflow-x: hidden;
+  gap: 30px;
 }
 
 .screenWrapper {
   width: var(--max-width-container);
-  height: 340px;
+  height: 320px;
   max-width: 100%;
-  background-color: lightgray;
-  border: 5px double var(--black);
-  border-radius: 20px 20px 20px 100px;
-  padding: 40px 40px 0 50px;
+  background-color: var(--lightgrey);
+  border: 3px solid var(--black);
+  border-radius: 0 0 0 60px;
+  padding: 25px 25px 0 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -117,6 +122,11 @@
   cursor: pointer;
 }
 
+.rotateButtonDisabled {
+  background-color: var(--disabled-grey);
+  opacity: 0.8;
+}
+
 .rotateIcon {
   width: 26px;
   height: auto;
@@ -141,30 +151,50 @@
   color: var(--female-color);
 }
 
+.toggleSwitchWrapperDisabled .sexIcon,
+.toggleSwitchWrapperDisable .sexIcon:last-child {
+  color: var(--disabled-grey);
+}
+
 .pokemonInfoWrapper {
   display: flex;
   z-index: 1;
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  background-color: aliceblue;
+  background-color: var(--whitesmoke);
 }
 
 .infoScreen {
   width: 100%;
-  height: 200px;
+  height: 250px;
   border: 3px solid var(--black);
   background-color: var(--black);
-  border-radius: 30px;
   max-width: var(--max-width-container);
   overflow: auto;
 }
 
+.infoScreenActive {
+  background-color: var(--boston-blue-variant);
+}
+
 .infoScreenContentWrapper {
   width: 100%;
-  padding: 10px 20px;
+  padding: 10px 15px;
   min-height: 100%;
   background-color: var(--boston-blue-variant);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.spinnerScreen {
+  color: var(--white);
+  align-self: center;
+}
+
+.infoScreenContent {
+  width: 100%;
 }
 
 .infoScreenContentInfo {
@@ -213,21 +243,40 @@
 }
 
 .buttonsWrapper {
-  display: grid;
-  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   max-width: var(--max-width-container);
-  grid-template-columns: repeat(auto-fill, minmax(95px, 1fr));
-  grid-template-rows: repeat(2, 70px);
-  border-radius: 20px;
-  overflow: hidden;
-  border: 2px solid var(--black);
 }
 
 .button {
+  width: 86px;
+  height: 66px;
   background-color: var(--boston-blue);
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 700;
   cursor: pointer;
+  box-shadow: 0px 0px 0px 3px var(--black);
+  padding: 5px;
+  margin: 2px;
+  color: var(--white);
+}
+
+.button:disabled {
+  background-color: var(--disabled-grey);
+  color: var(--lightgrey);
+}
+
+.button:disabled:hover {
+  box-shadow: 0px 0px 0px 3px var(--black);
+}
+
+.button:hover {
+  box-shadow: 0px 0px 0px 3px var(--black), 0px 0px 5px 1px inset var(--black);
+}
+
+.closeButton {
+  background-color: rgb(214, 0, 0);
 }
 
 .variationsWrapper {
@@ -296,10 +345,12 @@
   justify-content: flex-start;
   align-items: flex-start;
   gap: 2px;
+  color: var(--white);
 }
 
 .abilityButtonOpen {
   font-size: 24px;
+  color: var(--white);
 }
 
 .abilityContent {
@@ -308,6 +359,7 @@
   justify-content: flex-start;
   align-items: flex-start;
   gap: 10px;
+  color: var(--white);
 }
 
 .poisonType {
@@ -382,11 +434,34 @@
   composes: fairyType from global;
 }
 
+@media screen and (max-width: 768px) {
+  .container {
+    padding: 60px 20px 40px;
+  }
+}
+
+/* Mobile width variable */
+@media screen and (max-width: 610px) {
+  .contentWrapper {
+    border-radius: 0;
+  }
+}
+
+@media screen and (max-width: 510px) {
+  .buttonsWrapper {
+    max-width: 330px;
+  }
+}
+
 @media screen and (max-width: 400px) {
-  .photoPokemon {
+  .screenWrapper {
+    min-height: 275px;
+  }
+
+  /* .photoPokemon {
     height: auto;
     width: auto;
     min-width: 120px;
     max-width: 220px;
-  }
+  } */
 }

@@ -4,14 +4,13 @@ import s from "./home.module.css"
 import pikachuNotFound from "../assets/img/pikachu-not-found.png"
 import { ReactComponent as ArrowUp } from "../assets/icons/arrow-up.svg"
 import { URL_BASE_ENDPOINT } from "../contants/endpoints"
-import { CardPokemon } from "../card-pokemon/card-pokemon"
+import { CardPokemon } from "../components/card-pokemon/card-pokemon"
 import { Spinner } from "../components/Spinner"
 import _, { toInteger, upperCase, upperFirst } from "lodash"
 import cn from "classnames"
 import { GENERATIONS, LAST_POKEMON_NUMBER } from "../contants/generations"
 import { POKEMON_TYPES, renderTypeClassnames } from "../contants/types"
 import PokemonDetailed from "../components/PokemonDetailed"
-import { MOVE_LEARN_METHOD } from "../contants/moves"
 
 const POKEMONS_PER_PAGE = 12
 
