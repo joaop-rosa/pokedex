@@ -25,8 +25,6 @@ export function CardPokemon({
     }
   }, [fetchDetailedPokemon, pokemon])
 
-  console.log(pokemonData)
-
   return (
     <button
       className={s.cardPokemon}

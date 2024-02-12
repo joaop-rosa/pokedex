@@ -6,11 +6,11 @@ import { ReactComponent as ArrowUp } from "../assets/icons/arrow-up.svg"
 import { URL_BASE_ENDPOINT } from "../contants/endpoints"
 import { CardPokemon } from "../components/card-pokemon/card-pokemon"
 import { Spinner } from "../components/Spinner"
-import _, { toInteger, upperCase, upperFirst } from "lodash"
-import cn from "classnames"
-import { GENERATIONS, LAST_POKEMON_NUMBER } from "../contants/generations"
-import { POKEMON_TYPES, renderTypeClassnames } from "../contants/types"
+import { toInteger, upperCase, upperFirst } from "lodash"
+import { LAST_POKEMON_NUMBER } from "../contants/generations"
+import { POKEMON_TYPES } from "../contants/types"
 import PokemonDetailed from "../components/PokemonDetailed"
+import PokemonFilter from "../components/PokemonFilter"
 
 const POKEMONS_PER_PAGE = 12
 
@@ -24,8 +24,8 @@ export function Home() {
   const [inputTextFilter, setInputTextFilter] = useState("")
   const [selectedGeneration, setSelectedGeneration] = useState(null)
   const [isListLoading, setIsListLoading] = useState(true)
+  const [isReady, setIsReady] = useState(false)
   const [isButtonToTopVisible, setIsButtonToTopVisible] = useState(false)
-  const [isFiltersOpen, setIsFiltersOpen] = useState(false)
   const [selectedPokemon, setSelectedPokemon] = useState(null)
 
   const fetchTypes = useCallback(async () => {
@@ -47,6 +47,7 @@ export function Home() {
     }))
 
     setPokemonFullList(mappedResponse)
+    setIsReady(true)
   }, [])
 
   useEffect(() => {
@@ -274,12 +275,14 @@ export function Home() {
     setPageSize(POKEMONS_PER_PAGE)
     if (selectedType.length > 1) {
       setPokemonList(pokemonByTypeFullList)
+      setIsListLoading(false)
     } else if (selectedType.length) {
       setPokemonList(applyBasicFilter(pokemonByTypeFullList))
+      setTimeout(() => setIsListLoading(false), 1000)
     } else {
       setPokemonList(applyBasicFilter(pokemonFullList))
+      setIsListLoading(false)
     }
-    setIsListLoading(false)
   }, [
     applyBasicFilter,
     fetchDetailedPokemon,
@@ -288,43 +291,6 @@ export function Home() {
     pokemonFullList,
     selectedType,
   ])
-
-  const handleButtonType = useCallback((event) => {
-    const typeClicked = event.target.name
-    setSelectedType((prev) => {
-      if (prev.includes(typeClicked)) {
-        return prev.filter((type) => type !== typeClicked)
-      }
-
-      if (prev.length === 2) {
-        return [typeClicked]
-      }
-
-      return [...prev, typeClicked]
-    })
-  }, [])
-
-  const handlePokemonName = useCallback((event) => {
-    const inputValue = event.target.value
-    const onChange = _.debounce(() => {
-      setInputTextFilter(inputValue)
-    }, 1200)
-    onChange()
-  }, [])
-
-  const handleGeneration = useCallback(
-    (generation) => {
-      if (
-        selectedGeneration &&
-        selectedGeneration.number === generation.number
-      ) {
-        setSelectedGeneration(null)
-      } else {
-        setSelectedGeneration(generation)
-      }
-    },
-    [selectedGeneration]
-  )
 
   const handleButtonToTop = useCallback(async () => {
     window.scrollTo({
@@ -335,7 +301,7 @@ export function Home() {
 
   const renderPokemonList = () => {
     if (isListLoading) {
-      return <Spinner />
+      return <Spinner containerClassname={s.spinner} />
     }
 
     if (pokemonList.length) {
@@ -355,7 +321,7 @@ export function Home() {
       )
     }
 
-    if (!isListLoading && !pokemonList.length) {
+    if (!isListLoading && !pokemonList.length && isReady) {
       return (
         <>
           <img
@@ -376,54 +342,16 @@ export function Home() {
         <div className={s.header}>
           <h1>Pokedex</h1>
         </div>
-
-        <input
-          type="text"
-          className={s.inputText}
-          onChange={handlePokemonName}
-          placeholder="Digite o nome do pokemon"
+        <PokemonFilter
+          selectedType={selectedType}
+          setSelectedType={setSelectedType}
+          setSelectedGeneration={setSelectedGeneration}
+          setInputTextFilter={setInputTextFilter}
+          selectedGeneration={selectedGeneration}
+          typeList={typeList}
+          setIsListLoading={setIsListLoading}
         />
-        <div className={s.filtersWrapper}>
-          <button
-            onClick={() => setIsFiltersOpen((prev) => !prev)}
-            className={s.buttonOpenFilters}
-          >
-            Ver mais filtros
-          </button>
-          <div className={cn(s.filters, { [s.filtersOpen]: isFiltersOpen })}>
-            <div className={s.typesFilterWrapper}>
-              {typeList.map((type) => {
-                return (
-                  <button
-                    key={type}
-                    className={cn(s.buttonTypeFilter, {
-                      [s.buttonTypeFilterSelected]: selectedType.includes(type),
-                      ...renderTypeClassnames(type, s),
-                    })}
-                    onClick={handleButtonType}
-                    name={type}
-                  >
-                    {type.toUpperCase()}
-                  </button>
-                )
-              })}
-            </div>
-            <div className={s.generationWrapper}>
-              {GENERATIONS.map((generation) => (
-                <button
-                  className={cn(s.generation, {
-                    [s.generationSelected]:
-                      selectedGeneration?.number === generation.number,
-                  })}
-                  key={generation.number}
-                  onClick={() => handleGeneration(generation)}
-                >
-                  {`Geração ${generation.number}`}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
+
         {renderPokemonList()}
       </div>
 

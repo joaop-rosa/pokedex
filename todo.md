@@ -30,8 +30,9 @@ Listagem de pokemons
 - [x] Ajustar Loader
 - [x] Piscando lista durante troca de filtros
 - [x] Reduzir pagesize ao trocar o filtro
-- [ ] Esta mostrando pokemon não encontrado antes de terminar de carregar a página
+- [x] Esta mostrando pokemon não encontrado antes de terminar de carregar a página
 - [x] Clique para detalhar em pokemon que esta carregando
+- [x] Melhorar estilização do filtro
 
 Detalhamento do pokemon
 
@@ -61,8 +62,8 @@ Detalhamento do pokemon
 - [x] Adicionar botão de fechar pokedex detalhada
 - [x] Ajustar itens esmagados ao fechar pokedex
 - [x] Ajustar tamanho do gráfico de status no mobile
-- [ ] Melhorar estilização botões
-- [ ] Melhorar estilização no geral
+- [x] Melhorar estilização botões
+- [x] Melhorar estilização no geral
 
 Websockets (Batalha pokemon)
 
