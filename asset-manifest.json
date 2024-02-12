@@ -1,17 +1,21 @@
 {
   "files": {
-    "main.css": "/pokedex/static/css/main.7f403e61.css",
-    "main.js": "/pokedex/static/js/main.83a30340.js",
+    "main.css": "/pokedex/static/css/main.ecc82172.css",
+    "main.js": "/pokedex/static/js/main.31a3c2cc.js",
     "static/media/pikachu-not-found.png": "/pokedex/static/media/pikachu-not-found.44abed6ce0543d728f94.png",
+    "static/media/detailed-background.png": "/pokedex/static/media/detailed-background.aefac0501b9c95c07b1e.png",
     "static/media/Pokemon Solid.ttf": "/pokedex/static/media/Pokemon Solid.5d60be1f7ff5fcc21fc1.ttf",
+    "static/media/female.svg": "/pokedex/static/media/female.cc7087d6a5068d52615e67ae348b4747.svg",
+    "static/media/male.svg": "/pokedex/static/media/male.ec9403bc39bed5ae09217344b9c291b3.svg",
     "static/media/pokeball.svg": "/pokedex/static/media/pokeball.1efcb6bdad237caee99312eac9004de9.svg",
     "index.html": "/pokedex/index.html",
+    "static/media/rotate.svg": "/pokedex/static/media/rotate.7c3ef786256b1e006e5cf09faf607296.svg",
     "static/media/arrow-up.svg": "/pokedex/static/media/arrow-up.aaba7c9b1283fa31b2890ece4695d983.svg",
-    "main.7f403e61.css.map": "/pokedex/static/css/main.7f403e61.css.map",
-    "main.83a30340.js.map": "/pokedex/static/js/main.83a30340.js.map"
+    "main.ecc82172.css.map": "/pokedex/static/css/main.ecc82172.css.map",
+    "main.31a3c2cc.js.map": "/pokedex/static/js/main.31a3c2cc.js.map"
   },
   "entrypoints": [
-    "static/css/main.7f403e61.css",
-    "static/js/main.83a30340.js"
+    "static/css/main.ecc82172.css",
+    "static/js/main.31a3c2cc.js"
   ]
 }
