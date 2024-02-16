@@ -1,9 +1,10 @@
 import s from "./card-pokemon.module.css"
-import { renderTypeClassnames } from "../../contants/types"
-import { Spinner } from "../Spinner"
-import { useEffect, useState } from "react"
+import { renderTypeClassnames } from "../contants/types"
+import { Spinner } from "./Spinner"
+import { useContext, useEffect, useState } from "react"
 import cn from "classnames"
 import { noop, upperFirst } from "lodash"
+import { PartyContext } from "../context/PartyProvider"
 export function CardPokemon({
   pokemon,
   lastElementRef,
@@ -11,6 +12,7 @@ export function CardPokemon({
   setSelectedPokemon,
 }) {
   const [pokemonData, setPokemonData] = useState(null)
+  const { isPartyFull, addPokemonToParty } = useContext(PartyContext)
 
   useEffect(() => {
     async function fetchPokemon() {
@@ -25,11 +27,17 @@ export function CardPokemon({
     }
   }, [fetchDetailedPokemon, pokemon])
 
+  function handleCard(event) {
+    if (event.target.id !== "buttonAddParty") {
+      setSelectedPokemon(pokemonData)
+    }
+  }
+
   return (
-    <button
+    <div
       className={s.cardPokemon}
       ref={lastElementRef}
-      onClick={pokemonData ? () => setSelectedPokemon(pokemonData) : noop}
+      onClick={pokemonData ? handleCard : noop}
     >
       <div
         className={cn(
@@ -41,7 +49,18 @@ export function CardPokemon({
           <Spinner />
         ) : (
           <>
-            <h3 className={s.numberPokemon}>{`#${pokemonData.id}`}</h3>
+            <div className={s.cardPokemonHeader}>
+              <h3 className={s.numberPokemon}>{`#${pokemonData.id}`}</h3>
+              {!isPartyFull ? (
+                <button
+                  onClick={() => addPokemonToParty(pokemonData)}
+                  className={s.addPartyButton}
+                  id="buttonAddParty"
+                >
+                  Add to party +
+                </button>
+              ) : null}
+            </div>
             <div className={s.pokemonPhotoWrapper}>
               <img
                 loading="lazy"
@@ -67,6 +86,6 @@ export function CardPokemon({
           </>
         )}
       </div>
-    </button>
+    </div>
   )
 }

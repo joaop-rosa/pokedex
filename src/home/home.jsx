@@ -4,13 +4,14 @@ import s from "./home.module.css"
 import pikachuNotFound from "../assets/img/pikachu-not-found.png"
 import { ReactComponent as ArrowUp } from "../assets/icons/arrow-up.svg"
 import { URL_BASE_ENDPOINT } from "../contants/endpoints"
-import { CardPokemon } from "../components/card-pokemon/card-pokemon"
+import { CardPokemon } from "../components/card-pokemon"
 import { Spinner } from "../components/Spinner"
 import { toInteger, upperCase, upperFirst } from "lodash"
 import { LAST_POKEMON_NUMBER } from "../contants/generations"
 import { POKEMON_TYPES } from "../contants/types"
 import PokemonDetailed from "../components/PokemonDetailed"
 import PokemonFilter from "../components/PokemonFilter"
+import { Party } from "../components/Party"
 
 const POKEMONS_PER_PAGE = 12
 
@@ -366,6 +367,8 @@ export function Home() {
         fetchDetailedPokemon={fetchDetailedPokemon}
         setSelectedPokemon={setSelectedPokemon}
       />
+
+      <Party />
     </section>
   )
 }

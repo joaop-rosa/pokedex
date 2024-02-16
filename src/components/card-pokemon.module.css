@@ -51,6 +51,14 @@
   -webkit-text-stroke: 1px var(--azure);
 }
 
+.cardPokemonHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 5px;
+}
+
 .numberPokemon {
   font-family: pokemon;
   line-height: 25px;
@@ -59,6 +67,17 @@
   font-size: 30px;
   margin-right: auto;
   padding: 10px 15px;
+}
+
+.addPartyButton {
+  border-radius: 50px;
+  font-size: 14px;
+  padding: 2px 8px;
+  cursor: pointer;
+  margin-right: 10px;
+  box-shadow: 0 0 1px 1px var(--black);
+  color: var(--white);
+  background-color: var(--emerald);
 }
 
 .typesWrapper {

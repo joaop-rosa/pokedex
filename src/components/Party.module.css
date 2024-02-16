@@ -1,0 +1,55 @@
+.party {
+  position: fixed;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.partyContent {
+  width: 0px;
+  min-height: 500px;
+  max-height: 700px;
+  background: var(--white);
+  transition: width 0.3s ease-out;
+  border-radius: 0 10px 10px 0;
+  box-shadow: 0 0 10px 1px var(--black);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 15px;
+  overflow-x: hidden;
+  padding: 15px 0;
+}
+
+.partyContentOpen {
+  width: 250px;
+  padding: 15px;
+}
+
+.partyPokemon {
+  min-height: 200px;
+  min-width: 200px;
+  background-color: var(--disabled-grey);
+}
+
+.partyButtonOpen {
+  margin-left: -1px;
+  padding: 60px 5px;
+  cursor: pointer;
+  background: var(--white);
+  clip-path: polygon(0 0, 100% 20%, 100% 80%, 0% 100%);
+}
+
+.partyButtonOpenIcon {
+  color: var(--black);
+  width: 30px;
+}
+
+.partyButtonCloseIcon {
+  transform: rotate(180deg);
+}
