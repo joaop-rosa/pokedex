@@ -1,6 +1,6 @@
 import axios from "axios"
 import { useState, useEffect, useCallback } from "react"
-import s from "./home.module.css"
+import s from "./Home.module.css"
 import pikachuNotFound from "../assets/img/pikachu-not-found.png"
 import { ReactComponent as ArrowUp } from "../assets/icons/arrow-up.svg"
 import { URL_BASE_ENDPOINT } from "../contants/endpoints"
@@ -12,6 +12,7 @@ import { POKEMON_TYPES } from "../contants/types"
 import PokemonDetailed from "../components/PokemonDetailed"
 import PokemonFilter from "../components/PokemonFilter"
 import { Party } from "../components/Party"
+import { Header } from "../components/Header"
 
 const POKEMONS_PER_PAGE = 12
 
@@ -340,9 +341,7 @@ export function Home() {
   return (
     <section className={s.sectionHome}>
       <div className={s.container}>
-        <div className={s.header}>
-          <h1>Pokedex</h1>
-        </div>
+        <Header />
         <PokemonFilter
           selectedType={selectedType}
           setSelectedType={setSelectedType}

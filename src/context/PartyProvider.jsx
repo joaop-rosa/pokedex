@@ -1,4 +1,4 @@
-import { createContext, useEffect, useMemo, useState } from "react"
+import { createContext, useCallback, useEffect, useMemo, useState } from "react"
 import { PARTY_KEY } from "../contants/storage"
 
 const PARTY_INICIAL_CONTEXT = {
@@ -17,25 +17,53 @@ export const PartyProvider = ({ children }) => {
   )
   const isPartyFull = useMemo(() => party.length === MAX_PARTY_LENGTH, [party])
 
+  function idGenerator() {
+    return crypto.randomUUID()
+  }
+
+  const editPokemonFromParty = useCallback(
+    (pokemon) => {
+      const indexOnParty = party.findIndex(
+        (pokemonParty) => pokemonParty.partyId === pokemon.partyId
+      )
+      console.log("indexOnParty", indexOnParty)
+
+      const newParty = [...party]
+      newParty[indexOnParty] = pokemon
+      console.log("newParty", newParty)
+      setParty(newParty)
+    },
+    [party]
+  )
+
   useEffect(() => {
     if (party.length) {
       localStorage.setItem(PARTY_KEY, JSON.stringify(party))
     }
-  }, [party])
+  }, [party, editPokemonFromParty])
 
-  // Método para adicionar pokemon
   function addPokemonToParty(pokemon) {
     if (!isPartyFull) {
-      setParty((prev) => [...prev, pokemon])
+      setParty((prev) => [...prev, { partyId: idGenerator(), ...pokemon }])
     }
   }
 
-  // Método para remover pokemon
-
-  // Talvez um método para editar o pokemon
+  function removePokemonFromParty(pokemon) {
+    setParty(
+      party.filter((pokemonParty) => pokemonParty.partyId !== pokemon.partyId)
+    )
+  }
 
   return (
-    <PartyContext.Provider value={{ party, addPokemonToParty, isPartyFull }}>
+    <PartyContext.Provider
+      value={{
+        party,
+        addPokemonToParty,
+        removePokemonFromParty,
+        editPokemonFromParty,
+        isPartyFull,
+      }}
+    >
       {children}
     </PartyContext.Provider>
   )

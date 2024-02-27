@@ -276,7 +276,7 @@
 }
 
 .closeButton {
-  background-color: rgb(214, 0, 0);
+  background-color: var(--close-button);
 }
 
 .variationsWrapper {

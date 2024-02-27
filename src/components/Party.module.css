@@ -1,18 +1,18 @@
 .party {
   position: fixed;
   left: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 0;
+  bottom: 0;
   z-index: 1;
   display: flex;
   justify-content: center;
   align-items: center;
+  max-height: 100%;
 }
 
 .partyContent {
   width: 0px;
-  min-height: 500px;
-  max-height: 700px;
+  min-height: 250px;
   background: var(--white);
   transition: width 0.3s ease-out;
   border-radius: 0 10px 10px 0;
@@ -23,7 +23,9 @@
   justify-content: flex-start;
   gap: 15px;
   overflow-x: hidden;
+  overflow-y: auto;
   padding: 15px 0;
+  max-height: 100%;
 }
 
 .partyContentOpen {
@@ -32,9 +34,40 @@
 }
 
 .partyPokemon {
+  position: relative;
+  display: flex;
+  flex-direction: column;
   min-height: 200px;
   min-width: 200px;
-  background-color: var(--disabled-grey);
+  border: solid 2px var(--black);
+}
+
+.buttonClose {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 35px;
+  height: 35px;
+  background: var(--close-button);
+  color: var(--white);
+  font-weight: 700;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.photoPokemon {
+  padding: 20px;
+  height: 169px;
+}
+
+.pokemonNameWrapper {
+  text-align: center;
+  background-color: var(--black);
+  color: var(--white);
+  padding: 4px 5px;
+  font-size: 16px;
+  font-weight: 700;
+  box-shadow: 0 0 1px 1px var(--black);
 }
 
 .partyButtonOpen {
@@ -52,4 +85,76 @@
 
 .partyButtonCloseIcon {
   transform: rotate(180deg);
+}
+
+.poisonType {
+  composes: poisonType from global;
+}
+
+.rockType {
+  composes: rockType from global;
+}
+
+.fireType {
+  composes: fireType from global;
+}
+
+.normalType {
+  composes: normalType from global;
+}
+
+.waterType {
+  composes: waterType from global;
+}
+
+.grassType {
+  composes: grassType from global;
+}
+
+.flyingType {
+  composes: flyingType from global;
+}
+
+.fightingType {
+  composes: fightingType from global;
+}
+
+.electricType {
+  composes: electricType from global;
+}
+
+.groundType {
+  composes: groundType from global;
+}
+
+.psychicType {
+  composes: psychicType from global;
+}
+
+.iceType {
+  composes: iceType from global;
+}
+
+.bugType {
+  composes: bugType from global;
+}
+
+.ghostType {
+  composes: ghostType from global;
+}
+
+.steelType {
+  composes: steelType from global;
+}
+
+.dragonType {
+  composes: dragonType from global;
+}
+
+.darkType {
+  composes: darkType from global;
+}
+
+.fairyType {
+  composes: fairyType from global;
 }

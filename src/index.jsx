@@ -6,7 +6,7 @@ import { PartyProvider } from "./context/PartyProvider"
 
 const root = ReactDOM.createRoot(document.getElementById("root"))
 root.render(
-  <BrowserRouter basename={process.env.PUBLIC_URL}>
+  <BrowserRouter>
     <PartyProvider>
       <App />
     </PartyProvider>

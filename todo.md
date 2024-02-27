@@ -67,7 +67,9 @@ Detalhamento do pokemon
 
 Websockets (Batalha pokemon)
 
-- [ ] Permitir seleção de pokemons
+- [x] Permitir seleção de pokemons
+- [x] Ajustar party no mobile
+- [x] Ajustar tamanho dos cards
 - [ ] Permitir escolha de ataques
 - [ ] Criar lobby para usuarios se desafiarem
 - [ ] No lobby mostrar usuarios online/em batalha/offline
