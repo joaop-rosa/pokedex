@@ -9,6 +9,14 @@ export const PartyContext = createContext(PARTY_INICIAL_CONTEXT)
 
 export const MAX_PARTY_LENGTH = 6
 
+export const MOVE_SELECT_PROPS = {
+  ATTACK1: "ATTACK1",
+  ATTACK2: "ATTACK2",
+  ATTACK3: "ATTACK3",
+  ATTACK4: "ATTACK4",
+  ABILITY: "ABILITY",
+}
+
 export const PartyProvider = ({ children }) => {
   const [party, setParty] = useState(
     localStorage.getItem(PARTY_KEY)
@@ -26,11 +34,9 @@ export const PartyProvider = ({ children }) => {
       const indexOnParty = party.findIndex(
         (pokemonParty) => pokemonParty.partyId === pokemon.partyId
       )
-      console.log("indexOnParty", indexOnParty)
 
       const newParty = [...party]
       newParty[indexOnParty] = pokemon
-      console.log("newParty", newParty)
       setParty(newParty)
     },
     [party]
@@ -44,7 +50,20 @@ export const PartyProvider = ({ children }) => {
 
   function addPokemonToParty(pokemon) {
     if (!isPartyFull) {
-      setParty((prev) => [...prev, { partyId: idGenerator(), ...pokemon }])
+      setParty((prev) => [
+        ...prev,
+        {
+          partyId: idGenerator(),
+          ...pokemon,
+          movesSelected: {
+            // [MOVE_SELECT_PROPS.ABILITY]: pokemon.abilities[0],
+            [MOVE_SELECT_PROPS.ATTACK1]: null,
+            [MOVE_SELECT_PROPS.ATTACK2]: null,
+            [MOVE_SELECT_PROPS.ATTACK3]: null,
+            [MOVE_SELECT_PROPS.ATTACK4]: null,
+          },
+        },
+      ])
     }
   }
 
