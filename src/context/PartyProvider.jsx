@@ -1,5 +1,6 @@
 import { createContext, useCallback, useEffect, useMemo, useState } from "react"
 import { PARTY_KEY } from "../contants/storage"
+import { useApi } from "../hooks/useApi"
 
 const PARTY_INICIAL_CONTEXT = {
   party: [],
@@ -18,6 +19,7 @@ export const MOVE_SELECT_PROPS = {
 }
 
 export const PartyProvider = ({ children }) => {
+  const { fetchMove } = useApi()
   const [party, setParty] = useState(
     localStorage.getItem(PARTY_KEY)
       ? JSON.parse(localStorage.getItem(PARTY_KEY))
@@ -48,8 +50,11 @@ export const PartyProvider = ({ children }) => {
     }
   }, [party, editPokemonFromParty])
 
-  function addPokemonToParty(pokemon) {
+  async function addPokemonToParty(pokemon) {
     if (!isPartyFull) {
+      console.log(pokemon)
+      const firstMove = await fetchMove(pokemon.moves["LEVEL UP"][0].url)
+
       setParty((prev) => [
         ...prev,
         {
@@ -57,7 +62,7 @@ export const PartyProvider = ({ children }) => {
           ...pokemon,
           movesSelected: {
             // [MOVE_SELECT_PROPS.ABILITY]: pokemon.abilities[0],
-            [MOVE_SELECT_PROPS.ATTACK1]: null,
+            [MOVE_SELECT_PROPS.ATTACK1]: firstMove,
             [MOVE_SELECT_PROPS.ATTACK2]: null,
             [MOVE_SELECT_PROPS.ATTACK3]: null,
             [MOVE_SELECT_PROPS.ATTACK4]: null,

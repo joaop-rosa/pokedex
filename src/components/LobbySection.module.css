@@ -1,0 +1,62 @@
+.lobby {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+  padding-top: 30px;
+}
+
+.inputWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.inputName {
+  padding: 5px 10px;
+}
+
+.submitButton {
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.connectUsersWrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 25px;
+}
+
+.userWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  background-color: var(--white);
+  padding: 5px 10px;
+  gap: 10px;
+}
+
+.partyWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.partyPokemonWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.partyPokemonImage {
+  width: 50px;
+}

@@ -185,6 +185,7 @@ export function Home() {
           response.data.sprites.other.showdown.front_shiny_female,
         backAnimatedFemaleShiny:
           response.data.sprites.other.showdown.back_shiny_female,
+        miniature: response.data.sprites.front_default,
       },
       types: response.data.types.reduce(
         (acc, type) => [...acc, type.type.name],
