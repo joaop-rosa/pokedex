@@ -174,7 +174,7 @@ export function Home() {
     const detailsMapped = {
       sprites: {
         front: response.data.sprites.other["official-artwork"].front_default,
-        back: response.data.sprites.other["official-artwork"].back_default,
+        back: response.data.sprites.back_default,
         frontAnimated: response.data.sprites.other.showdown.front_default,
         backAnimated: response.data.sprites.other.showdown.back_default,
         frontAnimatedFemale: response.data.sprites.other.showdown.front_female,

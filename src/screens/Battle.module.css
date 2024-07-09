@@ -1,0 +1,155 @@
+.sectionBattle {
+  position: relative;
+  background-color: var(--lightgrey);
+  margin: 0 auto;
+}
+
+.container {
+  padding: 20px 30px 0;
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding-bottom: 50px;
+}
+
+.field {
+  width: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.infosWrapper {
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  padding: 15px;
+  gap: 15px;
+}
+
+.activePokemonImage {
+  width: 250px;
+  height: 250px;
+  margin: 0 auto;
+}
+
+.opponentField {
+  flex-direction: row;
+}
+
+.pokemonInfos {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: flex-end;
+}
+
+.opponentPokemonInfos {
+  align-items: flex-start;
+}
+
+.miniaturesWrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+}
+
+.opponentMiniaturesWrapper {
+  flex-direction: row;
+}
+
+.buttonPokemonMiniature:disabled {
+  opacity: 0.3;
+}
+
+.miniaturesImages {
+  width: 50px;
+  height: 50px;
+}
+
+.healthBar {
+  height: 20px;
+  border: none;
+  width: 80%;
+  transition: all 1s ease;
+}
+
+.bottomSection {
+  display: flex;
+  background: whitesmoke;
+  padding: 15px;
+  gap: 15px;
+}
+
+.attackSelectionWrapper {
+  display: grid;
+  grid-template-columns: 200px 200px;
+  gap: 15px;
+}
+
+.buttonAttack {
+  padding: 10px 15px;
+  font-size: 16px;
+  font-weight: 700;
+  border: solid 3px black;
+  cursor: pointer;
+}
+
+.buttonAttackSelected {
+  border: inset 3px red;
+}
+
+.confirmsSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.attackSelectedInfosWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: solid 1px black;
+  padding: 15px;
+  width: 200px;
+}
+
+.actionsConfirmWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.actionsButton {
+  cursor: pointer;
+  width: 100%;
+  padding: 10px 15px;
+  border: solid 1px black;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.actionsButton:disabled {
+  opacity: 0.5;
+}
+
+.attackButton {
+  background-color: green;
+  color: white;
+}
+
+.changePokemonButton {
+  background-color: yellow;
+  color: black;
+}

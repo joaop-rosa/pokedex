@@ -1,47 +1,37 @@
 import s from "./LobbySection.module.css"
-import { useContext, useEffect, useMemo } from "react"
+import { useContext, useEffect, useState } from "react"
 import { PartyContext } from "../context/PartyProvider"
-import { useState } from "react"
 import { SocketContext } from "../context/SocketProvider"
 import { upperFirst } from "lodash"
 import cn from "classnames"
 
 export function LobbySection() {
   const { party } = useContext(PartyContext)
-  const [username, setUsername] = useState("")
-  const [connectUsers, setConnectedUsers] = useState([])
-  const [challenges, setChallenges] = useState([])
-  const { socket } = useContext(SocketContext)
-  const isConnected = useMemo(
-    () => connectUsers.some((user) => user.socketId === socket.id),
-    [connectUsers, socket.id]
-  )
-
-  console.log(connectUsers)
+  const [inputUsername, setInputUsername] = useState("")
+  const {
+    username,
+    isConnected,
+    refreshConnectedList,
+    challengeUser,
+    connectUsers,
+    responseChallenge,
+    login,
+    challenges,
+  } = useContext(SocketContext)
 
   useEffect(() => {
-    socket.emit("connected-list")
-    socket.on("connected-list", (list) => setConnectedUsers(list))
-    socket.on("challenges", (challenges) => setChallenges(challenges))
-    socket.on("warnings", () => {})
-    socket.on("battle", (opponent) =>
-      console.log(`starting battle with ${opponent.name}`)
-    )
-
-    return () => socket.emit("desconnect-server", socket.id)
-  }, [socket])
+    refreshConnectedList()
+  }, [refreshConnectedList])
 
   function handleConnect() {
-    if (username.length) {
-      socket.emit("connect-server", username, party)
+    if (inputUsername.length) {
+      login(inputUsername, party)
     }
   }
 
   function handleInvite(userInvitedSocketId) {
-    socket.emit("battle-invite", userInvitedSocketId)
+    challengeUser(userInvitedSocketId)
   }
-
-  console.log("Meu socket id", socket.id)
 
   return (
     <div className={s.lobby}>
@@ -49,7 +39,7 @@ export function LobbySection() {
         <div className={s.inputWrapper}>
           <input
             className={s.inputName}
-            onChange={(event) => setUsername(event.target.value)}
+            onChange={(event) => setInputUsername(event.target.value)}
             type="text"
           />
           {/* Label de erro retornada do socket */}
@@ -61,7 +51,7 @@ export function LobbySection() {
       {/* Lista de desafios */}
       <div className={s.connectUsersWrapper}>
         {connectUsers
-          .filter((user) => user.socketId !== socket.id)
+          .filter((user) => user.name !== username && user.isOnline)
           .map((user) => (
             // Adicionar alguma decoração caso esteja em batalha
             <div
@@ -86,7 +76,7 @@ export function LobbySection() {
                   </div>
                 ))}
               </div>
-              {isConnected && !user.isInBattle && (
+              {isConnected && user.name !== username && !user.isInBattle && (
                 <button onClick={() => handleInvite(user.socketId)}>
                   Desafiar
                 </button>
@@ -98,20 +88,12 @@ export function LobbySection() {
         <div className={s.challengesPopup}>
           <p>{challenges[0].challenger.name} lhe desafiou</p>
           <button
-            onClick={() =>
-              socket.emit(
-                "battle-invite-response",
-                challenges[0].challengeId,
-                true
-              )
-            }
+            onClick={() => responseChallenge(challenges[0].challengeId, true)}
           >
             Aceitar
           </button>
           <button
-            onClick={() =>
-              socket.emit("battle-invite-response", challenges[0].challengeId)
-            }
+            onClick={() => responseChallenge(challenges[0].challengeId, false)}
           >
             Recusar
           </button>

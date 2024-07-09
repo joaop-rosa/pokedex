@@ -19,6 +19,7 @@ export const MOVE_SELECT_PROPS = {
 }
 
 export const PartyProvider = ({ children }) => {
+  // Utilizar reducer
   const { fetchMove } = useApi()
   const [party, setParty] = useState(
     localStorage.getItem(PARTY_KEY)
