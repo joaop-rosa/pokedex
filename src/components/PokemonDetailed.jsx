@@ -73,7 +73,7 @@ export default function PokemonDetailed({
     [spriteVariation]
   )
 
-  // lock scroll
+  // TODO - lock scroll
   useEffect(() => {
     if (pokemon) {
       document.body.style.overflow = "hidden"
@@ -82,7 +82,7 @@ export default function PokemonDetailed({
     return () => (document.body.style.overflow = "auto")
   }, [pokemon])
 
-  // Reset on pokemon selected change
+  // TODO - Reset on pokemon selected change
   useEffect(() => {
     if (!pokemon) {
       setSpeciesInfo(null)

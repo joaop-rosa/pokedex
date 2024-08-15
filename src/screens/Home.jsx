@@ -237,7 +237,7 @@ export function Home() {
           ...pokemonType2ListMapped,
         ]
 
-        //Remove duplicated pokemons
+        // TODO - Remove duplicated pokemons
         const pokemonListByType = pokemonListByTypeJoined.filter(
           (pokemon, index, self) =>
             index ===
@@ -255,7 +255,7 @@ export function Home() {
         )
 
         pokemonDetailedListByTypePromised.then((pokemonDetailedListByType) => {
-          //Keep only pokemons with the two types
+          // TODO - Keep only pokemons with the two types
           const pokemonDetailedListFilteredBy2Types =
             pokemonDetailedListByType.filter((pokemon) =>
               selectedType.every((type) => pokemon.types.includes(type))

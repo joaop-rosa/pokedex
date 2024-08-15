@@ -62,7 +62,7 @@ export function LobbySection() {
         {connectUsers
           .filter((user) => user.data.name !== username)
           .map((user) => (
-            // Adicionar alguma decoração caso esteja em batalha
+            // TODO - Adicionar alguma decoração caso esteja em batalha
             <div
               key={user.id}
               className={cn(s.userWrapper, {
