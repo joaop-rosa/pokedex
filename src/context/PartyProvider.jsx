@@ -8,7 +8,7 @@ const PARTY_INICIAL_CONTEXT = {
 
 export const PartyContext = createContext(PARTY_INICIAL_CONTEXT)
 
-export const MAX_PARTY_LENGTH = 6
+export const MAX_PARTY_LENGTH = 3
 
 export const MOVE_SELECT_PROPS = {
   ATTACK1: "ATTACK1",
@@ -53,7 +53,6 @@ export const PartyProvider = ({ children }) => {
 
   async function addPokemonToParty(pokemon) {
     if (!isPartyFull) {
-      console.log(pokemon)
       const firstMove = await fetchMove(pokemon.moves["LEVEL UP"][0].url)
 
       setParty((prev) => [

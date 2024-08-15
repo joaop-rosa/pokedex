@@ -6,21 +6,25 @@ import { Spinner } from "../components/Spinner"
 import s from "./Battle.module.css"
 import { upperFirst } from "lodash"
 import { useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 
 export default function Battle() {
   const {
     battle,
     username,
     battleAction,
-    waitingOponentMove,
+    isWaitingOponentMove,
     changePokemonAction,
+    finishBattle,
+    isConnected,
   } = useContext(SocketContext)
   const [opponent, setOpponent] = useState(null)
   const [myUser, setMyUser] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
   const [selectedMove, setSelectedMove] = useState(null)
   const [selectedPokemon, setSelectedPokemon] = useState(null)
-  const { battleInfos, isOver, battleId, winner } = battle
+  const { owner, userInvited, isOver, battleId, winner } = battle
+  const navigate = useNavigate()
   const hasToChangePokemon = useMemo(() => {
     if (!isLoading) {
       return getActivePokemon(myUser?.party).currentLife <= 0
@@ -37,21 +41,27 @@ export default function Battle() {
   }, [isLoading, opponent])
 
   useEffect(() => {
-    if (battleInfos) {
-      const isChalleger = battleInfos.challenger.name === username
+    if (isConnected && owner && userInvited) {
+      const isOwner = owner.name === username
 
-      if (isChalleger) {
-        setMyUser(battleInfos.challenger)
-        setOpponent(battleInfos.userInvited)
+      if (isOwner) {
+        setMyUser(owner)
+        setOpponent(userInvited)
         setIsLoading(false)
         return
       }
 
-      setMyUser(battleInfos.userInvited)
-      setOpponent(battleInfos.challenger)
+      setMyUser(userInvited)
+      setOpponent(owner)
       setIsLoading(false)
+      setSelectedMove(null)
+      setSelectedPokemon(null)
     }
-  }, [battleInfos, username])
+
+    if (isConnected && !owner && !userInvited) {
+      navigate("/lobby")
+    }
+  }, [isConnected, navigate, owner, userInvited, username])
 
   function getActivePokemon(party) {
     return party.find((pokemon) => pokemon.isActive)
@@ -65,7 +75,10 @@ export default function Battle() {
           return (
             <button
               disabled={pokemon.currentLife <= 0}
-              className={s.buttonPokemonMiniature}
+              className={cn(s.buttonPokemonMiniature, {
+                [s.selectedButtonPokemonMiniature]:
+                  pokemon.id === selectedPokemon?.id,
+              })}
               onClick={() => setSelectedPokemon(pokemon)}
             >
               <img
@@ -191,7 +204,14 @@ export default function Battle() {
 
   function renderBottomSection() {
     if (isOver) {
-      return <p>{winner} venceu a partida</p>
+      return (
+        <>
+          <p>{winner} venceu a partida</p>
+          <button onClick={finishBattle} className={s.finishButton}>
+            Finalizar batalha
+          </button>
+        </>
+      )
     }
 
     if (hasToChangePokemon) {
@@ -213,7 +233,7 @@ export default function Battle() {
       return <p>Aguardando o oponente selecionar outro pokemon...</p>
     }
 
-    if (waitingOponentMove) {
+    if (isWaitingOponentMove) {
       return <p>Aguardando o oponente fazer a ação...</p>
     }
 
