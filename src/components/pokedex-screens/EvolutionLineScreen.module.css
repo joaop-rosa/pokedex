@@ -1,0 +1,41 @@
+.variationsWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.variation {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background: none;
+  max-height: 100%;
+  border-bottom: solid 2px var(--white);
+  gap: 25px;
+  cursor: pointer;
+  padding: 10px 0;
+}
+
+.variation:hover .variationImage {
+  scale: 1.1;
+}
+
+.variation:last-child {
+  border-bottom: none;
+}
+
+.variationImage {
+  flex: 1;
+  height: auto;
+  max-width: 135px;
+}
+
+.variationInfos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--white);
+}

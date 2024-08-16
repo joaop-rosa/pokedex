@@ -1,10 +1,9 @@
-import { useContext } from "react"
+import { useParty } from "../../../hooks/useParty"
 import s from "./PartySection.module.css"
-import { PartyContext } from "../context/PartyProvider"
 import { PartySectionCard } from "./PartySectionCard"
 
 export function PartySection() {
-  const { party } = useContext(PartyContext)
+  const { party } = useParty()
 
   return (
     <div className={s.partyWrapper}>

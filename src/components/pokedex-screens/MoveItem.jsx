@@ -1,6 +1,6 @@
 import React, { useState } from "react"
-import { Accordion } from "../Accordion"
-import { Spinner } from "../Spinner"
+import { Accordion } from "../UI/Accordion"
+import { Spinner } from "../UI/Spinner"
 import { noop, upperCase, upperFirst } from "lodash"
 import s from "./MoveItem.module.css"
 import { renderTypeClassnames } from "../../contants/types"

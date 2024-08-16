@@ -1,12 +1,11 @@
-import React, { useContext, useMemo, useState } from "react"
-import { SocketContext } from "../context/SocketProvider"
+import React, { useMemo, useState } from "react"
 import cn from "classnames"
-import { Spinner } from "../components/Spinner"
-
+import { Spinner } from "../components/UI/Spinner"
 import s from "./Battle.module.css"
 import { upperFirst } from "lodash"
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
+import { useSocket } from "../hooks/useSocket"
 
 export default function Battle() {
   const {
@@ -17,7 +16,7 @@ export default function Battle() {
     changePokemonAction,
     finishBattle,
     isConnected,
-  } = useContext(SocketContext)
+  } = useSocket()
   const [opponent, setOpponent] = useState(null)
   const [myUser, setMyUser] = useState(null)
   const [isLoading, setIsLoading] = useState(true)

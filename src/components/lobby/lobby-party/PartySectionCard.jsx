@@ -1,13 +1,14 @@
 import { upperFirst } from "lodash"
 import s from "./PartySectionCard.module.css"
-import { useContext, useMemo, useState } from "react"
-import { useApi } from "../hooks/useApi"
-import { MOVE_SELECT_PROPS, PartyContext } from "../context/PartyProvider"
+import { useMemo, useState } from "react"
+import { useApi } from "../../../hooks/useApi"
+import { MOVE_SELECT_PROPS } from "../../../context/PartyProvider"
+import { useParty } from "../../../hooks/useParty"
 
 export function PartySectionCard({ pokemon }) {
   const [selectedMove, setSelectedMove] = useState(null)
   const { fetchMove } = useApi()
-  const { editPokemonFromParty } = useContext(PartyContext)
+  const { editPokemonFromParty } = useParty()
 
   const flatMoveList = useMemo(() => {
     return Object.keys(pokemon.moves)

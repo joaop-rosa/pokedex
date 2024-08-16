@@ -1,18 +1,18 @@
-import s from "./card-pokemon.module.css"
+import s from "./CardPokemon.module.css"
 import { renderTypeClassnames } from "../contants/types"
-import { Spinner } from "./Spinner"
-import { useContext, useEffect, useState } from "react"
+import { Spinner } from "./UI/Spinner"
+import { useEffect, useState } from "react"
 import cn from "classnames"
 import { noop, upperFirst } from "lodash"
-import { PartyContext } from "../context/PartyProvider"
-export function CardPokemon({
-  pokemon,
-  lastElementRef,
-  fetchDetailedPokemon,
-  setSelectedPokemon,
-}) {
+import { useParty } from "../hooks/useParty"
+import { useApi } from "../hooks/useApi"
+import { useSelectedPokemon } from "../hooks/useSelectedPokemon"
+
+export function CardPokemon({ pokemon }) {
   const [pokemonData, setPokemonData] = useState(null)
-  const { isPartyFull, addPokemonToParty } = useContext(PartyContext)
+  const { isPartyFull, addPokemonToParty } = useParty()
+  const { fetchDetailedPokemon } = useApi()
+  const { setSelectedPokemon } = useSelectedPokemon()
 
   useEffect(() => {
     async function fetchPokemon() {
@@ -34,11 +34,7 @@ export function CardPokemon({
   }
 
   return (
-    <div
-      className={s.cardPokemon}
-      ref={lastElementRef}
-      onClick={pokemonData ? handleCard : noop}
-    >
+    <div className={s.cardPokemon} onClick={pokemonData ? handleCard : noop}>
       <div
         className={cn(
           s.cardPokemonContent,

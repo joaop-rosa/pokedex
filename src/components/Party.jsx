@@ -1,13 +1,13 @@
-import { useContext, useState } from "react"
+import { useState } from "react"
 import s from "./Party.module.css"
-import { PartyContext } from "../context/PartyProvider"
 import cn from "classnames"
 import { ReactComponent as ArrowRight } from "../assets/icons/arrow-right.svg"
 import { upperFirst } from "lodash"
 import { renderTypeClassnames } from "../contants/types"
+import { useParty } from "../hooks/useParty"
 
 export function Party() {
-  const { party, removePokemonFromParty } = useContext(PartyContext)
+  const { party, removePokemonFromParty } = useParty()
   const [isOpen, setIsOpen] = useState(false)
 
   return (

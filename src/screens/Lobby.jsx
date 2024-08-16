@@ -1,8 +1,8 @@
 import React, { useState } from "react"
 import s from "./Lobby.module.css"
-import { Header } from "../components/Header"
-import { LobbySection } from "../components/LobbySection"
-import { PartySection } from "../components/PartySection"
+import { Header } from "../components/UI/Header"
+import { LobbySection } from "../components/lobby/LobbySection"
+import { PartySection } from "../components/lobby/lobby-party/PartySection"
 import cn from "classnames"
 
 const SECTIONS = {

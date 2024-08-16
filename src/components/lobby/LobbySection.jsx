@@ -1,63 +1,28 @@
 import s from "./LobbySection.module.css"
-import { useContext, useEffect } from "react"
-import { PartyContext } from "../context/PartyProvider"
-import { SocketContext } from "../context/SocketProvider"
+import { useEffect } from "react"
 import { upperFirst } from "lodash"
 import cn from "classnames"
+import { LobbyLogin } from "./LobbyLogin"
+import { useSocket } from "../../hooks/useSocket"
 
 export function LobbySection() {
-  const { party } = useContext(PartyContext)
   const {
     username,
-    setUsername,
     isLogged,
     refreshConnectedList,
     challengeUser,
     connectUsers,
     responseChallenge,
-    login,
     challenges,
-    disconnect,
-  } = useContext(SocketContext)
-
-  console.log(process.env.API_URL)
+  } = useSocket()
 
   useEffect(() => {
     refreshConnectedList()
   }, [refreshConnectedList])
 
-  function handleConnect() {
-    if (username.length) {
-      login(username, party)
-    }
-  }
-
   return (
     <div className={s.lobby}>
-      {!isLogged && (
-        <div className={s.inputWrapper}>
-          <input
-            className={s.inputName}
-            value={username}
-            onChange={(event) => setUsername(event.target.value)}
-            type="text"
-          />
-          {/* Label de erro retornada do socket */}
-          <button
-            disabled={!username.length}
-            className={s.submitButton}
-            onClick={handleConnect}
-          >
-            Conectar
-          </button>
-        </div>
-      )}
-      {isLogged && (
-        <button className={s.submitButton} onClick={disconnect}>
-          Desconectar
-        </button>
-      )}
-      {/* Lista de desafios */}
+      <LobbyLogin />
       <div className={s.connectUsersWrapper}>
         {connectUsers
           .filter((user) => user.data.name !== username)
