@@ -1,35 +1,15 @@
-import axios from "axios"
-import React, { useCallback, useState } from "react"
-import { Accordion } from "../Accordion"
-import { Spinner } from "../Spinner"
-import { noop, upperCase, upperFirst } from "lodash"
+import React, { useState } from "react"
+import { Accordion } from "../UI/Accordion"
+import { Spinner } from "../UI/Spinner"
+import { upperCase, upperFirst } from "lodash"
 import s from "./MoveItem.module.css"
 import { renderTypeClassnames } from "../../contants/types"
 import cn from "classnames"
+import { useApi } from "../../hooks/useApi"
 
 export function MoveItem({ move }) {
   const [moveContent, setMoveContent] = useState(null)
-
-  const fetchMove = useCallback(async () => {
-    const { data } = await axios.get(move.url)
-
-    const moveMapped = {
-      priority: !!data.priority,
-      pp: data.pp,
-      power: data.power,
-      accuracy: data.accuracy,
-      type: data.type.name,
-      damageClass: upperFirst(data.damage_class.name),
-      description:
-        data.flavor_text_entries[
-          data.flavor_text_entries.findLastIndex(
-            (entry) => entry.language.name === "en"
-          )
-        ].flavor_text,
-    }
-
-    setMoveContent(moveMapped)
-  }, [move.url])
+  const { fetchMove } = useApi()
 
   function renderMoveContent() {
     const fixNull = (number) => {
@@ -76,6 +56,12 @@ export function MoveItem({ move }) {
     )
   }
 
+  async function handleFetchMove() {
+    if (!moveContent) {
+      const moveDetailed = await fetchMove(move.url)
+      setMoveContent(moveDetailed)
+    }
+  }
   return (
     <Accordion
       header={
@@ -84,7 +70,7 @@ export function MoveItem({ move }) {
           <span className={s.moveButtonOpen}>+</span>
         </div>
       }
-      onClick={moveContent ? noop : fetchMove}
+      onClick={handleFetchMove}
       containerClassname={s.move}
       content={
         moveContent ? (

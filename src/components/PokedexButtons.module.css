@@ -1,0 +1,42 @@
+.buttonsWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: var(--max-width-container);
+}
+
+.button {
+  width: 86px;
+  height: 66px;
+  background-color: var(--boston-blue);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0px 0px 0px 3px var(--black);
+  padding: 5px;
+  margin: 2px;
+  color: var(--white);
+}
+
+.button:disabled {
+  background-color: var(--disabled-grey);
+  color: var(--lightgrey);
+}
+
+.button:disabled:hover {
+  box-shadow: 0px 0px 0px 3px var(--black);
+}
+
+.button:hover {
+  box-shadow: 0px 0px 0px 3px var(--black), 0px 0px 5px 1px inset var(--black);
+}
+
+.closeButton {
+  background-color: var(--close-button);
+}
+
+@media screen and (max-width: 510px) {
+  .buttonsWrapper {
+    max-width: 330px;
+  }
+}

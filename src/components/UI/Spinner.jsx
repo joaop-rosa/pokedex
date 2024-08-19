@@ -1,6 +1,6 @@
 import React from "react"
 import s from "./Spinner.module.css"
-import { ReactComponent as Pokeball } from "../assets/icons/pokeball.svg"
+import { ReactComponent as Pokeball } from "../../assets/icons/pokeball.svg"
 import cn from "classnames"
 
 export function Spinner({ containerClassname }) {

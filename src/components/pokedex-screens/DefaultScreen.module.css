@@ -1,0 +1,120 @@
+.infoScreenContent {
+  width: 100%;
+}
+
+.infoScreenContentInfo {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+}
+
+.infoScreenContentRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--white);
+  border-bottom: 1px solid var(--white);
+  line-height: 40px;
+}
+
+.infoScreenContentRow:last-child {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  justify-content: center;
+  border-bottom: none;
+  line-height: normal;
+}
+
+.typesWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+
+.type {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3px 7px;
+  border-radius: 20px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.poisonType {
+  composes: poisonType from global;
+}
+
+.rockType {
+  composes: rockType from global;
+}
+
+.fireType {
+  composes: fireType from global;
+}
+
+.normalType {
+  composes: normalType from global;
+}
+
+.waterType {
+  composes: waterType from global;
+}
+
+.grassType {
+  composes: grassType from global;
+}
+
+.flyingType {
+  composes: flyingType from global;
+}
+
+.fightingType {
+  composes: fightingType from global;
+}
+
+.electricType {
+  composes: electricType from global;
+}
+
+.groundType {
+  composes: groundType from global;
+}
+
+.psychicType {
+  composes: psychicType from global;
+}
+
+.iceType {
+  composes: iceType from global;
+}
+
+.bugType {
+  composes: bugType from global;
+}
+
+.ghostType {
+  composes: ghostType from global;
+}
+
+.steelType {
+  composes: steelType from global;
+}
+
+.dragonType {
+  composes: dragonType from global;
+}
+
+.darkType {
+  composes: darkType from global;
+}
+
+.fairyType {
+  composes: fairyType from global;
+}

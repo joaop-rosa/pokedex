@@ -67,8 +67,22 @@ Detalhamento do pokemon
 
 Websockets (Batalha pokemon)
 
-- [ ] Permitir seleção de pokemons
-- [ ] Permitir escolha de ataques
+- [x] Permitir seleção de pokemons
+- [x] Ajustar party no mobile
+- [x] Ajustar tamanho dos cards
+- [x] Permitir escolha de ataques
+- [x] Ajustar mobile de tela da party
+- [x] Adicionar alguma forma de visualização dos ataques na seleção de ataques
+- [x] Adicionar prop move selected aos pokemons ao adicionar na party
 - [ ] Criar lobby para usuarios se desafiarem
 - [ ] No lobby mostrar usuarios online/em batalha/offline
 - [ ] lógica da batalha
+
+Backlog
+
+- [ ] Adicionar itens a batalha
+- [ ] Adicionar habilidades a batalha
+- [ ] Adicionar mega-evolução
+- [ ] Adicionar giganta-max
+- [ ] Adicionar terastalize
+- [ ] Adicionar itens segurados

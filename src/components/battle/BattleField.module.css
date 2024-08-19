@@ -1,0 +1,68 @@
+.field {
+  width: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.infosWrapper {
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  padding: 15px;
+  gap: 15px;
+}
+
+.activePokemonImage {
+  width: 250px;
+  height: 250px;
+  margin: 0 auto;
+}
+
+.opponentField {
+  flex-direction: row;
+}
+
+.pokemonInfos {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: flex-end;
+}
+
+.opponentPokemonInfos {
+  align-items: flex-start;
+}
+
+.miniaturesWrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+}
+
+.opponentMiniaturesWrapper {
+  flex-direction: row;
+}
+
+.selectedButtonPokemonMiniature {
+  border: 1px solid red;
+}
+
+.buttonPokemonMiniature:disabled {
+  opacity: 0.3;
+}
+
+.miniaturesImages {
+  width: 50px;
+  height: 50px;
+}
+
+.healthBar {
+  height: 20px;
+  border: none;
+  width: 80%;
+  transition: all 1s ease;
+}

@@ -1,16 +1,18 @@
-import s from "./card-pokemon.module.css"
-import { renderTypeClassnames } from "../../contants/types"
-import { Spinner } from "../Spinner"
+import s from "./CardPokemon.module.css"
+import { renderTypeClassnames } from "../contants/types"
+import { Spinner } from "./UI/Spinner"
 import { useEffect, useState } from "react"
 import cn from "classnames"
 import { noop, upperFirst } from "lodash"
-export function CardPokemon({
-  pokemon,
-  lastElementRef,
-  fetchDetailedPokemon,
-  setSelectedPokemon,
-}) {
+import { useParty } from "../hooks/useParty"
+import { useApi } from "../hooks/useApi"
+import { useSelectedPokemon } from "../hooks/useSelectedPokemon"
+
+export function CardPokemon({ pokemon }) {
   const [pokemonData, setPokemonData] = useState(null)
+  const { isPartyFull, addPokemonToParty } = useParty()
+  const { fetchDetailedPokemon } = useApi()
+  const { setSelectedPokemon } = useSelectedPokemon()
 
   useEffect(() => {
     async function fetchPokemon() {
@@ -25,12 +27,14 @@ export function CardPokemon({
     }
   }, [fetchDetailedPokemon, pokemon])
 
+  function handleCard(event) {
+    if (event.target.id !== "buttonAddParty") {
+      setSelectedPokemon(pokemonData)
+    }
+  }
+
   return (
-    <button
-      className={s.cardPokemon}
-      ref={lastElementRef}
-      onClick={pokemonData ? () => setSelectedPokemon(pokemonData) : noop}
-    >
+    <div className={s.cardPokemon} onClick={pokemonData ? handleCard : noop}>
       <div
         className={cn(
           s.cardPokemonContent,
@@ -41,7 +45,18 @@ export function CardPokemon({
           <Spinner />
         ) : (
           <>
-            <h3 className={s.numberPokemon}>{`#${pokemonData.id}`}</h3>
+            <div className={s.cardPokemonHeader}>
+              <h3 className={s.numberPokemon}>{`#${pokemonData.id}`}</h3>
+              {!isPartyFull ? (
+                <button
+                  onClick={() => addPokemonToParty(pokemonData)}
+                  className={s.addPartyButton}
+                  id="buttonAddParty"
+                >
+                  Add to party +
+                </button>
+              ) : null}
+            </div>
             <div className={s.pokemonPhotoWrapper}>
               <img
                 loading="lazy"
@@ -67,6 +82,6 @@ export function CardPokemon({
           </>
         )}
       </div>
-    </button>
+    </div>
   )
 }

@@ -15,11 +15,14 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
+    "react-use": "^17.5.1",
+    "socket.io-client": "^4.7.4",
     "web-vitals": "^2.1.4"
   },
-  "homepage": "https://joaop-rosa.github.io/pokedex",
+  "homepage": "https://joaop-rosa.github.io",
   "scripts": {
-    "start": "react-scripts start",
+    "start": "REACT_APP_API_URL=http://localhost:3001 react-scripts start",
+    "prod": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

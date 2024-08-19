@@ -1,0 +1,72 @@
+.bottomSection {
+  display: flex;
+  background: whitesmoke;
+  padding: 15px;
+  gap: 15px;
+}
+
+.attackSelectionWrapper {
+  display: grid;
+  grid-template-columns: 200px 200px;
+  gap: 15px;
+}
+
+.buttonAttack {
+  padding: 10px 15px;
+  font-size: 16px;
+  font-weight: 700;
+  border: solid 3px black;
+  cursor: pointer;
+}
+
+.buttonAttackSelected {
+  border: inset 3px red;
+}
+
+.confirmsSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.attackSelectedInfosWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: solid 1px black;
+  padding: 15px;
+  width: 200px;
+}
+
+.actionsConfirmWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.actionsButton {
+  cursor: pointer;
+  width: 100%;
+  padding: 10px 15px;
+  border: solid 1px black;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.actionsButton:disabled {
+  opacity: 0.5;
+}
+
+.attackButton {
+  background-color: green;
+  color: white;
+}
+
+.changePokemonButton {
+  background-color: yellow;
+  color: black;
+}

@@ -4,28 +4,30 @@ import cn from "classnames"
 import { renderTypeClassnames } from "../contants/types"
 import { GENERATIONS } from "../contants/generations"
 import _ from "lodash"
+import { usePokemonList } from "../hooks/usePokemonList"
 
-export default function PokemonFilter({
-  typeList,
-  selectedGeneration,
-  setInputTextFilter,
-  setSelectedGeneration,
-  setSelectedType,
-  selectedType,
-  setIsListLoading,
-}) {
+export default function PokemonFilter() {
   const [isFiltersOpen, setIsFiltersOpen] = useState(false)
+  const {
+    typeList,
+    selectedGeneration,
+    setTextFilter,
+    setSelectedGeneration,
+    setSelectedType,
+    selectedType,
+    setIsListLoading,
+  } = usePokemonList()
 
   const handlePokemonName = useCallback(
     (event) => {
       const inputValue = event.target.value
       const onChange = _.debounce(() => {
-        setInputTextFilter(inputValue)
+        setTextFilter(inputValue)
       }, 1200)
       onChange()
       setIsListLoading(true)
     },
-    [setInputTextFilter, setIsListLoading]
+    [setIsListLoading, setTextFilter]
   )
 
   const handleGeneration = useCallback(
@@ -38,7 +40,6 @@ export default function PokemonFilter({
       } else {
         setSelectedGeneration(generation)
       }
-
       setIsListLoading(true)
     },
     [selectedGeneration, setIsListLoading, setSelectedGeneration]
@@ -58,8 +59,9 @@ export default function PokemonFilter({
 
         return [...prev, typeClicked]
       })
+      setIsListLoading(true)
     },
-    [setSelectedType]
+    [setIsListLoading, setSelectedType]
   )
 
   return (

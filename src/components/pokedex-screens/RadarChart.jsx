@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react"
 import s from "./RadarChart.module.css"
 import * as d3 from "d3"
+import { useSelectedPokemon } from "../../hooks/useSelectedPokemon"
 
 function getAngleForIndex(i, sides) {
   return (i / sides) * 2 * Math.PI
@@ -76,7 +77,9 @@ const STATS_NAMES = {
   defense: "Defense",
 }
 
-export default function RadarChart({ stats }) {
+export function RadarChart() {
+  const { selectedPokemon } = useSelectedPokemon()
+  const { stats } = selectedPokemon
   const chartRef = useRef()
 
   useEffect(() => {
