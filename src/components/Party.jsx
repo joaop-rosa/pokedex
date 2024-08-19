@@ -13,7 +13,9 @@ export function Party() {
   return (
     <div className={s.party}>
       <div className={cn(s.partyContent, { [s.partyContentOpen]: isOpen })}>
-        <a href="/lobby">Go to lobby</a>
+        <a className={s.lobbyLink} href="/lobby">
+          Go to lobby
+        </a>
         {party.length ? (
           party.map((pokemon) => {
             return (

@@ -15,6 +15,7 @@ export default function PokemonFilter() {
     setSelectedGeneration,
     setSelectedType,
     selectedType,
+    setIsListLoading,
   } = usePokemonList()
 
   const handlePokemonName = useCallback(
@@ -24,8 +25,9 @@ export default function PokemonFilter() {
         setTextFilter(inputValue)
       }, 1200)
       onChange()
+      setIsListLoading(true)
     },
-    [setTextFilter]
+    [setIsListLoading, setTextFilter]
   )
 
   const handleGeneration = useCallback(
@@ -38,8 +40,9 @@ export default function PokemonFilter() {
       } else {
         setSelectedGeneration(generation)
       }
+      setIsListLoading(true)
     },
-    [selectedGeneration, setSelectedGeneration]
+    [selectedGeneration, setIsListLoading, setSelectedGeneration]
   )
 
   const handleButtonType = useCallback(
@@ -56,8 +59,9 @@ export default function PokemonFilter() {
 
         return [...prev, typeClicked]
       })
+      setIsListLoading(true)
     },
-    [setSelectedType]
+    [setIsListLoading, setSelectedType]
   )
 
   return (

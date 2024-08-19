@@ -15,11 +15,11 @@ export function PokemonListProvider({ children }) {
   const [selectedGeneration, setSelectedGeneration] = useState(null)
   const [isListLoading, setIsListLoading] = useState(true)
   const isReady = useMemo(
-    () => typeList.length && pokemonFullList.length && !isListLoading,
-    [isListLoading, pokemonFullList.length, typeList.length]
+    () => typeList && pokemonFullList,
+    [pokemonFullList, typeList]
   )
   const isEmpty = useMemo(
-    () => !isListLoading && !pokemonListFinal.length,
+    () => !isListLoading && !pokemonListFinal,
     [isListLoading, pokemonListFinal]
   )
   const pokemonList = useMemo(
@@ -72,17 +72,17 @@ export function PokemonListProvider({ children }) {
       const typePokemonListWithFilters = applyBasicFilter(typePokemonList)
       setPokemonListFinal(typePokemonListWithFilters)
     }
-
+    setIsListLoading(true)
+    setPokemonListFinal([])
     if (pokemonFullList.length) {
-      setIsListLoading(true)
       setPageSize(POKEMONS_PER_PAGE)
       if (selectedType.length) {
         getPokemonListByType()
       } else {
         setPokemonListFinal(applyBasicFilter(pokemonFullList))
       }
-      setIsListLoading(false)
     }
+    setIsListLoading(false)
   }, [applyBasicFilter, fetchPokemonByType, pokemonFullList, selectedType])
 
   return (
@@ -101,6 +101,7 @@ export function PokemonListProvider({ children }) {
         typeList,
         setSelectedType,
         selectedType,
+        setIsListLoading,
       }}
     >
       {children}

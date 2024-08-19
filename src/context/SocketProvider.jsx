@@ -35,12 +35,10 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     function onConnection() {
-      console.log("conectou")
       setIsConnected(true)
     }
 
     function onDisconnect() {
-      console.log("desconectou")
       setIsConnected(false)
     }
 

@@ -33,6 +33,10 @@
   padding: 15px;
 }
 
+.lobbyLink {
+  white-space: nowrap;
+}
+
 .partyPokemon {
   position: relative;
   display: flex;

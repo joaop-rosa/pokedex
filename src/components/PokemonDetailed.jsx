@@ -20,21 +20,15 @@ export function PokemonDetailed() {
       document.body.style.overflow = "auto"
       setSpeciesInfo(null)
     }
-  }, [selectedPokemon, setSpeciesInfo])
-
-  function handleBackdrop(event) {
-    if (event.target.id === "backdrop") {
-      setSelectedPokemon(null)
-    }
-  }
+  }, [selectedPokemon, setSelectedPokemon, setSpeciesInfo])
 
   return (
-    <div
-      id="backdrop"
-      onClick={handleBackdrop}
-      className={cn(s.backdrop, { [s.backdropActive]: selectedPokemon })}
-    >
-      <div className={s.contentWrapper}>
+    <>
+      <div
+        className={cn(s.contentWrapper, {
+          [s.contentWrapperActive]: selectedPokemon,
+        })}
+      >
         <div className={s.container}>
           <div className={s.content}>
             <PokedexScreen />
@@ -43,6 +37,11 @@ export function PokemonDetailed() {
           </div>
         </div>
       </div>
-    </div>
+      <div
+        id="backdrop"
+        onClick={() => setSelectedPokemon(null)}
+        className={cn(s.backdrop, { [s.backdropActive]: selectedPokemon })}
+      />
+    </>
   )
 }
