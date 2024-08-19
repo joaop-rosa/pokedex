@@ -46,9 +46,7 @@ export const PartyProvider = ({ children }) => {
   )
 
   useEffect(() => {
-    if (party.length) {
-      localStorage.setItem(PARTY_KEY, JSON.stringify(party))
-    }
+    localStorage.setItem(PARTY_KEY, JSON.stringify(party))
   }, [party, editPokemonFromParty])
 
   async function addPokemonToParty(pokemon) {

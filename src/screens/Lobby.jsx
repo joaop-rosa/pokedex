@@ -4,6 +4,8 @@ import { Header } from "../components/UI/Header"
 import { LobbySection } from "../components/lobby/LobbySection"
 import { PartySection } from "../components/lobby/lobby-party/PartySection"
 import cn from "classnames"
+import { useParty } from "../hooks/useParty"
+import { Navigate } from "react-router-dom"
 
 const SECTIONS = {
   PARTY: "PARTY",
@@ -12,6 +14,7 @@ const SECTIONS = {
 
 export function Lobby() {
   const [sectionSelected, setSectionSelected] = useState(SECTIONS.PARTY)
+  const { party } = useParty()
 
   function renderSection() {
     if (sectionSelected === SECTIONS.LOBBY) {
@@ -19,6 +22,10 @@ export function Lobby() {
     }
 
     return <PartySection />
+  }
+
+  if (!party.length) {
+    return <Navigate to="/" replace={true} />
   }
 
   return (

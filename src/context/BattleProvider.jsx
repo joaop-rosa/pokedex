@@ -67,7 +67,9 @@ export function BattleProvider({ children }) {
       value={{
         getActivePokemon,
         selectedMove,
+        setSelectedMove,
         selectedPokemon,
+        setSelectedPokemon,
         myUser,
         opponent,
         hasToChangePokemon,

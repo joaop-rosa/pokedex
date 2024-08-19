@@ -6,7 +6,6 @@ import { Lobby } from "./screens/Lobby"
 import Battle from "./screens/Battle"
 
 function App() {
-  console.log(process.env.REACT_APP_API_URL)
   return (
     <Routes>
       <Route path="/" element={<Home />} />
