@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { Accordion } from "../UI/Accordion"
 import { Spinner } from "../UI/Spinner"
-import { noop, upperCase, upperFirst } from "lodash"
+import { upperCase, upperFirst } from "lodash"
 import s from "./MoveItem.module.css"
 import { renderTypeClassnames } from "../../contants/types"
 import cn from "classnames"
@@ -56,6 +56,12 @@ export function MoveItem({ move }) {
     )
   }
 
+  async function handleFetchMove() {
+    if (!moveContent) {
+      const moveDetailed = await fetchMove(move.url)
+      setMoveContent(moveDetailed)
+    }
+  }
   return (
     <Accordion
       header={
@@ -64,7 +70,7 @@ export function MoveItem({ move }) {
           <span className={s.moveButtonOpen}>+</span>
         </div>
       }
-      onClick={moveContent ? noop : () => setMoveContent(fetchMove())}
+      onClick={handleFetchMove}
       containerClassname={s.move}
       content={
         moveContent ? (
