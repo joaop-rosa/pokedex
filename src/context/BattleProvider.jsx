@@ -15,6 +15,8 @@ export function BattleProvider({ children }) {
   const [selectedMove, setSelectedMove] = useState(null)
   const [selectedPokemon, setSelectedPokemon] = useState(null)
 
+  console.log("battle", battle)
+
   const hasToChangePokemon = useMemo(() => {
     if (!isLoading) {
       return getActivePokemon(myUser?.party).currentLife <= 0

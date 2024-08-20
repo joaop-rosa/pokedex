@@ -26,6 +26,11 @@
   gap: 10px;
 }
 
+.userWrapper button {
+  padding: 5px 10px;
+  width: 100%;
+}
+
 .userWrapperInBattle {
   background-color: rgba(0, 0, 0, 0.5);
 }
@@ -45,4 +50,29 @@
 
 .partyPokemonImage {
   width: 50px;
+}
+
+.challengesPopup {
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+  padding: 10px;
+  text-align: center;
+  min-width: 200px;
+}
+
+.challengesPopupButtons {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.challengesPopupButtons button {
+  width: 48%;
+  max-width: 200px;
+  padding: 5px;
 }

@@ -65,6 +65,7 @@ export const SocketProvider = ({ children }) => {
     socket.on("battle:action-response", (battle) => {
       setBattle(battle)
     })
+    socket.on("message", (message) => alert(message))
 
     return () => {
       socket.off("connected-list")
@@ -91,7 +92,11 @@ export const SocketProvider = ({ children }) => {
   }, [])
 
   const challengeUser = useCallback((userInvitedSocketId) => {
-    socket.emit("battle:invite", userInvitedSocketId)
+    socket.emit("battle:invite", userInvitedSocketId, (isSended) => {
+      if (isSended) {
+        alert("Desafio enviado")
+      }
+    })
   }, [])
 
   const responseChallenge = useCallback(

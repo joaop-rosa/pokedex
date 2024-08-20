@@ -19,6 +19,7 @@ export function BattleField({ isOpponent }) {
         if (isMyParty) {
           return (
             <button
+              key={pokemon.id}
               disabled={pokemon.currentLife <= 0}
               className={cn(s.buttonPokemonMiniature, {
                 [s.selectedButtonPokemonMiniature]:
@@ -27,7 +28,6 @@ export function BattleField({ isOpponent }) {
               onClick={() => setSelectedPokemon(pokemon)}
             >
               <img
-                key={pokemon.name}
                 className={s.miniaturesImages}
                 src={pokemon.sprites.miniature}
                 alt=""
@@ -37,8 +37,11 @@ export function BattleField({ isOpponent }) {
         }
         return (
           <img
-            key={pokemon.name}
-            className={s.miniaturesImages}
+            disabled={pokemon.currentLife <= 0}
+            key={pokemon.id}
+            className={cn(s.miniaturesImages, {
+              [s.miniaturesImagesDisabled]: pokemon.currentLife <= 0,
+            })}
             src={pokemon.sprites.miniature}
             alt=""
           />
@@ -55,11 +58,24 @@ export function BattleField({ isOpponent }) {
           {player.name} <span>({player.socketId})</span>
         </p>
         <h2>{upperFirst(activePokemon.name)}</h2>
-        <progress
-          className={s.healthBar}
-          max={activePokemon.stats.hp}
-          value={activePokemon.currentLife ?? activePokemon.stats.hp}
-        />
+        <div className={s.healthBarWrapper}>
+          <progress
+            className={cn(s.healthBar, {
+              [s.healthBarRed]:
+                (activePokemon.currentLife / activePokemon.stats.hp) * 100 <=
+                30,
+              [s.healthBarGreen]:
+                (activePokemon.currentLife / activePokemon.stats.hp) * 100 >=
+                70,
+            })}
+            max={activePokemon.stats.hp}
+            value={activePokemon.currentLife}
+          />
+          <p className={s.healthBarText}>
+            {activePokemon.currentLife >= 0 ? activePokemon.currentLife : 0} /
+            {activePokemon.stats.hp}
+          </p>
+        </div>
       </>
     )
   }

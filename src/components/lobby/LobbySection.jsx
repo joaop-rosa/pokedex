@@ -27,7 +27,6 @@ export function LobbySection() {
         {connectUsers
           .filter((user) => user.data.name !== username)
           .map((user) => (
-            // TODO - Adicionar alguma decoração caso esteja em batalha
             <div
               key={user.id}
               className={cn(s.userWrapper, {
@@ -59,12 +58,14 @@ export function LobbySection() {
       {!!challenges.length && (
         <div className={s.challengesPopup}>
           <p>{challenges[0].name} lhe desafiou</p>
-          <button onClick={() => responseChallenge(challenges[0].id, true)}>
-            Aceitar
-          </button>
-          <button onClick={() => responseChallenge(challenges[0].id, false)}>
-            Recusar
-          </button>
+          <div className={s.challengesPopupButtons}>
+            <button onClick={() => responseChallenge(challenges[0].id, true)}>
+              Aceitar
+            </button>
+            <button onClick={() => responseChallenge(challenges[0].id, false)}>
+              Recusar
+            </button>
+          </div>
         </div>
       )}
     </div>

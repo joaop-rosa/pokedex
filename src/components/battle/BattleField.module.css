@@ -17,8 +17,8 @@
 }
 
 .activePokemonImage {
-  width: 250px;
-  height: 250px;
+  width: 200px;
+  height: 200px;
   margin: 0 auto;
 }
 
@@ -60,9 +60,44 @@
   height: 50px;
 }
 
-.healthBar {
-  height: 20px;
+.miniaturesImagesDisabled {
+  opacity: 0.2;
+}
+
+.healthBarWrapper {
+  position: relative;
+  height: 30px;
   border: none;
-  width: 80%;
-  transition: all 1s ease;
+  width: 85%;
+}
+
+.healthBar {
+  height: 100%;
+  border: none;
+  width: 100%;
+}
+
+.healthBar::-webkit-progress-value {
+  background-color: darkgoldenrod;
+}
+
+.healthBarGreen::-webkit-progress-value {
+  background-color: green;
+}
+
+.healthBarRed::-webkit-progress-value {
+  background-color: darkred;
+}
+
+/* progress::-moz-progress-bar { background: blue; }
+progress::-webkit-progress-value { background: blue; }*/
+
+.healthBarText {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
 }
