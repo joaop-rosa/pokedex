@@ -11,6 +11,8 @@ export const SocketProvider = ({ children }) => {
   const [connectUsers, setConnectedUsers] = useState([])
   const [challenges, setChallenges] = useState([])
   const [battle, setBattle] = useState({})
+  const [isLoadingLogin, setLoadingLogin] = useState(false)
+  const [chatMessages, setChatMessages] = useState([])
   const isLogged = useMemo(
     () => connectUsers.some((user) => user.data.name === username),
     [connectUsers, username]
@@ -66,6 +68,9 @@ export const SocketProvider = ({ children }) => {
       setBattle(battle)
     })
     socket.on("message", (message) => alert(message))
+    socket.on("chat:message", (message) =>
+      setChatMessages((prev) => [...prev, message])
+    )
 
     return () => {
       socket.off("connected-list")
@@ -75,11 +80,28 @@ export const SocketProvider = ({ children }) => {
     }
   }, [navigation])
 
-  const login = useCallback((username, party) => {
-    socket.connect()
-    socket.emit("connect:server", username, party)
-    setUsername(username)
-  }, [])
+  const loginCallback = useCallback(
+    (isLogged) => {
+      if (isLogged) {
+        setUsername(username)
+        alert("Logado com sucesso")
+      } else {
+        alert("Ocorreu um erro ao fazer o login")
+      }
+
+      setLoadingLogin(false)
+    },
+    [username]
+  )
+
+  const login = useCallback(
+    (username, party) => {
+      socket.connect()
+      socket.emit("connect:server", username, party, loginCallback)
+      setLoadingLogin(true)
+    },
+    [loginCallback]
+  )
 
   const refreshConnectedList = useCallback(() => {
     socket.emit("connected-list")
@@ -117,23 +139,20 @@ export const SocketProvider = ({ children }) => {
     navigation("/lobby")
   }, [navigation])
 
-  const battleAction = useCallback(
-    (battleId, actionKey, actionValue) => {
-      socket.emit("battle:actions", battleId, {
-        actionKey,
-        actionValue,
-        username,
-      })
-    },
-    [username]
-  )
+  const battleAction = useCallback((battleId, actionKey, actionValue) => {
+    socket.emit("battle:actions", battleId, {
+      actionKey,
+      actionValue,
+    })
+  }, [])
 
-  const changePokemonAction = useCallback(
-    (battleId, newPokemonId) => {
-      socket.emit("battle:action-change", battleId, newPokemonId, username)
-    },
-    [username]
-  )
+  const changePokemonAction = useCallback((battleId, newPokemonId) => {
+    socket.emit("battle:action-change", battleId, newPokemonId)
+  }, [])
+
+  const sendChatMessage = useCallback((message) => {
+    socket.emit("chat:message", message)
+  }, [])
 
   return (
     <SocketContext.Provider
@@ -146,6 +165,7 @@ export const SocketProvider = ({ children }) => {
         battle,
         isWaitingOponentMove,
         isConnected,
+        isLoadingLogin,
         setUsername,
         refreshConnectedList,
         challengeUser,
@@ -155,6 +175,8 @@ export const SocketProvider = ({ children }) => {
         changePokemonAction,
         finishBattle,
         disconnect,
+        sendChatMessage,
+        chatMessages,
       }}
     >
       {children}

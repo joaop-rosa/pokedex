@@ -52,7 +52,7 @@ export function Lobby() {
             Lobby
           </button>
         </div>
-        <div className={s.sectionWrapper}>{renderSection()}</div>
+        {renderSection()}
       </div>
     </section>
   )

@@ -5,6 +5,7 @@
   justify-content: center;
   gap: 25px;
   padding-top: 30px;
+  width: 100%;
 }
 
 .connectUsersWrapper {

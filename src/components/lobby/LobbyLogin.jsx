@@ -1,14 +1,20 @@
 import s from "./LobbyLogin.module.css"
 import { useSocket } from "../../hooks/useSocket"
 import { useParty } from "../../hooks/useParty"
+import { Spinner } from "../UI/Spinner"
 
 export function LobbyLogin() {
   const { party } = useParty()
-  const { username, setUsername, isLogged, login, disconnect } = useSocket()
+  const { username, setUsername, isLogged, login, disconnect, isLoadingLogin } =
+    useSocket()
   function handleConnect() {
     if (username.length) {
       login(username, party)
     }
+  }
+
+  if (isLoadingLogin) {
+    return <Spinner containerClassname={s.spinner} />
   }
 
   if (isLogged) {

@@ -1,0 +1,58 @@
+.lobbyChat {
+  height: 300px;
+  width: 100%;
+  max-width: 600px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.messagesWrapper {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.message {
+  border-bottom: 1px solid black;
+  padding: 5px 0;
+}
+
+.message:last-child {
+  border-bottom: none;
+}
+
+.messageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.messageHeader p {
+  color: darkgray;
+  font-size: 12px;
+}
+
+.messageText {
+  word-wrap: break-word;
+}
+
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-top: 10px;
+}
+
+.inputMessage {
+  height: 60px;
+  padding: 5px;
+  flex: 1;
+}
+
+.inputWrapper button {
+  padding: 5px 10px;
+}
