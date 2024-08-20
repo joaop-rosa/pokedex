@@ -8,13 +8,13 @@ import { LobbyChat } from "./LobbyChat"
 
 export function LobbySection() {
   const {
-    username,
-    isLogged,
+    isConnected,
     refreshConnectedList,
     challengeUser,
     connectUsers,
     responseChallenge,
     challenges,
+    socketId,
   } = useSocket()
 
   useEffect(() => {
@@ -27,7 +27,7 @@ export function LobbySection() {
         <LobbyChat />
         <div className={s.connectUsersWrapper}>
           {connectUsers
-            .filter((user) => user.data.name !== username)
+            .filter((user) => user.id !== socketId)
             .map((user) => (
               <div
                 key={user.id}
@@ -54,7 +54,7 @@ export function LobbySection() {
                     </div>
                   ))}
                 </div>
-                {isLogged && !user.isInBattle && (
+                {isConnected && !user.isInBattle && (
                   <button onClick={() => challengeUser(user.id)}>
                     Desafiar
                   </button>
@@ -84,7 +84,7 @@ export function LobbySection() {
   return (
     <div className={s.lobby}>
       <LobbyLogin />
-      {isLogged && renderLoggedFeatures()}
+      {isConnected && renderLoggedFeatures()}
     </div>
   )
 }

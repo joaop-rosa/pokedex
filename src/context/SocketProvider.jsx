@@ -8,19 +8,16 @@ export const SocketProvider = ({ children }) => {
   const navigation = useNavigate()
   const [isConnected, setIsConnected] = useState(socket.connected)
   const [username, setUsername] = useState("")
+  const [socketId, setSocketId] = useState("")
   const [connectUsers, setConnectedUsers] = useState([])
   const [challenges, setChallenges] = useState([])
   const [battle, setBattle] = useState({})
   const [isLoadingLogin, setLoadingLogin] = useState(false)
   const [chatMessages, setChatMessages] = useState([])
-  const isLogged = useMemo(
-    () => connectUsers.some((user) => user.data.name === username),
-    [connectUsers, username]
-  )
   const isWaitingOponentMove = useMemo(() => {
     if (battle?.battleLog) {
       const battleLogRoundIndex = battle.round - 1
-      const isOwner = battle.owner.name === username
+      const isOwner = battle.owner.socketId === socketId
       const isWaitingOponentMove =
         battle.battleLog[battleLogRoundIndex]?.[
           isOwner ? "owner" : "userInvited"
@@ -33,15 +30,19 @@ export const SocketProvider = ({ children }) => {
     }
 
     return false
-  }, [battle, username])
+  }, [battle, socketId])
 
   useEffect(() => {
     function onConnection() {
+      console.log("conectado")
       setIsConnected(true)
+      setSocketId(socket.id)
     }
 
     function onDisconnect() {
+      console.log("desconectado")
       setIsConnected(false)
+      setSocketId(null)
     }
 
     socket.on("connect", onConnection)
@@ -77,22 +78,19 @@ export const SocketProvider = ({ children }) => {
       socket.off("challenges")
       socket.off("battle")
       socket.off("battle:action-response")
+      socket.off("chat:message")
     }
   }, [navigation])
 
-  const loginCallback = useCallback(
-    (isLogged) => {
-      if (isLogged) {
-        setUsername(username)
-        alert("Logado com sucesso")
-      } else {
-        alert("Ocorreu um erro ao fazer o login")
-      }
+  const loginCallback = useCallback((isLogged) => {
+    if (isLogged) {
+      alert("Logado com sucesso")
+    } else {
+      alert("Ocorreu um erro ao fazer o login")
+    }
 
-      setLoadingLogin(false)
-    },
-    [username]
-  )
+    setLoadingLogin(false)
+  }, [])
 
   const login = useCallback(
     (username, party) => {
@@ -159,13 +157,13 @@ export const SocketProvider = ({ children }) => {
       value={{
         socket,
         username,
-        isLogged,
         connectUsers,
         challenges,
         battle,
         isWaitingOponentMove,
         isConnected,
         isLoadingLogin,
+        socketId,
         setUsername,
         refreshConnectedList,
         challengeUser,

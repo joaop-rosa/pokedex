@@ -6,7 +6,7 @@ import { Spinner } from "../components/UI/Spinner"
 export const BattleContext = createContext({})
 
 export function BattleProvider({ children }) {
-  const { battle, username, isConnected } = useSocket()
+  const { battle, isConnected, socketId } = useSocket()
   const { owner, userInvited } = battle
   const navigate = useNavigate()
   const [opponent, setOpponent] = useState(null)
@@ -14,8 +14,6 @@ export function BattleProvider({ children }) {
   const [isLoading, setIsLoading] = useState(true)
   const [selectedMove, setSelectedMove] = useState(null)
   const [selectedPokemon, setSelectedPokemon] = useState(null)
-
-  console.log("battle", battle)
 
   const hasToChangePokemon = useMemo(() => {
     if (!isLoading) {
@@ -39,7 +37,7 @@ export function BattleProvider({ children }) {
 
   useEffect(() => {
     if (isConnected && owner && userInvited) {
-      const isOwner = owner.name === username
+      const isOwner = owner.socketId === socketId
 
       if (isOwner) {
         setMyUser(owner)
@@ -58,7 +56,7 @@ export function BattleProvider({ children }) {
     if (isConnected && !owner && !userInvited) {
       navigate("/lobby")
     }
-  }, [isConnected, navigate, owner, userInvited, username])
+  }, [isConnected, navigate, owner, socketId, userInvited])
 
   if (isLoading) {
     return <Spinner />

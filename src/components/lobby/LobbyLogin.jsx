@@ -5,8 +5,14 @@ import { Spinner } from "../UI/Spinner"
 
 export function LobbyLogin() {
   const { party } = useParty()
-  const { username, setUsername, isLogged, login, disconnect, isLoadingLogin } =
-    useSocket()
+  const {
+    username,
+    setUsername,
+    isConnected,
+    login,
+    disconnect,
+    isLoadingLogin,
+  } = useSocket()
   function handleConnect() {
     if (username.length) {
       login(username, party)
@@ -17,7 +23,7 @@ export function LobbyLogin() {
     return <Spinner containerClassname={s.spinner} />
   }
 
-  if (isLogged) {
+  if (isConnected) {
     return (
       <button className={s.submitButton} onClick={disconnect}>
         Desconectar
