@@ -17,9 +17,11 @@ export function LobbyChat() {
     <div className={s.lobbyChat}>
       <div className={s.messagesWrapper}>
         {chatMessages.map(({ name, message, hour, color }) => {
-          const hourFormatted = `${new Date(hour).getHours()}:${new Date(
-            hour
-          ).getMinutes()}`
+          const hourFormatted = `${new Date(hour).getHours()}:${
+            new Date(hour).getMinutes() < 10
+              ? `0${new Date(hour).getMinutes()}`
+              : new Date(hour).getMinutes()
+          }`
 
           return (
             <div key={hour} className={s.message}>
