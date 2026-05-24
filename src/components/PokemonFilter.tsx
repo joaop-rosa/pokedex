@@ -1,10 +1,10 @@
-import React, { useCallback, useState } from "react";
-import s from "./PokemonFilter.module.css";
 import cn from "classnames";
-import { renderTypeClassnames } from "../contants/types";
-import { GENERATIONS } from "../contants/generations";
 import _ from "lodash";
+import { useCallback, useState } from "react";
+import { GENERATIONS } from "../contants/generations";
+import { renderTypeClassnames } from "../contants/types";
 import { usePokemonList } from "../hooks/usePokemonList";
+import s from "./PokemonFilter.module.css";
 
 export default function PokemonFilter() {
 	const [isFiltersOpen, setIsFiltersOpen] = useState(false);
@@ -78,6 +78,7 @@ export default function PokemonFilter() {
 						{typeList.map((type) => {
 							return (
 								<button
+									type="button"
 									key={type}
 									className={cn(s.buttonTypeFilter, {
 										[s.buttonTypeFilterSelected]: selectedType.includes(type),
@@ -94,6 +95,7 @@ export default function PokemonFilter() {
 					<div className={s.generationWrapper}>
 						{GENERATIONS.map((generation) => (
 							<button
+								type="button"
 								className={cn(s.generation, {
 									[s.generationSelected]:
 										selectedGeneration?.number === generation.number,
@@ -107,6 +109,7 @@ export default function PokemonFilter() {
 					</div>
 				</div>
 				<button
+					type="button"
 					onClick={() => setIsFiltersOpen((prev) => !prev)}
 					className={s.buttonOpenFilters}
 				>

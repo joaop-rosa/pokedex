@@ -1,14 +1,14 @@
-import { useState, useEffect, useCallback } from "react";
-import s from "./index.module.css";
-import pikachuNotFound from "../assets/img/pikachu-not-found.png";
+import { useCallback, useEffect, useState } from "react";
 import ArrowUp from "../assets/icons/arrow-up.svg?react";
+import pikachuNotFound from "../assets/img/pikachu-not-found.png";
 import { CardPokemon } from "../components/CardPokemon";
-import { Spinner } from "../components/UI/Spinner";
-import PokemonFilter from "../components/PokemonFilter";
 import { Party } from "../components/Party";
-import { Header } from "../components/UI/Header";
-import { usePokemonList } from "../hooks/usePokemonList";
 import { PokemonDetailed } from "../components/PokemonDetailed";
+import PokemonFilter from "../components/PokemonFilter";
+import { Header } from "../components/UI/Header";
+import { Spinner } from "../components/UI/Spinner";
+import { usePokemonList } from "../hooks/usePokemonList";
+import s from "./index.module.css";
 
 export default function Home() {
 	const {
@@ -100,7 +100,11 @@ export default function Home() {
 			</div>
 
 			{isButtonToTopVisible ? (
-				<button onClick={handleButtonToTop} className={s.buttonToTop}>
+				<button
+					type="button"
+					onClick={handleButtonToTop}
+					className={s.buttonToTop}
+				>
 					<ArrowUp className={s.arrowUp} />
 				</button>
 			) : null}

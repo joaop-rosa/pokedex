@@ -1,7 +1,7 @@
-import s from "./DefaultScreen.module.css";
-import { useSelectedPokemon } from "../../hooks/useSelectedPokemon";
-import { renderTypeClassnames } from "../../contants/types";
 import cn from "classnames";
+import { renderTypeClassnames } from "../../contants/types";
+import { useSelectedPokemon } from "../../hooks/useSelectedPokemon";
+import s from "./DefaultScreen.module.css";
 
 export function DefaultScreen() {
 	const { selectedPokemon, speciesInfo } = useSelectedPokemon();
@@ -12,9 +12,9 @@ export function DefaultScreen() {
 				<div className={s.infoScreenContentRow}>
 					<span>Types</span>
 					<div className={s.typesWrapper}>
-						{selectedPokemon.types.map((type, index) => (
+						{selectedPokemon.types.map((type) => (
 							<div
-								key={index}
+								key={type}
 								className={cn(s.type, renderTypeClassnames(type, s))}
 							>
 								<p className={s.typeName}>{type.toUpperCase()}</p>

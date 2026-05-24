@@ -1,6 +1,5 @@
-import React from "react";
-import s from "./ToggleSwitch.module.css";
 import cn from "classnames";
+import s from "./ToggleSwitch.module.css";
 
 export function ToggleSwitch({ onChange, isDisabled = false }) {
 	return (

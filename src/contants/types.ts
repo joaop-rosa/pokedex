@@ -1,9 +1,7 @@
 export const renderTypeClassnames = (pokemonType, style) => {
 	return Object.values(POKEMON_TYPES).reduce((acc, type) => {
-		return {
-			...acc,
-			[style?.[`${type}Type`] || `${type}Type`]: type === pokemonType,
-		};
+		acc[style?.[`${type}Type`] || `${type}Type`] = type === pokemonType;
+		return acc;
 	}, {});
 };
 

@@ -1,6 +1,6 @@
 import { upperFirst } from "lodash";
-import s from "./FormsScreen.module.css";
 import { useSelectedPokemon } from "../../hooks/useSelectedPokemon";
+import s from "./FormsScreen.module.css";
 
 export function FormsScreen() {
 	const { selectedPokemon, setSelectedPokemon, speciesInfo } =
@@ -11,6 +11,7 @@ export function FormsScreen() {
 			{speciesInfo?.variations.map((variation) => {
 				return (
 					<button
+						type="button"
 						onClick={() => setSelectedPokemon(variation)}
 						key={variation.name}
 						className={s.variation}

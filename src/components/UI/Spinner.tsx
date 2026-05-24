@@ -1,7 +1,6 @@
-import React from "react";
-import s from "./Spinner.module.css";
-import Pokeball from "../../assets/icons/pokeball.svg?react";
 import cn from "classnames";
+import Pokeball from "../../assets/icons/pokeball.svg?react";
+import s from "./Spinner.module.css";
 
 type SpinnerProps = {
 	containerClassname?: string;

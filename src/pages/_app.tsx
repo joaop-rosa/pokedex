@@ -1,8 +1,8 @@
 import { Outlet } from "react-router-dom";
-import { SocketProvider } from "../context/SocketProvider";
-import { PokemonListProvider } from "../context/PokemonListProvider";
 import { PartyProvider } from "../context/PartyProvider";
+import { PokemonListProvider } from "../context/PokemonListProvider";
 import { SelectedPokemonProvider } from "../context/SelectedPokemonProvider";
+import { SocketProvider } from "../context/SocketProvider";
 
 export default function App() {
 	return (

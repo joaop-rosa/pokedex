@@ -1,10 +1,10 @@
-import s from "./LobbySection.module.css";
-import { useEffect } from "react";
-import { upperFirst } from "lodash";
 import cn from "classnames";
-import { LobbyLogin } from "./LobbyLogin";
+import { upperFirst } from "lodash";
+import { useEffect } from "react";
 import { useSocket } from "../../hooks/useSocket";
 import { LobbyChat } from "./LobbyChat";
+import { LobbyLogin } from "./LobbyLogin";
+import s from "./LobbySection.module.css";
 
 export function LobbySection() {
 	const {
@@ -55,7 +55,7 @@ export function LobbySection() {
 									))}
 								</div>
 								{isConnected && !user.isInBattle && (
-									<button onClick={() => challengeUser(user.id)}>
+									<button type="button" onClick={() => challengeUser(user.id)}>
 										Desafiar
 									</button>
 								)}
@@ -66,10 +66,14 @@ export function LobbySection() {
 					<div className={s.challengesPopup}>
 						<p>{challenges[0].name} lhe desafiou</p>
 						<div className={s.challengesPopupButtons}>
-							<button onClick={() => responseChallenge(challenges[0].id, true)}>
+							<button
+								type="button"
+								onClick={() => responseChallenge(challenges[0].id, true)}
+							>
 								Aceitar
 							</button>
 							<button
+								type="button"
 								onClick={() => responseChallenge(challenges[0].id, false)}
 							>
 								Recusar

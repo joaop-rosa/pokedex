@@ -1,7 +1,7 @@
-import s from "./AbilitiesScreen.module.css";
-import { useSelectedPokemon } from "../../hooks/useSelectedPokemon";
 import { upperFirst } from "lodash";
+import { useSelectedPokemon } from "../../hooks/useSelectedPokemon";
 import { Accordion } from "../UI/Accordion";
+import s from "./AbilitiesScreen.module.css";
 
 export function AbilitiesScreen() {
 	const { selectedPokemon } = useSelectedPokemon();

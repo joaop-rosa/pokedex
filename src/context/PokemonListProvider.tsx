@@ -1,25 +1,57 @@
 import {
 	createContext,
+	type ReactNode,
 	useCallback,
 	useEffect,
 	useMemo,
 	useState,
 } from "react";
 import { useApi } from "../hooks/useApi";
+import type { PokemonDetailed, PokemonListItem } from "../types/pokemon";
 
-export const PokemonListContext = createContext({});
+export interface Generation {
+	number: number;
+	start: number;
+	final: number;
+}
 
-export function PokemonListProvider({ children }) {
+export interface PokemonListContextType {
+	POKEMONS_PER_PAGE: number;
+	isReady: boolean;
+	isListLoading: boolean;
+	selectedGeneration: Generation | null;
+	setSelectedGeneration: React.Dispatch<
+		React.SetStateAction<Generation | null>
+	>;
+	setTextFilter: React.Dispatch<React.SetStateAction<string>>;
+	pageSize: number;
+	setPageSize: React.Dispatch<React.SetStateAction<number>>;
+	pokemonList: (PokemonListItem | PokemonDetailed)[];
+	isEmpty: boolean;
+	typeList: string[];
+	setSelectedType: React.Dispatch<React.SetStateAction<string[]>>;
+	selectedType: string[];
+	setIsListLoading: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export const PokemonListContext = createContext<PokemonListContextType>(
+	{} as PokemonListContextType,
+);
+
+export function PokemonListProvider({ children }: { children: ReactNode }) {
 	const POKEMONS_PER_PAGE = 12;
-	const [pokemonFullList, setPokemonFullList] = useState([]);
-	const [pokemonListFinal, setPokemonListFinal] = useState([]);
-	const [typeList, setTypeList] = useState([]);
-	const [selectedType, setSelectedType] = useState([]);
-	const [pageSize, setPageSize] = useState(POKEMONS_PER_PAGE);
-	const [textFilter, setTextFilter] = useState("");
-	const [selectedGeneration, setSelectedGeneration] = useState(null);
-	const isListLoading = !pokemonFullList.length || !typeList.length;
-	const [isListFiltering, setIsListFiltering] = useState(false);
+	const [pokemonFullList, setPokemonFullList] = useState<PokemonListItem[]>([]);
+	const [pokemonListFinal, setPokemonListFinal] = useState<
+		(PokemonListItem | PokemonDetailed)[]
+	>([]);
+	const [typeList, setTypeList] = useState<string[]>([]);
+	const [selectedType, setSelectedType] = useState<string[]>([]);
+	const [pageSize, setPageSize] = useState<number>(POKEMONS_PER_PAGE);
+	const [textFilter, setTextFilter] = useState<string>("");
+	const [selectedGeneration, setSelectedGeneration] =
+		useState<Generation | null>(null);
+	const [isListFiltering, setIsListFiltering] = useState<boolean>(false);
+
 	const isReady = useMemo(
 		() => typeList.length > 0 && pokemonFullList.length > 0,
 		[pokemonFullList, typeList],
@@ -56,7 +88,7 @@ export function PokemonListProvider({ children }) {
 	}, [fetchPokemonsFullList, pokemonFullList.length]);
 
 	const applyBasicFilter = useCallback(
-		(list) => {
+		(list: (PokemonListItem | PokemonDetailed)[]) => {
 			let filteredList = list.filter((pokemon) =>
 				pokemon.name.includes(textFilter.toLowerCase()),
 			);
@@ -92,13 +124,7 @@ export function PokemonListProvider({ children }) {
 				setIsListFiltering(false);
 			}
 		}
-	}, [
-		applyBasicFilter,
-		fetchPokemonByType,
-		pokemonFullList,
-		selectedType,
-		POKEMONS_PER_PAGE,
-	]);
+	}, [applyBasicFilter, fetchPokemonByType, pokemonFullList, selectedType]);
 
 	return (
 		<PokemonListContext.Provider

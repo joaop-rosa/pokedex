@@ -1,7 +1,7 @@
-import s from "./LobbyLogin.module.css";
-import { useSocket } from "../../hooks/useSocket";
 import { useParty } from "../../hooks/useParty";
+import { useSocket } from "../../hooks/useSocket";
 import { Spinner } from "../UI/Spinner";
+import s from "./LobbyLogin.module.css";
 
 export function LobbyLogin() {
 	const { party } = useParty();
@@ -25,7 +25,7 @@ export function LobbyLogin() {
 
 	if (isConnected) {
 		return (
-			<button className={s.submitButton} onClick={disconnect}>
+			<button type="button" className={s.submitButton} onClick={disconnect}>
 				Desconectar
 			</button>
 		);
@@ -40,6 +40,7 @@ export function LobbyLogin() {
 				type="text"
 			/>
 			<button
+				type="button"
 				disabled={!username.length}
 				className={s.submitButton}
 				onClick={handleConnect}

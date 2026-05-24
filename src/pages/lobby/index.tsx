@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import s from "./index.module.css";
-import { Header } from "../../components/UI/Header";
+import cn from "classnames";
+import { useState } from "react";
+import { Navigate } from "react-router-dom";
 import { LobbySection } from "../../components/lobby/LobbySection";
 import { PartySection } from "../../components/lobby/lobby-party/PartySection";
-import cn from "classnames";
+import { Header } from "../../components/UI/Header";
 import { useParty } from "../../hooks/useParty";
-import { Navigate } from "react-router-dom";
+import s from "./index.module.css";
 
 const SECTIONS = {
 	PARTY: "PARTY",
@@ -34,6 +34,7 @@ export default function Lobby() {
 			<div className={s.container}>
 				<div className={s.buttonsWrapper}>
 					<button
+						type="button"
 						className={cn(s.changeSectionButton, {
 							[s.changeSectionButtonSelected]:
 								sectionSelected === SECTIONS.PARTY,
@@ -43,6 +44,7 @@ export default function Lobby() {
 						Party
 					</button>
 					<button
+						type="button"
 						className={cn(s.changeSectionButton, {
 							[s.changeSectionButtonSelected]:
 								sectionSelected === SECTIONS.LOBBY,

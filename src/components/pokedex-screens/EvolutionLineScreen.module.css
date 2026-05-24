@@ -16,10 +16,6 @@
 	padding: 10px 0;
 }
 
-.variation:hover .variationImage {
-	scale: 1.1;
-}
-
 .variation:last-child {
 	border-bottom: none;
 }
@@ -27,7 +23,12 @@
 .variationImage {
 	flex: 1;
 	height: auto;
-	max-width: 135px;
+	max-height: 100px;
+	transition: scale 0.2s ease-in-out;
+}
+
+.variation:hover .variationImage {
+	scale: 1.1;
 }
 
 .variationInfos {

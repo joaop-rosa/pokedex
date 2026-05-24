@@ -1,6 +1,6 @@
 import cn from "classnames";
-import { useSocket } from "../../hooks/useSocket";
 import { useBattle } from "../../hooks/useBattle";
+import { useSocket } from "../../hooks/useSocket";
 import s from "./BattleActions.module.css";
 
 export function BattleActions() {
@@ -31,13 +31,14 @@ export function BattleActions() {
 	}
 
 	function renderAttackSelection() {
-		const { moves } = getActivePokemon(myUser.party);
+		const { movesSelected: moves } = getActivePokemon(myUser.party);
 		return (
 			<div className={s.attackSelectionWrapper}>
 				{Object.values(moves).map((move, index) => {
 					if (move) {
 						return (
 							<button
+								type="button"
 								className={cn(s.buttonAttack, {
 									[s.buttonAttackSelected]: selectedMove?.name === move.name,
 								})}
@@ -48,7 +49,8 @@ export function BattleActions() {
 							</button>
 						);
 					}
-					return <span key={index}>------</span>;
+					// biome-ignore lint/suspicious/noArrayIndexKey: empty slot key
+					return <span key={`empty-move-${index}`}>------</span>;
 				})}
 			</div>
 		);
@@ -59,7 +61,11 @@ export function BattleActions() {
 			return (
 				<>
 					<p>{winner} venceu a partida</p>
-					<button onClick={finishBattle} className={s.finishButton}>
+					<button
+						type="button"
+						onClick={finishBattle}
+						className={s.finishButton}
+					>
 						Finalizar batalha
 					</button>
 				</>
@@ -71,7 +77,10 @@ export function BattleActions() {
 				<>
 					<p>Selecione outro pokemon para continuar</p>
 					<button
-						onClick={() => changePokemonAction(battleId, selectedPokemon.id)}
+						type="button"
+						onClick={() =>
+							changePokemonAction(battleId, String(selectedPokemon.id))
+						}
 						className={cn(s.actionsButton, s.changePokemonButton)}
 						disabled={!selectedPokemon}
 					>
@@ -103,6 +112,7 @@ export function BattleActions() {
 
 					<div className={s.actionsConfirmWrapper}>
 						<button
+							type="button"
 							className={cn(s.actionsButton, s.attackButton)}
 							onClick={handleAttack}
 							disabled={!selectedMove}
@@ -110,6 +120,7 @@ export function BattleActions() {
 							Attack
 						</button>
 						<button
+							type="button"
 							className={cn(s.actionsButton, s.changePokemonButton)}
 							disabled={!selectedPokemon}
 							onClick={handleChangePokemon}

@@ -1,13 +1,21 @@
 import cn from "classnames";
-import React, { useState } from "react";
+import { useState, type ReactNode } from "react";
 import s from "./Accordion.module.css";
 
-export function Accordion({ content, header, containerClassname, onClick }) {
+interface AccordionProps {
+	content: ReactNode;
+	header: ReactNode;
+	containerClassname?: string;
+	onClick?: () => void;
+}
+
+export function Accordion({ content, header, containerClassname, onClick }: AccordionProps) {
 	const [isOpen, setIsOpen] = useState(false);
 
 	return (
 		<div className={cn(s.accordion, containerClassname)}>
 			<button
+				type="button"
 				onClick={() => {
 					if (!isOpen) onClick?.();
 					setIsOpen((prev) => !prev);

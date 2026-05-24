@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
-import s from "./PokemonDetailed.module.css";
 import cn from "classnames";
+import { useEffect } from "react";
 import { useSelectedPokemon } from "../hooks/useSelectedPokemon";
-import { PokedexInfoScreen } from "./pokedex-screens/PokedexInfoScreen";
 import { PokedexButtons } from "./PokedexButtons";
 import { PokedexScreen } from "./PokedexScreen";
+import s from "./PokemonDetailed.module.css";
+import { PokedexInfoScreen } from "./pokedex-screens/PokedexInfoScreen";
 
 export function PokemonDetailed() {
 	const { selectedPokemon, setSelectedPokemon, setSpeciesInfo } =
@@ -20,7 +20,7 @@ export function PokemonDetailed() {
 			document.body.style.overflow = "auto";
 			setSpeciesInfo(null);
 		};
-	}, [selectedPokemon, setSelectedPokemon, setSpeciesInfo]);
+	}, [selectedPokemon, setSpeciesInfo]);
 
 	return (
 		<>
@@ -37,9 +37,15 @@ export function PokemonDetailed() {
 					</div>
 				</div>
 			</div>
+			{/* biome-ignore lint/a11y/useSemanticElements: this is a backdrop */}
 			<div
 				id="backdrop"
+				role="button"
+				tabIndex={0}
 				onClick={() => setSelectedPokemon(null)}
+				onKeyDown={(e) => {
+					if (e.key === "Enter" || e.key === " ") setSelectedPokemon(null);
+				}}
 				className={cn(s.backdrop, { [s.backdropActive]: selectedPokemon })}
 			/>
 		</>

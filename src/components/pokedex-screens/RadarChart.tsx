@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from "react";
-import s from "./RadarChart.module.css";
 import * as d3 from "d3";
+import { useEffect, useRef } from "react";
 import { useSelectedPokemon } from "../../hooks/useSelectedPokemon";
+import s from "./RadarChart.module.css";
 
 function getAngleForIndex(i, sides) {
 	return (i / sides) * 2 * Math.PI;
@@ -34,10 +34,10 @@ function getLabelFromQuadrant(i, sides) {
 	const rads = getAngleForIndex(i, sides);
 
 	// left
-	if ((rads > Math.PI / 4) & (rads < (3 * Math.PI) / 4)) {
+	if ((rads > Math.PI / 4) && (rads < (3 * Math.PI) / 4)) {
 		return "start";
 		// right
-	} else if ((rads > (5 * Math.PI) / 4) & (rads < (7 * Math.PI) / 4)) {
+	} else if ((rads > (5 * Math.PI) / 4) && (rads < (7 * Math.PI) / 4)) {
 		return "end";
 	} else {
 		return "middle";
@@ -51,7 +51,7 @@ function getOffsetFromQuadrant(i, sides, offset) {
 	const rads = getAngleForIndex(i, sides);
 
 	// bottom we push out a bit more
-	if ((rads > (3 * Math.PI) / 4) & (rads < (5 * Math.PI) / 4)) {
+	if ((rads > (3 * Math.PI) / 4) && (rads < (5 * Math.PI) / 4)) {
 		return offset + 13;
 	} else {
 		return offset;
@@ -61,9 +61,9 @@ function getOffsetFromQuadrant(i, sides, offset) {
 function radarFillGenerator(sides) {
 	const fill = d3
 		.radialArea()
-		.angle((d, i) => getAngleForIndex(i, sides))
+		.angle((_d, i) => getAngleForIndex(i, sides))
 		.innerRadius(0)
-		.outerRadius((d, i) => d.value)
+		.outerRadius((d, _i) => d.value)
 		.curve(d3.curveLinearClosed);
 	return fill;
 }
@@ -80,7 +80,7 @@ const STATS_NAMES = {
 export function RadarChart() {
 	const { selectedPokemon } = useSelectedPokemon();
 	const { stats } = selectedPokemon;
-	const chartRef = useRef();
+	const chartRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
 		const width = 310;
@@ -113,7 +113,7 @@ export function RadarChart() {
 		svg
 			.append("g")
 			.append("path")
-			.attr("d", (d) => radarShapeGenerator(sides, radius))
+			.attr("d", (_d) => radarShapeGenerator(sides, radius))
 			.attr("stroke", "white")
 			.attr("fill", "none")
 			.attr(
@@ -141,19 +141,19 @@ export function RadarChart() {
 			.selectAll("text")
 			.data(statsMapped)
 			.join("text")
-			.attr("text-anchor", (d, i) => getLabelFromQuadrant(i, sides))
+			.attr("text-anchor", (_d, i) => getLabelFromQuadrant(i, sides))
 			.attr("font-family", "verdana")
 			.attr("font-size", "14px")
 			.attr("fill", "white")
 			.attr(
 				"x",
-				(d, i) =>
+				(_d, i) =>
 					Math.sin(getAngleForIndex(i, sides)) *
 					scaleTrait(traitMax + getOffsetFromQuadrant(i, sides, textOffset)),
 			)
 			.attr(
 				"y",
-				(d, i) =>
+				(_d, i) =>
 					-1 *
 					Math.cos(getAngleForIndex(i, sides)) *
 					scaleTrait(traitMax + getOffsetFromQuadrant(i, sides, textOffset)),
@@ -192,7 +192,10 @@ export function RadarChart() {
 				`translate(${Math.floor(height / 2)}, ${Math.floor(width / 2)})`,
 			);
 
-		chartRef.current.innerHTML = svg.node().outerHTML;
+		if (chartRef.current && svg.node()) {
+		// biome-ignore lint/suspicious/noExplicitAny: d3 node
+		chartRef.current.innerHTML = (svg.node() as any).outerHTML;
+	}
 	}, [stats]);
 
 	return <div className={s.chartWrapper} ref={chartRef} />;

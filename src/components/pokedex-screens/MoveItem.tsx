@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import cn from "classnames";
+import { upperCase, upperFirst } from "lodash";
+import { useState } from "react";
+import { renderTypeClassnames } from "../../contants/types";
+import { useApi } from "../../hooks/useApi";
 import { Accordion } from "../UI/Accordion";
 import { Spinner } from "../UI/Spinner";
-import { upperCase, upperFirst } from "lodash";
 import s from "./MoveItem.module.css";
-import { renderTypeClassnames } from "../../contants/types";
-import cn from "classnames";
-import { useApi } from "../../hooks/useApi";
 
 export function MoveItem({ move }) {
 	const [moveContent, setMoveContent] = useState(null);

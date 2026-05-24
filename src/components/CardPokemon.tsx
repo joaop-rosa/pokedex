@@ -1,12 +1,12 @@
-import s from "./CardPokemon.module.css";
-import { renderTypeClassnames } from "../contants/types";
-import { Spinner } from "./UI/Spinner";
-import { useEffect, useState } from "react";
 import cn from "classnames";
 import { noop, upperFirst } from "lodash";
-import { useParty } from "../hooks/useParty";
+import { useEffect, useState } from "react";
+import { renderTypeClassnames } from "../contants/types";
 import { useApi } from "../hooks/useApi";
+import { useParty } from "../hooks/useParty";
 import { useSelectedPokemon } from "../hooks/useSelectedPokemon";
+import s from "./CardPokemon.module.css";
+import { Spinner } from "./UI/Spinner";
 
 export function CardPokemon({ pokemon }) {
 	const [pokemonData, setPokemonData] = useState(null);
@@ -34,6 +34,8 @@ export function CardPokemon({ pokemon }) {
 	}
 
 	return (
+		// biome-ignore lint/a11y/useKeyWithClickEvents: card is interactive
+		// biome-ignore lint/a11y/noStaticElementInteractions: card is interactive
 		<div className={s.cardPokemon} onClick={pokemonData ? handleCard : noop}>
 			<div
 				className={cn(
@@ -49,6 +51,7 @@ export function CardPokemon({ pokemon }) {
 							<h3 className={s.numberPokemon}>{`#${pokemonData.id}`}</h3>
 							{!isPartyFull ? (
 								<button
+									type="button"
 									onClick={() => addPokemonToParty(pokemonData)}
 									className={s.addPartyButton}
 									id="buttonAddParty"
@@ -67,9 +70,9 @@ export function CardPokemon({ pokemon }) {
 						</div>
 
 						<div className={s.typesWrapper}>
-							{pokemonData.types.map((type, index) => (
+							{pokemonData.types.map((type) => (
 								<div
-									key={index}
+									key={type}
 									className={cn(s.type, renderTypeClassnames(type, s))}
 								>
 									<p className={s.typeName}>{type.toUpperCase()}</p>

@@ -1,5 +1,6 @@
 import {
 	createContext,
+	type ReactNode,
 	useCallback,
 	useEffect,
 	useMemo,
@@ -7,12 +8,7 @@ import {
 } from "react";
 import { PARTY_KEY } from "../contants/storage";
 import { useApi } from "../hooks/useApi";
-
-const PARTY_INICIAL_CONTEXT = {
-	party: [],
-};
-
-export const PartyContext = createContext(PARTY_INICIAL_CONTEXT);
+import type { MoveDetailed, PokemonDetailed } from "../types/pokemon";
 
 export const MAX_PARTY_LENGTH = 3;
 
@@ -22,16 +18,43 @@ export const MOVE_SELECT_PROPS = {
 	ATTACK3: "ATTACK3",
 	ATTACK4: "ATTACK4",
 	ABILITY: "ABILITY",
-};
+} as const;
 
-export const PartyProvider = ({ children }) => {
+export interface PokemonPartyItem extends PokemonDetailed {
+	partyId: string;
+	currentLife?: number;
+	maxLife?: number;
+	isActive?: boolean;
+	movesSelected: {
+		[MOVE_SELECT_PROPS.ATTACK1]: MoveDetailed | null;
+		[MOVE_SELECT_PROPS.ATTACK2]: MoveDetailed | null;
+		[MOVE_SELECT_PROPS.ATTACK3]: MoveDetailed | null;
+		[MOVE_SELECT_PROPS.ATTACK4]: MoveDetailed | null;
+	};
+}
+
+export interface PartyContextType {
+	party: PokemonPartyItem[];
+	addPokemonToParty: (pokemon: PokemonDetailed) => Promise<void>;
+	removePokemonFromParty: (pokemon: PokemonPartyItem) => void;
+	editPokemonFromParty: (pokemon: PokemonPartyItem) => void;
+	isPartyFull: boolean;
+}
+
+export const PartyContext = createContext<PartyContextType>(
+	{} as PartyContextType,
+);
+
+export const PartyProvider = ({ children }: { children: ReactNode }) => {
 	// TODO - Utilizar reducer
 	const { fetchMove } = useApi();
-	const [party, setParty] = useState(
-		localStorage.getItem(PARTY_KEY)
-			? JSON.parse(localStorage.getItem(PARTY_KEY))
-			: [],
-	);
+
+	const getInitialParty = (): PokemonPartyItem[] => {
+		const stored = localStorage.getItem(PARTY_KEY);
+		return stored ? JSON.parse(stored) : [];
+	};
+
+	const [party, setParty] = useState<PokemonPartyItem[]>(getInitialParty());
 	const isPartyFull = useMemo(() => party.length === MAX_PARTY_LENGTH, [party]);
 
 	function idGenerator() {
@@ -39,7 +62,7 @@ export const PartyProvider = ({ children }) => {
 	}
 
 	const editPokemonFromParty = useCallback(
-		(pokemon) => {
+		(pokemon: PokemonPartyItem) => {
 			const indexOnParty = party.findIndex(
 				(pokemonParty) => pokemonParty.partyId === pokemon.partyId,
 			);
@@ -53,11 +76,12 @@ export const PartyProvider = ({ children }) => {
 
 	useEffect(() => {
 		localStorage.setItem(PARTY_KEY, JSON.stringify(party));
-	}, [party, editPokemonFromParty]);
+	}, [party]);
 
-	async function addPokemonToParty(pokemon) {
+	async function addPokemonToParty(pokemon: PokemonDetailed) {
 		if (!isPartyFull) {
-			const firstMove = await fetchMove(pokemon.moves["LEVEL UP"][0].url);
+			const firstMoveUrl = pokemon.moves["LEVEL UP"]?.[0]?.url;
+			const firstMove = firstMoveUrl ? await fetchMove(firstMoveUrl) : null;
 
 			setParty((prev) => [
 				...prev,
@@ -76,7 +100,7 @@ export const PartyProvider = ({ children }) => {
 		}
 	}
 
-	function removePokemonFromParty(pokemon) {
+	function removePokemonFromParty(pokemon: PokemonPartyItem) {
 		setParty(
 			party.filter((pokemonParty) => pokemonParty.partyId !== pokemon.partyId),
 		);

@@ -1,5 +1,6 @@
 import {
 	createContext,
+	type ReactNode,
 	useCallback,
 	useEffect,
 	useMemo,
@@ -7,19 +8,61 @@ import {
 } from "react";
 import { useNavigate } from "react-router-dom";
 import { socket } from "../contants/socket.js";
+import type { PokemonPartyItem } from "./PartyProvider";
 
-export const SocketContext = createContext();
+export interface ChatMessage {
+	name: string;
+	message: string;
+	hour: string;
+	color: string;
+}
 
-export const SocketProvider = ({ children }) => {
+export interface SocketContextType {
+	// biome-ignore lint/suspicious/noExplicitAny: socket object
+	socket: any;
+	username: string;
+	// biome-ignore lint/suspicious/noExplicitAny: socket users
+	connectUsers: any[];
+	// biome-ignore lint/suspicious/noExplicitAny: challenges
+	challenges: any[];
+	// biome-ignore lint/suspicious/noExplicitAny: battle obj
+	battle: any;
+	isWaitingOponentMove: boolean;
+	isConnected: boolean;
+	isLoadingLogin: boolean;
+	socketId: string | null;
+	setUsername: React.Dispatch<React.SetStateAction<string>>;
+	refreshConnectedList: () => void;
+	challengeUser: (userInvitedSocketId: string) => void;
+	login: (username: string, party: PokemonPartyItem[]) => void;
+	responseChallenge: (challengerId: string, response: boolean) => void;
+	// biome-ignore lint/suspicious/noExplicitAny: action args
+	battleAction: (battleId: string, actionKey: string, actionValue: any) => void;
+	changePokemonAction: (battleId: string, newPokemonId: string) => void;
+	finishBattle: () => void;
+	disconnect: () => void;
+	sendChatMessage: (message: string) => void;
+	chatMessages: ChatMessage[];
+}
+
+export const SocketContext = createContext<SocketContextType>(
+	{} as SocketContextType,
+);
+
+export const SocketProvider = ({ children }: { children: ReactNode }) => {
 	const navigation = useNavigate();
-	const [isConnected, setIsConnected] = useState(socket.connected);
-	const [username, setUsername] = useState("");
-	const [socketId, setSocketId] = useState("");
-	const [connectUsers, setConnectedUsers] = useState([]);
-	const [challenges, setChallenges] = useState([]);
-	const [battle, setBattle] = useState({});
-	const [isLoadingLogin, setLoadingLogin] = useState(false);
-	const [chatMessages, setChatMessages] = useState([]);
+	const [isConnected, setIsConnected] = useState<boolean>(socket.connected);
+	const [username, setUsername] = useState<string>("");
+	const [socketId, setSocketId] = useState<string | null>("");
+	// biome-ignore lint/suspicious/noExplicitAny: list
+	const [connectUsers, setConnectedUsers] = useState<any[]>([]);
+	// biome-ignore lint/suspicious/noExplicitAny: list
+	const [challenges, setChallenges] = useState<any[]>([]);
+	// biome-ignore lint/suspicious/noExplicitAny: obj
+	const [battle, setBattle] = useState<any>({});
+	const [isLoadingLogin, setLoadingLogin] = useState<boolean>(false);
+	const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
+
 	const isWaitingOponentMove = useMemo(() => {
 		if (battle?.battleLog) {
 			const battleLogRoundIndex = battle.round - 1;
@@ -42,7 +85,7 @@ export const SocketProvider = ({ children }) => {
 		function onConnection() {
 			console.log("conectado");
 			setIsConnected(true);
-			setSocketId(socket.id);
+			setSocketId(socket.id || "");
 		}
 
 		function onDisconnect() {
@@ -61,21 +104,25 @@ export const SocketProvider = ({ children }) => {
 	}, []);
 
 	useEffect(() => {
-		socket.on("connected-list", (list) => {
+		// biome-ignore lint/suspicious/noExplicitAny: payload
+		socket.on("connected-list", (list: any[]) => {
 			setConnectedUsers(list);
 		});
-		socket.on("challenges", (challenge) =>
+		// biome-ignore lint/suspicious/noExplicitAny: payload
+		socket.on("challenges", (challenge: any) =>
 			setChallenges((prev) => [...prev, challenge]),
 		);
-		socket.on("battle", (battle) => {
-			setBattle(battle);
+		// biome-ignore lint/suspicious/noExplicitAny: payload
+		socket.on("battle", (battleData: any) => {
+			setBattle(battleData);
 			navigation("/battle");
 		});
-		socket.on("battle:action-response", (battle) => {
-			setBattle(battle);
+		// biome-ignore lint/suspicious/noExplicitAny: payload
+		socket.on("battle:action-response", (battleData: any) => {
+			setBattle(battleData);
 		});
-		socket.on("message", (message) => alert(message));
-		socket.on("chat:message", (message) =>
+		socket.on("message", (message: string) => alert(message));
+		socket.on("chat:message", (message: ChatMessage) =>
 			setChatMessages((prev) => [...prev, message]),
 		);
 
@@ -88,7 +135,7 @@ export const SocketProvider = ({ children }) => {
 		};
 	}, [navigation]);
 
-	const loginCallback = useCallback((isLogged) => {
+	const loginCallback = useCallback((isLogged: boolean) => {
 		if (isLogged) {
 			alert("Logado com sucesso");
 		} else {
@@ -99,9 +146,9 @@ export const SocketProvider = ({ children }) => {
 	}, []);
 
 	const login = useCallback(
-		(username, party) => {
+		(uname: string, party: PokemonPartyItem[]) => {
 			socket.connect();
-			socket.emit("connect:server", username, party, loginCallback);
+			socket.emit("connect:server", uname, party, loginCallback);
 			setLoadingLogin(true);
 		},
 		[loginCallback],
@@ -117,8 +164,8 @@ export const SocketProvider = ({ children }) => {
 		setConnectedUsers([]);
 	}, []);
 
-	const challengeUser = useCallback((userInvitedSocketId) => {
-		socket.emit("battle:invite", userInvitedSocketId, (isSended) => {
+	const challengeUser = useCallback((userInvitedSocketId: string) => {
+		socket.emit("battle:invite", userInvitedSocketId, (isSended: boolean) => {
 			if (isSended) {
 				alert("Desafio enviado");
 			}
@@ -126,7 +173,7 @@ export const SocketProvider = ({ children }) => {
 	}, []);
 
 	const responseChallenge = useCallback(
-		(challengerId, response) => {
+		(challengerId: string, response: boolean) => {
 			if (response) {
 				socket.emit("battle:invite-response", challengerId);
 			}
@@ -143,18 +190,24 @@ export const SocketProvider = ({ children }) => {
 		navigation("/lobby");
 	}, [navigation]);
 
-	const battleAction = useCallback((battleId, actionKey, actionValue) => {
-		socket.emit("battle:actions", battleId, {
-			actionKey,
-			actionValue,
-		});
-	}, []);
+	const battleAction = useCallback(
+		(battleId: string, actionKey: string, actionValue: unknown) => {
+			socket.emit("battle:actions", battleId, {
+				actionKey,
+				actionValue,
+			});
+		},
+		[],
+	);
 
-	const changePokemonAction = useCallback((battleId, newPokemonId) => {
-		socket.emit("battle:action-change", battleId, newPokemonId);
-	}, []);
+	const changePokemonAction = useCallback(
+		(battleId: string, newPokemonId: string) => {
+			socket.emit("battle:action-change", battleId, newPokemonId);
+		},
+		[],
+	);
 
-	const sendChatMessage = useCallback((message) => {
+	const sendChatMessage = useCallback((message: string) => {
 		socket.emit("chat:message", message);
 	}, []);
 

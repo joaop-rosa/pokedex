@@ -1,10 +1,10 @@
-import { useState } from "react";
-import s from "./Party.module.css";
 import cn from "classnames";
-import ArrowRight from "../assets/icons/arrow-right.svg?react";
 import { upperFirst } from "lodash";
+import { useState } from "react";
+import ArrowRight from "../assets/icons/arrow-right.svg?react";
 import { renderTypeClassnames } from "../contants/types";
 import { useParty } from "../hooks/useParty";
+import s from "./Party.module.css";
 
 export function Party() {
 	const { party, removePokemonFromParty } = useParty();
@@ -27,6 +27,7 @@ export function Party() {
 								)}
 							>
 								<button
+									type="button"
 									className={s.buttonClose}
 									onClick={() => removePokemonFromParty(pokemon)}
 								>
@@ -49,6 +50,7 @@ export function Party() {
 				)}
 			</div>
 			<button
+				type="button"
 				className={s.partyButtonOpen}
 				onClick={() => setIsOpen((prev) => !prev)}
 			>

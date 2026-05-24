@@ -46,7 +46,7 @@
 }
 
 .namePokemon {
-	font-family: pokemon;
+	font-family: pokemon, sans-serif;
 	font-size: 24px;
 	line-height: 50px;
 	margin-bottom: 10px;
@@ -63,7 +63,7 @@
 }
 
 .numberPokemon {
-	font-family: pokemon;
+	font-family: pokemon, sans-serif;
 	line-height: 25px;
 	color: var(--yellow);
 	-webkit-text-stroke: 1px var(--azure);

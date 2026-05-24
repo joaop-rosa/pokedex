@@ -1,15 +1,15 @@
-import { upperFirst } from "lodash";
-import s from "./PokedexScreen.module.css";
 import cn from "classnames";
+import { upperFirst } from "lodash";
 import FemaleIcon from "../assets/icons/female.svg?react";
 import MaleIcon from "../assets/icons/male.svg?react";
 import Rotate from "../assets/icons/rotate.svg?react";
 import background from "../assets/img/detailed-background.png";
-import { useSelectedPokemon } from "../hooks/useSelectedPokemon";
 import {
 	POSITION_VARIATIONS,
 	SEX_VARIATIONS,
 } from "../context/SelectedPokemonProvider";
+import { useSelectedPokemon } from "../hooks/useSelectedPokemon";
+import s from "./PokedexScreen.module.css";
 import { ToggleSwitch } from "./UI/ToggleSwitch";
 
 export function PokedexScreen() {
@@ -103,6 +103,7 @@ export function PokedexScreen() {
 
 		return (
 			<button
+				type="button"
 				className={cn(s.rotateButton, {
 					[s.rotateButtonDisabled]: isDisabled(),
 				})}

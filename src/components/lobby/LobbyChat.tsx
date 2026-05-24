@@ -40,9 +40,12 @@ export function LobbyChat() {
 					className={s.inputMessage}
 					value={message}
 					onChange={(event) => setMessage(event.target.value)}
-					type="text"
 				/>
-				<button disabled={!message.length} onClick={handleSendMessage}>
+				<button
+					type="button"
+					disabled={!message.length}
+					onClick={handleSendMessage}
+				>
 					Enviar
 				</button>
 			</div>

@@ -1,10 +1,10 @@
 import cn from "classnames";
-import s from "./PokedexButtons.module.css";
 import {
 	INFOS_VARIATION,
 	SPRITE_VARIATIONS,
 } from "../context/SelectedPokemonProvider";
 import { useSelectedPokemon } from "../hooks/useSelectedPokemon";
+import s from "./PokedexButtons.module.css";
 
 export function PokedexButtons() {
 	const {
@@ -77,6 +77,7 @@ export function PokedexButtons() {
 		<div className={s.buttonsWrapper}>
 			{BUTTONS.map((button) => (
 				<button
+					type="button"
 					key={button.name}
 					disabled={button.isDisabled}
 					className={cn(s.button, button?.class, {

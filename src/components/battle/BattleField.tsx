@@ -1,7 +1,7 @@
 import cn from "classnames";
-import s from "./BattleField.module.css";
 import { upperFirst } from "lodash";
 import { useBattle } from "../../hooks/useBattle";
+import s from "./BattleField.module.css";
 
 type BattleFieldProps = {
 	isOpponent?: boolean;
@@ -23,6 +23,7 @@ export function BattleField({ isOpponent }: BattleFieldProps) {
 				if (isMyParty) {
 					return (
 						<button
+							type="button"
 							key={pokemon.id}
 							disabled={pokemon.currentLife <= 0}
 							className={cn(s.buttonPokemonMiniature, {
@@ -34,14 +35,13 @@ export function BattleField({ isOpponent }: BattleFieldProps) {
 							<img
 								className={s.miniaturesImages}
 								src={pokemon.sprites.miniature}
-								alt=""
+								alt="pokemon miniature"
 							/>
 						</button>
 					);
 				}
 				return (
 					<img
-						disabled={pokemon.currentLife <= 0}
 						key={pokemon.id}
 						className={cn(s.miniaturesImages, {
 							[s.miniaturesImagesDisabled]: pokemon.currentLife <= 0,

@@ -15,6 +15,6 @@
 .header a {
 	color: yellow;
 	-webkit-text-stroke: 1px #3761a8;
-	font-family: pokemon;
+	font-family: pokemon, sans-serif;
 	font-size: 36px;
 }

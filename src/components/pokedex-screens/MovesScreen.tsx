@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import s from "./MovesScreen.module.css";
 import cn from "classnames";
-import { MoveItem } from "./MoveItem";
+import { useState } from "react";
 import { useSelectedPokemon } from "../../hooks/useSelectedPokemon";
+import { MoveItem } from "./MoveItem";
+import s from "./MovesScreen.module.css";
 
 export function MovesScreen() {
 	const { selectedPokemon } = useSelectedPokemon();
@@ -13,9 +13,10 @@ export function MovesScreen() {
 			<div className={s.movesMethodsWrapper}>
 				{Object.keys(selectedPokemon.moves).map((moveKey) => (
 					<button
+						type="button"
 						key={moveKey}
-						className={cn(s.moveMethod, {
-							[s.moveMethodSelected]: moveKey === selectedMethod,
+						className={cn(s.movesMethodButton, {
+							[s.movesMethodButtonSelected]: moveKey === selectedMethod,
 						})}
 						onClick={() => setSelectedMethod(moveKey)}
 					>

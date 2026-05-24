@@ -1,15 +1,14 @@
 import cn from "classnames";
-import { Spinner } from "../UI/Spinner";
-import { useSelectedPokemon } from "../../hooks/useSelectedPokemon";
 import { INFOS_VARIATION } from "../../context/SelectedPokemonProvider";
-import { FormsScreen } from "./FormsScreen";
-import { EvolutionLineScreen } from "./EvolutionLineScreen";
+import { useSelectedPokemon } from "../../hooks/useSelectedPokemon";
+import { Spinner } from "../UI/Spinner";
 import { AbilitiesScreen } from "./AbilitiesScreen";
-import { RadarChart } from "./RadarChart";
-import { MovesScreen } from "./MovesScreen";
 import { DefaultScreen } from "./DefaultScreen";
-
+import { EvolutionLineScreen } from "./EvolutionLineScreen";
+import { FormsScreen } from "./FormsScreen";
+import { MovesScreen } from "./MovesScreen";
 import s from "./PokedexInfoScreen.module.css";
+import { RadarChart } from "./RadarChart";
 
 export function PokedexInfoScreen() {
 	const { selectedPokemon, infoScreenContent, isLoadingScreen } =

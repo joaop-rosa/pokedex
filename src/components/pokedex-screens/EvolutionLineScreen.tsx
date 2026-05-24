@@ -1,6 +1,6 @@
-import s from "./EvolutionLineScreen.module.css";
-import { useSelectedPokemon } from "../../hooks/useSelectedPokemon";
 import { upperFirst } from "lodash";
+import { useSelectedPokemon } from "../../hooks/useSelectedPokemon";
+import s from "./EvolutionLineScreen.module.css";
 
 export function EvolutionLineScreen() {
 	const { selectedPokemon, speciesInfo, setSelectedPokemon } =
@@ -11,6 +11,7 @@ export function EvolutionLineScreen() {
 			{speciesInfo?.evolutionLine.map((variation) => {
 				return (
 					<button
+						type="button"
 						onClick={() => setSelectedPokemon(variation)}
 						key={variation.name}
 						className={s.variation}
