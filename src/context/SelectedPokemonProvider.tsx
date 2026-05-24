@@ -6,7 +6,7 @@ import {
 	useState,
 } from "react";
 import { LAST_POKEMON_NUMBER } from "../contants/generations";
-import { useApi } from "../hooks/useApi";
+import { usePokemonSpeciesQuery } from "../hooks/useApi";
 import type { PokemonDetailed, PokemonSpecies } from "../types/pokemon";
 
 export const SEX_VARIATIONS = {
@@ -43,7 +43,6 @@ export interface SelectedPokemonContextType {
 		React.SetStateAction<PokemonDetailed | null>
 	>;
 	speciesInfo: PokemonSpecies | null;
-	setSpeciesInfo: React.Dispatch<React.SetStateAction<PokemonSpecies | null>>;
 	isLoadingScreen: boolean;
 	infoScreenContent: ValueOf<typeof INFOS_VARIATION>;
 	setInfoScreenContent: React.Dispatch<
@@ -73,16 +72,20 @@ export const SelectedPokemonContext = createContext<SelectedPokemonContextType>(
 export function SelectedPokemonProvider({ children }: { children: ReactNode }) {
 	const [selectedPokemon, setSelectedPokemon] =
 		useState<PokemonDetailed | null>(null);
-	const [speciesInfo, setSpeciesInfo] = useState<PokemonSpecies | null>(null);
-	const { fetchPokemonSpecies } = useApi();
-	const hasSpecies = useMemo(
-		() => selectedPokemon && selectedPokemon.id <= LAST_POKEMON_NUMBER,
-		[selectedPokemon],
-	);
+
+	const hasSpecies =
+		selectedPokemon && selectedPokemon.id <= LAST_POKEMON_NUMBER;
+
+	const { data: speciesInfoData, isLoading: isLoadingSpecies } =
+		usePokemonSpeciesQuery(hasSpecies ? selectedPokemon : null);
+
+	const speciesInfo = speciesInfoData || null;
+
 	const isLoadingScreen = useMemo(
-		() => !selectedPokemon || (!!hasSpecies && !speciesInfo),
-		[hasSpecies, selectedPokemon, speciesInfo],
+		() => !selectedPokemon || (!!hasSpecies && isLoadingSpecies),
+		[hasSpecies, selectedPokemon, isLoadingSpecies],
 	);
+
 	const [infoScreenContent, setInfoScreenContent] = useState<
 		ValueOf<typeof INFOS_VARIATION>
 	>(INFOS_VARIATION.DEFAULT);
@@ -109,25 +112,13 @@ export function SelectedPokemonProvider({ children }: { children: ReactNode }) {
 		[spriteVariation],
 	);
 
-	useEffect(() => {
-		async function getSpeciesInfo() {
-			if (selectedPokemon) {
-				const info = await fetchPokemonSpecies(selectedPokemon);
-				setSpeciesInfo(info);
-			}
-		}
-
-		if (hasSpecies) {
-			getSpeciesInfo();
-		}
-	}, [fetchPokemonSpecies, hasSpecies, selectedPokemon]);
-
+	// biome-ignore lint/correctness/useExhaustiveDependencies: Needs to reset when selectedPokemon changes
 	useEffect(() => {
 		setInfoScreenContent(INFOS_VARIATION.DEFAULT);
 		setSpriteVariation(SPRITE_VARIATIONS.DEFAULT);
 		setPositionVariation(POSITION_VARIATIONS.FRONT);
 		setSexVariation(SEX_VARIATIONS.MALE);
-	}, []);
+	}, [selectedPokemon]);
 
 	return (
 		<SelectedPokemonContext.Provider
@@ -135,7 +126,6 @@ export function SelectedPokemonProvider({ children }: { children: ReactNode }) {
 				selectedPokemon,
 				setSelectedPokemon,
 				speciesInfo,
-				setSpeciesInfo,
 				isLoadingScreen,
 				infoScreenContent,
 				setInfoScreenContent,

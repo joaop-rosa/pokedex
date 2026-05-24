@@ -12,8 +12,13 @@ import { useSocket } from "../hooks/useSocket";
 import type { MoveDetailed, PokemonDetailed } from "../types/pokemon";
 import type { PokemonPartyItem } from "./PartyProvider";
 
-// biome-ignore lint/suspicious/noExplicitAny: Socket user object
-export type BattleUser = any;
+export interface BattleUser {
+	socketId: string;
+	username: string;
+	party: PokemonPartyItem[];
+	activePokemon?: PokemonPartyItem;
+	[key: string]: unknown;
+}
 
 export interface BattleContextType {
 	getActivePokemon: (party: PokemonPartyItem[]) => PokemonPartyItem;

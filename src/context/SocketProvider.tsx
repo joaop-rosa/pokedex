@@ -17,16 +17,40 @@ export interface ChatMessage {
 	color: string;
 }
 
+import type { BattleUser } from "./BattleProvider";
+
+export interface Challenge {
+	id: string;
+	name: string;
+}
+
+export interface SocketUser {
+	id: string;
+	isInBattle: boolean;
+	data: {
+		name: string;
+		party: PokemonPartyItem[];
+	};
+}
+
+export interface BattleData {
+	battleId: string;
+	owner: BattleUser;
+	userInvited: BattleUser;
+	battleLog: Record<string, Record<string, unknown>>[];
+	round: number;
+	messages: string[];
+	isOver: boolean;
+	winner: string;
+	[key: string]: unknown;
+}
+
 export interface SocketContextType {
-	// biome-ignore lint/suspicious/noExplicitAny: socket object
-	socket: any;
+	socket: unknown;
 	username: string;
-	// biome-ignore lint/suspicious/noExplicitAny: socket users
-	connectUsers: any[];
-	// biome-ignore lint/suspicious/noExplicitAny: challenges
-	challenges: any[];
-	// biome-ignore lint/suspicious/noExplicitAny: battle obj
-	battle: any;
+	connectUsers: SocketUser[];
+	challenges: Challenge[];
+	battle: BattleData | null;
 	isWaitingOponentMove: boolean;
 	isConnected: boolean;
 	isLoadingLogin: boolean;
@@ -36,8 +60,11 @@ export interface SocketContextType {
 	challengeUser: (userInvitedSocketId: string) => void;
 	login: (username: string, party: PokemonPartyItem[]) => void;
 	responseChallenge: (challengerId: string, response: boolean) => void;
-	// biome-ignore lint/suspicious/noExplicitAny: action args
-	battleAction: (battleId: string, actionKey: string, actionValue: any) => void;
+	battleAction: (
+		battleId: string,
+		actionKey: string,
+		actionValue: unknown,
+	) => void;
 	changePokemonAction: (battleId: string, newPokemonId: string) => void;
 	finishBattle: () => void;
 	disconnect: () => void;
@@ -54,12 +81,9 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
 	const [isConnected, setIsConnected] = useState<boolean>(socket.connected);
 	const [username, setUsername] = useState<string>("");
 	const [socketId, setSocketId] = useState<string | null>("");
-	// biome-ignore lint/suspicious/noExplicitAny: list
-	const [connectUsers, setConnectedUsers] = useState<any[]>([]);
-	// biome-ignore lint/suspicious/noExplicitAny: list
-	const [challenges, setChallenges] = useState<any[]>([]);
-	// biome-ignore lint/suspicious/noExplicitAny: obj
-	const [battle, setBattle] = useState<any>({});
+	const [connectUsers, setConnectUsers] = useState<SocketUser[]>([]);
+	const [challenges, setChallenges] = useState<Challenge[]>([]);
+	const [battle, setBattle] = useState<BattleData | null>(null);
 	const [isLoadingLogin, setLoadingLogin] = useState<boolean>(false);
 	const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
 
@@ -104,21 +128,17 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
 	}, []);
 
 	useEffect(() => {
-		// biome-ignore lint/suspicious/noExplicitAny: payload
-		socket.on("connected-list", (list: any[]) => {
-			setConnectedUsers(list);
+		socket.on("connected-list", (list: SocketUser[]) => {
+			setConnectUsers(list);
 		});
-		// biome-ignore lint/suspicious/noExplicitAny: payload
-		socket.on("challenges", (challenge: any) =>
+		socket.on("challenges", (challenge: Challenge) =>
 			setChallenges((prev) => [...prev, challenge]),
 		);
-		// biome-ignore lint/suspicious/noExplicitAny: payload
-		socket.on("battle", (battleData: any) => {
+		socket.on("battle", (battleData: BattleData) => {
 			setBattle(battleData);
 			navigation("/battle");
 		});
-		// biome-ignore lint/suspicious/noExplicitAny: payload
-		socket.on("battle:action-response", (battleData: any) => {
+		socket.on("battle:action-response", (battleData: BattleData) => {
 			setBattle(battleData);
 		});
 		socket.on("message", (message: string) => alert(message));
@@ -161,7 +181,7 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
 	const disconnect = useCallback(() => {
 		socket.disconnect();
 		setUsername("");
-		setConnectedUsers([]);
+		setConnectUsers([]);
 	}, []);
 
 	const challengeUser = useCallback((userInvitedSocketId: string) => {
@@ -186,7 +206,7 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
 	);
 
 	const finishBattle = useCallback(() => {
-		setBattle({});
+		setBattle(null);
 		navigation("/lobby");
 	}, [navigation]);
 

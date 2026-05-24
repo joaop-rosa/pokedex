@@ -1,3 +1,4 @@
+import { useQueryClient } from "@tanstack/react-query";
 import {
 	createContext,
 	type ReactNode,
@@ -7,7 +8,7 @@ import {
 	useState,
 } from "react";
 import { PARTY_KEY } from "../contants/storage";
-import { useApi } from "../hooks/useApi";
+import { fetchMoveFn } from "../hooks/useApi";
 import type { MoveDetailed, PokemonDetailed } from "../types/pokemon";
 
 export const MAX_PARTY_LENGTH = 3;
@@ -46,8 +47,7 @@ export const PartyContext = createContext<PartyContextType>(
 );
 
 export const PartyProvider = ({ children }: { children: ReactNode }) => {
-	// TODO - Utilizar reducer
-	const { fetchMove } = useApi();
+	const queryClient = useQueryClient();
 
 	const getInitialParty = (): PokemonPartyItem[] => {
 		const stored = localStorage.getItem(PARTY_KEY);
@@ -81,7 +81,12 @@ export const PartyProvider = ({ children }: { children: ReactNode }) => {
 	async function addPokemonToParty(pokemon: PokemonDetailed) {
 		if (!isPartyFull) {
 			const firstMoveUrl = pokemon.moves["LEVEL UP"]?.[0]?.url;
-			const firstMove = firstMoveUrl ? await fetchMove(firstMoveUrl) : null;
+			const firstMove = firstMoveUrl
+				? await queryClient.fetchQuery({
+						queryKey: ["move", firstMoveUrl],
+						queryFn: () => fetchMoveFn(firstMoveUrl),
+					})
+				: null;
 
 			setParty((prev) => [
 				...prev,

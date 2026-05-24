@@ -15,7 +15,6 @@ export default function PokemonFilter() {
 		setSelectedGeneration,
 		setSelectedType,
 		selectedType,
-		setIsListLoading,
 	} = usePokemonList();
 
 	const handlePokemonName = useCallback(
@@ -25,9 +24,8 @@ export default function PokemonFilter() {
 				setTextFilter(inputValue);
 			}, 1200);
 			onChange();
-			setIsListLoading(true);
 		},
-		[setIsListLoading, setTextFilter],
+		[setTextFilter],
 	);
 
 	const handleGeneration = useCallback(
@@ -40,9 +38,8 @@ export default function PokemonFilter() {
 			} else {
 				setSelectedGeneration(generation);
 			}
-			setIsListLoading(true);
 		},
-		[selectedGeneration, setIsListLoading, setSelectedGeneration],
+		[selectedGeneration, setSelectedGeneration],
 	);
 
 	const handleButtonType = useCallback(
@@ -59,9 +56,8 @@ export default function PokemonFilter() {
 
 				return [...prev, typeClicked];
 			});
-			setIsListLoading(true);
 		},
-		[setIsListLoading, setSelectedType],
+		[setSelectedType],
 	);
 
 	return (

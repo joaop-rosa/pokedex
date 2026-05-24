@@ -1,15 +1,16 @@
+import { useQueryClient } from "@tanstack/react-query";
 import cn from "classnames";
 import { upperCase, upperFirst } from "lodash";
 import { useState } from "react";
 import { renderTypeClassnames } from "../../contants/types";
-import { useApi } from "../../hooks/useApi";
+import { fetchMoveFn } from "../../hooks/useApi";
 import { Accordion } from "../UI/Accordion";
 import { Spinner } from "../UI/Spinner";
 import s from "./MoveItem.module.css";
 
 export function MoveItem({ move }) {
 	const [moveContent, setMoveContent] = useState(null);
-	const { fetchMove } = useApi();
+	const queryClient = useQueryClient();
 
 	function renderMoveContent() {
 		const fixNull = (number) => {
@@ -58,7 +59,10 @@ export function MoveItem({ move }) {
 
 	async function handleFetchMove() {
 		if (!moveContent) {
-			const moveDetailed = await fetchMove(move.url);
+			const moveDetailed = await queryClient.fetchQuery({
+				queryKey: ["move", move.url],
+				queryFn: () => fetchMoveFn(move.url),
+			});
 			setMoveContent(moveDetailed);
 		}
 	}

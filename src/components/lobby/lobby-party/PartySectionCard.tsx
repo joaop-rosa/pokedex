@@ -1,13 +1,14 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { upperFirst } from "lodash";
 import { useMemo, useState } from "react";
 import { MOVE_SELECT_PROPS } from "../../../context/PartyProvider";
-import { useApi } from "../../../hooks/useApi";
+import { fetchMoveFn } from "../../../hooks/useApi";
 import { useParty } from "../../../hooks/useParty";
 import s from "./PartySectionCard.module.css";
 
 export function PartySectionCard({ pokemon }) {
 	const [_selectedMove, setSelectedMove] = useState(null);
-	const { fetchMove } = useApi();
+	const queryClient = useQueryClient();
 	const { editPokemonFromParty } = useParty();
 
 	const flatMoveList = useMemo(() => {
@@ -23,7 +24,10 @@ export function PartySectionCard({ pokemon }) {
 
 	async function handleSelect(event) {
 		const move = flatMoveList.find((m) => event.target.value === m.name);
-		const mappedMove = await fetchMove(move.url);
+		const mappedMove = await queryClient.fetchQuery({
+			queryKey: ["move", move.url],
+			queryFn: () => fetchMoveFn(move.url),
+		});
 		// event.target.name === MOVE_SELECT_PROPS.ABILITY
 		//   ? pokemon.abilities[
 		//       pokemon.abilities.findIndex(

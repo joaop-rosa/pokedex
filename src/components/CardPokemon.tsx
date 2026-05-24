@@ -1,31 +1,23 @@
 import cn from "classnames";
 import { noop, upperFirst } from "lodash";
-import { useEffect, useState } from "react";
 import { renderTypeClassnames } from "../contants/types";
-import { useApi } from "../hooks/useApi";
+import { useDetailedPokemonQuery } from "../hooks/useApi";
 import { useParty } from "../hooks/useParty";
 import { useSelectedPokemon } from "../hooks/useSelectedPokemon";
 import s from "./CardPokemon.module.css";
 import { Spinner } from "./UI/Spinner";
 
 export function CardPokemon({ pokemon }) {
-	const [pokemonData, setPokemonData] = useState(null);
 	const { isPartyFull, addPokemonToParty } = useParty();
-	const { fetchDetailedPokemon } = useApi();
 	const { setSelectedPokemon } = useSelectedPokemon();
 
-	useEffect(() => {
-		async function fetchPokemon() {
-			const pokemonDetailed = await fetchDetailedPokemon(pokemon.name);
-			setPokemonData(pokemonDetailed);
-		}
+	const hasSprites = !!pokemon.sprites;
 
-		if (!pokemon.sprites) {
-			fetchPokemon();
-		} else {
-			setPokemonData(pokemon);
-		}
-	}, [fetchDetailedPokemon, pokemon]);
+	const { data: fetchedData } = useDetailedPokemonQuery(
+		hasSprites ? undefined : pokemon.name,
+	);
+
+	const pokemonData = hasSprites ? pokemon : fetchedData;
 
 	function handleCard(event) {
 		if (event.target.id !== "buttonAddParty") {

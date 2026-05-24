@@ -34,10 +34,10 @@ function getLabelFromQuadrant(i, sides) {
 	const rads = getAngleForIndex(i, sides);
 
 	// left
-	if ((rads > Math.PI / 4) && (rads < (3 * Math.PI) / 4)) {
+	if (rads > Math.PI / 4 && rads < (3 * Math.PI) / 4) {
 		return "start";
 		// right
-	} else if ((rads > (5 * Math.PI) / 4) && (rads < (7 * Math.PI) / 4)) {
+	} else if (rads > (5 * Math.PI) / 4 && rads < (7 * Math.PI) / 4) {
 		return "end";
 	} else {
 		return "middle";
@@ -51,7 +51,7 @@ function getOffsetFromQuadrant(i, sides, offset) {
 	const rads = getAngleForIndex(i, sides);
 
 	// bottom we push out a bit more
-	if ((rads > (3 * Math.PI) / 4) && (rads < (5 * Math.PI) / 4)) {
+	if (rads > (3 * Math.PI) / 4 && rads < (5 * Math.PI) / 4) {
 		return offset + 13;
 	} else {
 		return offset;
@@ -193,9 +193,9 @@ export function RadarChart() {
 			);
 
 		if (chartRef.current && svg.node()) {
-		// biome-ignore lint/suspicious/noExplicitAny: d3 node
-		chartRef.current.innerHTML = (svg.node() as any).outerHTML;
-	}
+			// Ensure we have a valid DOM node
+			chartRef.current.innerHTML = (svg.node() as HTMLElement).outerHTML;
+		}
 	}, [stats]);
 
 	return <div className={s.chartWrapper} ref={chartRef} />;

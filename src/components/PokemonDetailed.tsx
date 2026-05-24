@@ -7,8 +7,7 @@ import s from "./PokemonDetailed.module.css";
 import { PokedexInfoScreen } from "./pokedex-screens/PokedexInfoScreen";
 
 export function PokemonDetailed() {
-	const { selectedPokemon, setSelectedPokemon, setSpeciesInfo } =
-		useSelectedPokemon();
+	const { selectedPokemon, setSelectedPokemon } = useSelectedPokemon();
 
 	// TODO - lock scroll
 	useEffect(() => {
@@ -18,9 +17,8 @@ export function PokemonDetailed() {
 
 		return () => {
 			document.body.style.overflow = "auto";
-			setSpeciesInfo(null);
 		};
-	}, [selectedPokemon, setSpeciesInfo]);
+	}, [selectedPokemon]);
 
 	return (
 		<>

@@ -1,5 +1,5 @@
 import cn from "classnames";
-import { useState, type ReactNode } from "react";
+import { type ReactNode, useState } from "react";
 import s from "./Accordion.module.css";
 
 interface AccordionProps {
@@ -9,7 +9,12 @@ interface AccordionProps {
 	onClick?: () => void;
 }
 
-export function Accordion({ content, header, containerClassname, onClick }: AccordionProps) {
+export function Accordion({
+	content,
+	header,
+	containerClassname,
+	onClick,
+}: AccordionProps) {
 	const [isOpen, setIsOpen] = useState(false);
 
 	return (
