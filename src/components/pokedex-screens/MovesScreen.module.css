@@ -1,29 +1,29 @@
 .movesMethodsWrapper {
-  display: flex;
-  justify-content: space-evenly;
-  padding: 5px 10px;
-  gap: 10px;
+	display: flex;
+	justify-content: space-evenly;
+	padding: 5px 10px;
+	gap: 10px;
 }
 
 .movesWrapper {
-  width: 100%;
+	width: 100%;
 }
 
 .moveMethod {
-  background: transparent;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--white);
-  padding-bottom: 5px;
-  cursor: pointer;
+	background: transparent;
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--white);
+	padding-bottom: 5px;
+	cursor: pointer;
 }
 
 .moveMethodSelected {
-  border-bottom: solid 2px var(--white);
+	border-bottom: solid 2px var(--white);
 }
 
 @media screen and (max-width: 380px) {
-  .movesMethodsWrapper {
-    padding: 5px 0;
-  }
+	.movesMethodsWrapper {
+		padding: 5px 0;
+	}
 }

@@ -1,173 +1,104 @@
 .cardPokemon {
-  cursor: pointer;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  background-color: var(--white);
-  border-radius: 18px;
-  overflow: hidden;
-  width: 100%;
-  height: 100%;
-  max-height: 300px;
-  min-height: 300px;
+	cursor: pointer;
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+	background-color: var(--white);
+	border-radius: 18px;
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+	max-height: 300px;
+	min-height: 300px;
 }
 
 .cardPokemonContent {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
 }
 
 .pokemonPhotoWrapper {
-  padding: 10px 0;
-  width: 100%;
-  overflow: hidden;
-  flex: 1;
-  text-align: center;
+	padding: 10px 0;
+	width: 100%;
+	overflow: hidden;
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 0;
 }
 
 .photoPokemon {
-  max-height: 100%;
-  max-width: 100%;
-  height: 100%;
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
 }
 
 .namePokemonWrapper {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--whitesmoke);
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: var(--whitesmoke);
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .namePokemon {
-  font-family: pokemon;
-  font-size: 24px;
-  line-height: 50px;
-  margin-bottom: 10px;
-  color: var(--yellow);
-  -webkit-text-stroke: 1px var(--azure);
+	font-family: pokemon;
+	font-size: 24px;
+	line-height: 50px;
+	margin-bottom: 10px;
+	color: var(--yellow);
+	-webkit-text-stroke: 1px var(--azure);
 }
 
 .cardPokemonHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding: 0 5px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	padding: 0 5px;
 }
 
 .numberPokemon {
-  font-family: pokemon;
-  line-height: 25px;
-  color: var(--yellow);
-  -webkit-text-stroke: 1px var(--azure);
-  font-size: 30px;
-  margin-right: auto;
-  padding: 10px 15px;
+	font-family: pokemon;
+	line-height: 25px;
+	color: var(--yellow);
+	-webkit-text-stroke: 1px var(--azure);
+	font-size: 30px;
+	margin-right: auto;
+	padding: 10px 15px;
 }
 
 .addPartyButton {
-  border-radius: 50px;
-  font-size: 14px;
-  padding: 2px 8px;
-  cursor: pointer;
-  margin-right: 10px;
-  box-shadow: 0 0 1px 1px var(--black);
-  color: var(--white);
-  background-color: var(--emerald);
+	border-radius: 50px;
+	font-size: 14px;
+	padding: 2px 8px;
+	cursor: pointer;
+	margin-right: 10px;
+	box-shadow: 0 0 1px 1px var(--black);
+	color: var(--white);
+	background-color: var(--emerald);
 }
 
 .typesWrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--yellow);
-  width: 100%;
-  gap: 20px;
-  padding: 5px 10px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: var(--yellow);
+	width: 100%;
+	gap: 20px;
+	padding: 5px 10px;
 }
 
 .type {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 5px 10px;
-  border-radius: 20px;
-  font-weight: 700;
-}
-
-.poisonType {
-  composes: poisonType from global;
-}
-
-.rockType {
-  composes: rockType from global;
-}
-
-.fireType {
-  composes: fireType from global;
-}
-
-.normalType {
-  composes: normalType from global;
-}
-
-.waterType {
-  composes: waterType from global;
-}
-
-.grassType {
-  composes: grassType from global;
-}
-
-.flyingType {
-  composes: flyingType from global;
-}
-
-.fightingType {
-  composes: fightingType from global;
-}
-
-.electricType {
-  composes: electricType from global;
-}
-
-.groundType {
-  composes: groundType from global;
-}
-
-.psychicType {
-  composes: psychicType from global;
-}
-
-.iceType {
-  composes: iceType from global;
-}
-
-.bugType {
-  composes: bugType from global;
-}
-
-.ghostType {
-  composes: ghostType from global;
-}
-
-.steelType {
-  composes: steelType from global;
-}
-
-.dragonType {
-  composes: dragonType from global;
-}
-
-.darkType {
-  composes: darkType from global;
-}
-
-.fairyType {
-  composes: fairyType from global;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	padding: 5px 10px;
+	border-radius: 20px;
+	font-weight: 700;
 }

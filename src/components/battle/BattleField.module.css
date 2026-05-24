@@ -1,103 +1,103 @@
 .field {
-  width: 100%;
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: space-between;
-  align-items: center;
+	width: 100%;
+	display: flex;
+	flex-direction: row-reverse;
+	justify-content: space-between;
+	align-items: center;
 }
 
 .infosWrapper {
-  width: 100%;
-  max-width: 500px;
-  display: flex;
-  flex-direction: column;
-  background-color: white;
-  padding: 15px;
-  gap: 15px;
+	width: 100%;
+	max-width: 500px;
+	display: flex;
+	flex-direction: column;
+	background-color: white;
+	padding: 15px;
+	gap: 15px;
 }
 
 .activePokemonImage {
-  width: 200px;
-  height: 200px;
-  margin: 0 auto;
+	width: 200px;
+	height: 200px;
+	margin: 0 auto;
 }
 
 .opponentField {
-  flex-direction: row;
+	flex-direction: row;
 }
 
 .pokemonInfos {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  align-items: flex-end;
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+	align-items: flex-end;
 }
 
 .opponentPokemonInfos {
-  align-items: flex-start;
+	align-items: flex-start;
 }
 
 .miniaturesWrapper {
-  display: flex;
-  align-items: center;
-  flex-direction: row-reverse;
+	display: flex;
+	align-items: center;
+	flex-direction: row-reverse;
 }
 
 .opponentMiniaturesWrapper {
-  flex-direction: row;
+	flex-direction: row;
 }
 
 .selectedButtonPokemonMiniature {
-  border: 1px solid red;
+	border: 1px solid red;
 }
 
 .buttonPokemonMiniature:disabled {
-  opacity: 0.3;
+	opacity: 0.3;
 }
 
 .miniaturesImages {
-  width: 50px;
-  height: 50px;
+	width: 50px;
+	height: 50px;
 }
 
 .miniaturesImagesDisabled {
-  opacity: 0.2;
+	opacity: 0.2;
 }
 
 .healthBarWrapper {
-  position: relative;
-  height: 30px;
-  border: none;
-  width: 85%;
+	position: relative;
+	height: 30px;
+	border: none;
+	width: 85%;
 }
 
 .healthBar {
-  height: 100%;
-  border: none;
-  width: 100%;
+	height: 100%;
+	border: none;
+	width: 100%;
 }
 
 .healthBar::-webkit-progress-value {
-  background-color: darkgoldenrod;
+	background-color: darkgoldenrod;
 }
 
 .healthBarGreen::-webkit-progress-value {
-  background-color: green;
+	background-color: green;
 }
 
 .healthBarRed::-webkit-progress-value {
-  background-color: darkred;
+	background-color: darkred;
 }
 
 /* progress::-moz-progress-bar { background: blue; }
 progress::-webkit-progress-value { background: blue; }*/
 
 .healthBarText {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-  font-weight: bold;
-  font-size: 18px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	color: white;
+	font-weight: bold;
+	font-size: 18px;
 }
