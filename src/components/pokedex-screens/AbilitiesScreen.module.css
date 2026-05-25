@@ -21,12 +21,13 @@
 	justify-content: flex-start;
 	align-items: flex-start;
 	gap: 2px;
-	color: var(--white);
+	color: rgba(0, 255, 150, 0.9);
+	font-family: monospace;
 }
 
 .abilityButtonOpen {
 	font-size: 24px;
-	color: var(--white);
+	color: rgba(0, 255, 150, 1);
 }
 
 .abilityContent {
@@ -35,5 +36,8 @@
 	justify-content: flex-start;
 	align-items: flex-start;
 	gap: 10px;
-	color: var(--white);
+	color: rgba(0, 255, 150, 0.7);
+	font-family: monospace;
+	padding: 15px 10px;
+	background: rgba(0, 255, 150, 0.02);
 }

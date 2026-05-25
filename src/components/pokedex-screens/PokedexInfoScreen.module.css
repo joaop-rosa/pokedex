@@ -1,30 +1,60 @@
 .infoScreen {
 	width: 100%;
-	height: 250px;
-	border: 3px solid var(--black);
-	background-color: var(--black);
+	height: 350px;
+	border: 2px solid #111;
+	background-color: #050508;
+	background-image: repeating-linear-gradient(
+		to bottom,
+		transparent 0px,
+		transparent 2px,
+		rgba(0, 0, 0, 0.4) 3px,
+		rgba(0, 0, 0, 0.4) 4px
+	);
+	border-radius: 12px;
+	box-shadow: inset 0 10px 30px rgba(0, 0, 0, 0.9), inset 0 0 15px rgba(0, 0, 0, 1);
 	max-width: var(--max-width-container);
 	overflow: auto;
 	flex-shrink: 0;
 }
 
+.infoScreen::-webkit-scrollbar {
+	width: 12px;
+}
+
+.infoScreen::-webkit-scrollbar-track {
+	background: #050508;
+	border-left: 1px solid rgba(0, 255, 150, 0.2);
+	border-radius: 0 10px 10px 0;
+}
+
+.infoScreen::-webkit-scrollbar-thumb {
+	background: rgba(0, 255, 150, 0.3);
+	border-radius: 10px;
+	border: 3px solid #050508;
+}
+
+.infoScreen::-webkit-scrollbar-thumb:hover {
+	background: rgba(0, 255, 150, 0.6);
+}
+
 .infoScreenActive {
-	background-color: var(--boston-blue-variant);
+	background-color: #0a0a0c;
 }
 
 .infoScreenContentWrapper {
 	width: 100%;
-	padding: 10px 15px;
+	padding: 15px;
 	min-height: 100%;
 	height: max-content;
 	box-sizing: border-box;
-	background-color: var(--boston-blue-variant);
 	display: flex;
 	justify-content: center;
 	align-items: flex-start;
+	color: rgba(0, 255, 150, 0.8);
+	font-family: monospace;
 }
 
 .spinnerScreen {
-	color: var(--white);
+	color: rgba(0, 255, 150, 1);
 	align-self: center;
 }

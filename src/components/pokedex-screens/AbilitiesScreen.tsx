@@ -11,7 +11,7 @@ export function AbilitiesScreen() {
 			{selectedPokemon.abilities.map((ability) => (
 				<Accordion
 					key={ability.name}
-					header={
+					header={(isOpen) => (
 						<div className={s.abilityHeader}>
 							<div className={s.abilityHeaderInfo}>
 								<h4>
@@ -20,9 +20,9 @@ export function AbilitiesScreen() {
 								</h4>
 								<p>{ability.effectShortDescription}</p>
 							</div>
-							<span className={s.abilityButtonOpen}>+</span>
+							<span className={s.abilityButtonOpen}>{isOpen ? "-" : "+"}</span>
 						</div>
-					}
+					)}
 					content={
 						<div className={s.abilityContent}>
 							<p>{ability.effectDescription}</p>

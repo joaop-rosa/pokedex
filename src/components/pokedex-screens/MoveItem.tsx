@@ -68,12 +68,12 @@ export function MoveItem({ move }) {
 	}
 	return (
 		<Accordion
-			header={
+			header={(isOpen) => (
 				<div className={s.moveHeader}>
 					<h4>{upperFirst(move.name)}</h4>
-					<span className={s.moveButtonOpen}>+</span>
+					<span className={s.moveButtonOpen}>{isOpen ? "-" : "+"}</span>
 				</div>
-			}
+			)}
 			onClick={handleFetchMove}
 			containerClassname={s.move}
 			content={

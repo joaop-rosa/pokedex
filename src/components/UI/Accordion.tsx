@@ -4,7 +4,7 @@ import s from "./Accordion.module.css";
 
 interface AccordionProps {
 	content: ReactNode;
-	header: ReactNode;
+	header: ReactNode | ((isOpen: boolean) => ReactNode);
 	containerClassname?: string;
 	onClick?: () => void;
 }
@@ -27,7 +27,7 @@ export function Accordion({
 				}}
 				className={s.accordionHeader}
 			>
-				{header}
+				{typeof header === "function" ? header(isOpen) : header}
 			</button>
 			<div
 				className={cn(s.accordionContent, { [s.accordionContentOpen]: isOpen })}

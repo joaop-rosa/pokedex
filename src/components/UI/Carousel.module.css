@@ -1,0 +1,32 @@
+.carouselContainer {
+	width: 100%;
+	overflow-x: auto;
+	overflow-y: hidden;
+	scroll-snap-type: x mandatory;
+	padding-bottom: 10px;
+}
+
+.carouselContainer::-webkit-scrollbar {
+	height: 10px;
+}
+.carouselContainer::-webkit-scrollbar-track {
+	background: #050508;
+	border-radius: 10px;
+	border-top: 1px solid rgba(0, 255, 150, 0.2);
+}
+.carouselContainer::-webkit-scrollbar-thumb {
+	background: rgba(0, 255, 150, 0.3);
+	border-radius: 10px;
+	border: 2px solid #050508;
+}
+.carouselContainer::-webkit-scrollbar-thumb:hover {
+	background: rgba(0, 255, 150, 0.6);
+}
+
+.innerCarousel {
+	display: flex;
+	gap: 20px;
+	padding: 10px calc(50% - 130px); /* 130px is half of 260px */
+	width: max-content; /* Ensure the flex row grows to hold all items */
+	align-items: center;
+}

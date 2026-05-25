@@ -70,8 +70,8 @@ function radarFillGenerator(sides) {
 
 const STATS_NAMES = {
 	hp: "HP",
-	"special-attack": "Spc. Atk.",
-	"special-defense": "Spc. Def.",
+	"special-attack": "Spc.Atk",
+	"special-defense": "Spc.Def",
 	speed: "Speed",
 	attack: "Attack",
 	defense: "Defense",
@@ -83,9 +83,9 @@ export function RadarChart() {
 	const chartRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
-		const width = 310;
-		const height = 220;
-		const radius = 80;
+		const width = 500;
+		const height = 450;
+		const radius = 140;
 		const sides = 6;
 		const traitMin = 0;
 		const traitMax = 200;
@@ -93,9 +93,9 @@ export function RadarChart() {
 
 		const svg = d3
 			.create("svg")
-			.attr("width", width)
-			.attr("height", height)
-			.attr("viewBox", "0 25 220 250");
+			.attr("width", "100%")
+			.attr("height", "100%")
+			.attr("viewBox", `0 0 ${width} ${height}`);
 
 		// linear scale from 0 to the Radius
 		// give it a value in trait-space and it gives you the radius
@@ -105,8 +105,8 @@ export function RadarChart() {
 			.range([0, radius]);
 
 		const statsMapped = Object.keys(stats).map((statKey) => ({
-			label: `${STATS_NAMES[statKey]} (${stats[statKey]})`,
-			value: scaleTrait(stats[statKey]),
+			label: `${STATS_NAMES[statKey as keyof typeof STATS_NAMES]} (${stats[statKey as keyof typeof stats]})`,
+			value: scaleTrait(stats[statKey as keyof typeof stats]),
 		}));
 
 		//outline
@@ -114,11 +114,11 @@ export function RadarChart() {
 			.append("g")
 			.append("path")
 			.attr("d", (_d) => radarShapeGenerator(sides, radius))
-			.attr("stroke", "white")
+			.attr("stroke", "rgba(0, 255, 150, 0.4)")
 			.attr("fill", "none")
 			.attr(
 				"transform",
-				`translate(${Math.floor(height / 2)}, ${Math.floor(width / 2)})`,
+				`translate(${Math.floor(width / 2)}, ${Math.floor(height / 2)})`,
 			);
 
 		//axesLines
@@ -128,11 +128,11 @@ export function RadarChart() {
 			.data(Array.from({ length: sides }, (_, i) => i))
 			.join("path")
 			.attr("d", (d) => radarAxisGenerator(d, sides, radius))
-			.attr("stroke", "white")
+			.attr("stroke", "rgba(0, 255, 150, 0.2)")
 			.attr("fill", "none")
 			.attr(
 				"transform",
-				`translate(${Math.floor(height / 2)}, ${Math.floor(width / 2)})`,
+				`translate(${Math.floor(width / 2)}, ${Math.floor(height / 2)})`,
 			);
 
 		// Labels
@@ -142,9 +142,9 @@ export function RadarChart() {
 			.data(statsMapped)
 			.join("text")
 			.attr("text-anchor", (_d, i) => getLabelFromQuadrant(i, sides))
-			.attr("font-family", "verdana")
-			.attr("font-size", "14px")
-			.attr("fill", "white")
+			.attr("font-family", "monospace")
+			.attr("font-weight", "bold")
+			.attr("fill", "rgba(0, 255, 150, 0.8)")
 			.attr(
 				"x",
 				(_d, i) =>
@@ -161,7 +161,7 @@ export function RadarChart() {
 			.text((d) => d.label)
 			.attr(
 				"transform",
-				`translate(${Math.floor(height / 2)}, ${Math.floor(width / 2)})`,
+				`translate(${Math.floor(width / 2)}, ${Math.floor(height / 2)})`,
 			);
 
 		// Fill
@@ -169,12 +169,12 @@ export function RadarChart() {
 			.append("g")
 			.append("path")
 			.attr("d", radarFillGenerator(sides)(statsMapped))
-			.attr("stroke", "white")
-			.attr("fill", "lightcoral")
-			.attr("fill-opacity", "0.7")
+			.attr("stroke", "rgba(0, 255, 150, 1)")
+			.attr("fill", "rgba(0, 255, 150, 0.25)")
+			.attr("fill-opacity", "1")
 			.attr(
 				"transform",
-				`translate(${Math.floor(height / 2)}, ${Math.floor(width / 2)})`,
+				`translate(${Math.floor(width / 2)}, ${Math.floor(height / 2)})`,
 			);
 
 		// Points
@@ -183,13 +183,13 @@ export function RadarChart() {
 			.selectAll("circle")
 			.data(statsMapped)
 			.join("circle")
-			.attr("fill", "red")
+			.attr("fill", "rgba(0, 255, 150, 1)")
 			.attr("cx", (d, i) => Math.sin(getAngleForIndex(i, sides)) * d.value)
 			.attr("cy", (d, i) => -1 * Math.cos(getAngleForIndex(i, sides)) * d.value)
-			.attr("r", 2)
+			.attr("r", 3)
 			.attr(
 				"transform",
-				`translate(${Math.floor(height / 2)}, ${Math.floor(width / 2)})`,
+				`translate(${Math.floor(width / 2)}, ${Math.floor(height / 2)})`,
 			);
 
 		if (chartRef.current && svg.node()) {
