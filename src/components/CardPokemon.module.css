@@ -1,6 +1,6 @@
 .cardPokemon {
 	cursor: pointer;
-	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 	background-color: var(--white);
 	border-radius: 18px;
 	overflow: hidden;
@@ -8,6 +8,21 @@
 	height: 100%;
 	max-height: 300px;
 	min-height: 300px;
+	position: relative;
+	transform: perspective(1000px) rotateX(var(--rotate-x, 0deg))
+		rotateY(var(--rotate-y, 0deg)) translateY(0);
+	transition:
+		transform 0.3s ease-out,
+		box-shadow 0.3s ease;
+}
+
+.cardPokemon:hover {
+	transition:
+		transform 0.1s ease-out,
+		box-shadow 0.3s ease;
+	transform: perspective(1000px) rotateX(var(--rotate-x, 0deg))
+		rotateY(var(--rotate-y, 0deg)) translateY(-4px);
+	box-shadow: 0px 12px 20px rgba(0, 0, 0, 0.3);
 }
 
 .cardPokemonContent {
@@ -17,23 +32,70 @@
 	justify-content: center;
 	width: 100%;
 	height: 100%;
+	position: relative;
+}
+
+.cardPokemonContent::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	pointer-events: none;
+	opacity: 0;
+	transition: opacity 0.3s ease;
+	border-radius: inherit;
+}
+
+@media (hover: hover) {
+	.cardPokemon:hover .cardPokemonContent::after {
+		opacity: 1;
+		background: radial-gradient(
+			circle 250px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+			rgba(255, 255, 255, 0.25),
+			transparent 80%
+		);
+	}
+}
+
+.cardPokemonContent::before {
+	content: "";
+	position: absolute;
+	top: -10px;
+	right: -10px;
+	width: 200px;
+	height: 200px;
+	background-image: url("../../assets/icons/pokeball.svg");
+	background-size: contain;
+	background-repeat: no-repeat;
+	opacity: 0.05;
+	z-index: 0;
+	pointer-events: none;
 }
 
 .pokemonPhotoWrapper {
-	padding: 10px 0;
+	padding: 0;
 	width: 100%;
-	overflow: hidden;
 	flex: 1;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	min-height: 0;
+	z-index: 1;
 }
 
 .photoPokemon {
 	width: 100%;
 	height: 100%;
 	object-fit: contain;
+	object-position: center bottom;
+	transform-origin: center bottom;
+	filter: drop-shadow(0 10px 8px rgba(0, 0, 0, 0.5));
+	transition: transform 0.3s ease;
+	transform: scale(0.8);
+}
+
+.cardPokemon:hover .photoPokemon {
+	transform: scale(0.9);
 }
 
 .namePokemonWrapper {
@@ -41,56 +103,138 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background: var(--whitesmoke);
-	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+	background: transparent;
+	padding-top: 5px;
+	padding-bottom: 15px;
+	z-index: 1;
 }
 
 .namePokemon {
 	font-family: pokemon, sans-serif;
-	font-size: 24px;
-	line-height: 50px;
-	margin-bottom: 10px;
+	font-size: 26px;
+	line-height: 30px;
+	margin-bottom: 12px;
 	color: var(--yellow);
-	-webkit-text-stroke: 1px var(--azure);
+	-webkit-text-stroke: 1.5px var(--azure);
+	text-shadow:
+		2px 2px 0 var(--azure),
+		-1px -1px 0 var(--azure),
+		1px -1px 0 var(--azure),
+		-1px 1px 0 var(--azure),
+		1px 1px 0 var(--azure);
 }
 
 .cardPokemonHeader {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
+	position: absolute;
+	top: 0;
+	left: 0;
 	width: 100%;
-	padding: 0 5px;
+	height: 0;
+	z-index: 2;
+	pointer-events: none;
 }
 
 .numberPokemon {
+	position: absolute;
+	top: 10px;
+	left: 15px;
 	font-family: pokemon, sans-serif;
-	line-height: 25px;
+	line-height: 1;
 	color: var(--yellow);
 	-webkit-text-stroke: 1px var(--azure);
+	text-shadow:
+		2px 2px 0 var(--azure),
+		-1px -1px 0 var(--azure),
+		1px -1px 0 var(--azure),
+		-1px 1px 0 var(--azure),
+		1px 1px 0 var(--azure);
 	font-size: 30px;
-	margin-right: auto;
-	padding: 10px 15px;
+	margin: 0;
+	pointer-events: auto;
 }
 
 .addPartyButton {
-	border-radius: 50px;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	border-radius: 30px;
 	font-size: 14px;
-	padding: 2px 8px;
+	font-weight: bold;
 	cursor: pointer;
-	margin-right: 10px;
-	box-shadow: 0 0 1px 1px var(--black);
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 	color: var(--white);
 	background-color: var(--emerald);
+	border: 2px solid var(--white);
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	padding: 0 8px;
+	height: 36px;
+	max-width: 36px;
+	overflow: hidden;
+	opacity: 1;
+	transform: translateY(0);
+	transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+	z-index: 10;
+	pointer-events: auto;
+}
+
+@media (hover: hover) {
+	.addPartyButton {
+		opacity: 0;
+		transform: translateY(-10px);
+	}
+
+	.cardPokemon:hover .addPartyButton {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.addPartyButton:hover,
+.addPartyButton.added {
+	max-width: 150px;
+	padding: 0 15px;
+	background-color: #3cb371;
+}
+
+.addPartyButton.added {
+	background-color: var(--boston-blue);
+	cursor: default;
+}
+
+.addPartyIcon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 16px;
+}
+
+.addPartyText {
+	white-space: nowrap;
+	opacity: 0;
+	margin-left: 0;
+	transition:
+		opacity 0.2s ease,
+		margin-left 0.2s ease;
+}
+
+.addPartyButton:hover .addPartyText,
+.addPartyButton.added .addPartyText {
+	opacity: 1;
+	margin-left: 8px;
+	transition-delay: 0.1s;
 }
 
 .typesWrapper {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background-color: var(--yellow);
 	width: 100%;
-	gap: 20px;
-	padding: 5px 10px;
+	gap: 10px;
+	padding: 5px 10px 10px 10px;
+	background: transparent;
+	z-index: 1;
 }
 
 .type {
@@ -98,7 +242,16 @@
 	align-items: center;
 	justify-content: center;
 	text-align: center;
-	padding: 5px 10px;
+	padding: 4px 14px;
 	border-radius: 20px;
-	font-weight: 700;
+	font-weight: bold;
+	font-size: 13px;
+	color: var(--white);
+	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+	border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.typeName {
+	margin: 0;
 }
