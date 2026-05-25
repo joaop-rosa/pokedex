@@ -253,26 +253,27 @@ export const fetchPokemonSpeciesFn = async (
 	type EvolutionNode = {
 		evolves_to: EvolutionNode[];
 		species: { name: string; url: string };
+		evolution_details: { min_level: number }[];
 	};
 
 	async function evolutionLineMap(
 		evolutionLine: EvolutionNode,
+		minLevel?: number,
 	): Promise<PokemonDetailed[]> {
+		const pokemon = await fetchDetailedPokemonFn(
+			toInteger(evolutionLine.species.url.match(/\/(\d+)\/$/)?.[1] || 0),
+		);
+		pokemon.evolutionLevel = minLevel;
+
 		if (!evolutionLine.evolves_to.length) {
-			return [
-				await fetchDetailedPokemonFn(
-					toInteger(evolutionLine.species.url.match(/\/(\d+)\/$/)?.[1] || 0),
-				),
-			];
+			return [pokemon];
 		}
 
 		return [
-			await fetchDetailedPokemonFn(
-				toInteger(evolutionLine.species.url.match(/\/(\d+)\/$/)?.[1] || 0),
-			),
+			pokemon,
 			...(await Promise.all(
 				evolutionLine.evolves_to.map((p: EvolutionNode) => {
-					return evolutionLineMap(p);
+					return evolutionLineMap(p, p.evolution_details?.[0]?.min_level);
 				}),
 			).then((res) => res.flat(Number.POSITIVE_INFINITY as 1))),
 		];

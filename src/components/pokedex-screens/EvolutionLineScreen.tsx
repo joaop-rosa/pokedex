@@ -8,9 +8,14 @@ export function EvolutionLineScreen() {
 	const { selectedPokemon, speciesInfo, setSelectedPokemon } =
 		useSelectedPokemon();
 
+	const initialIndex =
+		speciesInfo?.evolutionLine.findIndex(
+			(p) => p.id === selectedPokemon?.id,
+		) || 0;
+
 	return (
 		<div className={s.variationsWrapper}>
-			<Carousel>
+			<Carousel initialIndex={initialIndex} noGap>
 				{speciesInfo?.evolutionLine.map((variation, index) => {
 					return (
 						<div key={variation.name} className={s.evolutionItemWrapper}>
@@ -23,12 +28,18 @@ export function EvolutionLineScreen() {
 								className={s.variation}
 							>
 								<img
+									draggable={false}
 									className={s.variationImage}
 									src={variation.sprites.front}
 									alt={`Foto do pokemon ${selectedPokemon.name}`}
 								/>
 								<div className={s.variationInfos}>
 									<p>{upperFirst(variation.name)}</p>
+									{variation.evolutionLevel ? (
+										<span className={s.level}>Lv. {variation.evolutionLevel}</span>
+									) : (
+										<span className={s.level}>Base</span>
+									)}
 								</div>
 							</button>
 						</div>

@@ -1,15 +1,19 @@
 .variationsWrapper {
 	width: 100%;
+	flex: 1;
+	min-height: 0;
+	display: flex;
 }
 
 .evolutionItemWrapper {
 	display: flex;
 	align-items: center;
+	height: 100%;
 }
 
 .evolutionArrow {
 	color: rgba(0, 255, 150, 0.7);
-	margin: 0 10px;
+	margin: 0 20px;
 }
 
 .variation {
@@ -22,18 +26,28 @@
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	transition: all 0.2s ease;
+	transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
 	width: 260px;
-	height: 280px;
+	height: 100%;
+	max-height: 320px;
 	flex-shrink: 0;
 	scroll-snap-align: center;
+	transform: scale(0.85);
+	opacity: 0.6;
 }
 
-.variation:hover {
+.evolutionItemWrapper[data-active="true"] .variation {
+	transform: scale(1);
+	opacity: 1;
+	border-color: rgba(0, 255, 150, 0.6);
+	box-shadow: 0 0 15px rgba(0, 255, 150, 0.3);
+}
+
+.evolutionItemWrapper[data-active="true"] .variation:hover {
 	background: rgba(0, 255, 150, 0.15);
 	transform: scale(1.05);
 	border-color: rgba(0, 255, 150, 0.8);
-	box-shadow: 0 0 10px rgba(0, 255, 150, 0.4);
+	box-shadow: 0 0 20px rgba(0, 255, 150, 0.5);
 }
 
 .variationImage {
@@ -44,6 +58,13 @@
 	margin-bottom: 10px;
 }
 
+.variationInfos {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 4px;
+}
+
 .variationInfos p {
 	font-family: monospace;
 	font-weight: bold;
@@ -52,4 +73,13 @@
 	font-size: 15px;
 	text-transform: uppercase;
 	text-align: center;
+}
+
+.level {
+	font-family: monospace;
+	font-size: 12px;
+	color: rgba(255, 255, 255, 0.6);
+	background: rgba(0, 0, 0, 0.4);
+	padding: 2px 8px;
+	border-radius: 12px;
 }

@@ -1,6 +1,8 @@
 .screenWrapper {
 	width: 100%;
 	max-width: 750px;
+	min-height: 350px;
+	max-height: 350px;
 	background-color: var(--lightgrey, #d3d3d3);
 	border-radius: 15px 15px 15px 60px;
 	padding: 20px 30px 10px 30px;
@@ -43,8 +45,9 @@
 	width: 100%;
 	overflow: visible;
 	flex: 1;
+	min-height: 0;
 	z-index: 1;
-	padding: 30px;
+	padding: 20px 30px 60px 30px; /* Bottom padding gives room for absolute info wrapper */
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -68,6 +71,10 @@
 }
 
 .pokemonInfoWrapper {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
 	display: flex;
 	z-index: 2;
 	justify-content: space-between;
@@ -190,10 +197,4 @@
 .toggleSwitchWrapperDisable .sexIcon:last-child {
 	color: var(--disabled-grey);
 	filter: none;
-}
-
-@media screen and (max-width: 400px) {
-	.screenWrapper {
-		min-height: 275px;
-	}
 }

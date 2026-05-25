@@ -42,6 +42,7 @@ export interface PokemonDetailed {
 	moves: Record<string, PokemonMoveDetailed[]>;
 	sprites: PokemonSprites;
 	otherParams: Record<string, unknown>;
+	evolutionLevel?: number;
 }
 
 export interface PokemonSpecies {
