@@ -1,5 +1,5 @@
-import React, { type ReactNode, useEffect, useRef, useState } from "react";
 import cn from "classnames";
+import React, { type ReactNode, useEffect, useRef, useState } from "react";
 import s from "./Carousel.module.css";
 
 interface CarouselProps {
@@ -9,7 +9,12 @@ interface CarouselProps {
 	noGap?: boolean;
 }
 
-export function Carousel({ children, className, initialIndex = 0, noGap }: CarouselProps) {
+export function Carousel({
+	children,
+	className,
+	initialIndex = 0,
+	noGap,
+}: CarouselProps) {
 	const scrollRef = useRef<HTMLDivElement>(null);
 	const [activeIndex, setActiveIndex] = useState(initialIndex);
 
@@ -21,14 +26,18 @@ export function Carousel({ children, className, initialIndex = 0, noGap }: Carou
 				const inner = container.firstElementChild as HTMLElement;
 				if (inner?.children[initialIndex]) {
 					const child = inner.children[initialIndex] as HTMLElement;
-					const offset = child.offsetLeft - container.offsetWidth / 2 + child.offsetWidth / 2;
-					container.scrollTo({ left: offset, behavior: 'instant' });
+					const offset =
+						child.offsetLeft -
+						container.offsetWidth / 2 +
+						child.offsetWidth / 2;
+					container.scrollTo({ left: offset, behavior: "instant" });
 				}
 			}, 50);
 		}
 	}, [initialIndex]);
 
 	// Observer for active index centering
+	// biome-ignore lint/correctness/useExhaustiveDependencies: Need to re-run when children change
 	useEffect(() => {
 		const container = scrollRef.current;
 		if (!container) return;
@@ -48,10 +57,12 @@ export function Carousel({ children, className, initialIndex = 0, noGap }: Carou
 				root: container,
 				rootMargin: "0px -49% 0px -49%",
 				threshold: 0,
-			}
+			},
 		);
 
-		Array.from(inner.children).forEach((child) => observer.observe(child));
+		Array.from(inner.children).forEach((child) => {
+			observer.observe(child);
+		});
 		return () => observer.disconnect();
 	}, [children]);
 
@@ -65,22 +76,22 @@ export function Carousel({ children, className, initialIndex = 0, noGap }: Carou
 		e.nativeEvent.stopPropagation();
 
 		if (e.pointerType !== "mouse") return;
-		
+
 		isDragging.current = true;
 		hasDragged.current = false;
 		if (scrollRef.current) {
 			startX.current = e.pageX - scrollRef.current.offsetLeft;
 			scrollLeft.current = scrollRef.current.scrollLeft;
-			scrollRef.current.style.scrollSnapType = 'none';
+			scrollRef.current.style.scrollSnapType = "none";
 		}
 	};
 
 	const handlePointerMove = (e: React.PointerEvent) => {
 		if (!isDragging.current || !scrollRef.current) return;
-		e.preventDefault(); 
+		e.preventDefault();
 		const x = e.pageX - scrollRef.current.offsetLeft;
-		const walk = (x - startX.current) * 1.5; 
-		
+		const walk = (x - startX.current) * 1.5;
+
 		if (Math.abs(walk) > 5) {
 			hasDragged.current = true;
 		}
@@ -91,7 +102,7 @@ export function Carousel({ children, className, initialIndex = 0, noGap }: Carou
 	const handlePointerUp = () => {
 		isDragging.current = false;
 		if (scrollRef.current) {
-			scrollRef.current.style.scrollSnapType = 'x mandatory';
+			scrollRef.current.style.scrollSnapType = "x mandatory";
 		}
 	};
 
@@ -112,7 +123,7 @@ export function Carousel({ children, className, initialIndex = 0, noGap }: Carou
 	});
 
 	return (
-		<div 
+		<div
 			ref={scrollRef}
 			className={cn(s.carouselContainer, className)}
 			onPointerDownCapture={handlePointerDownCapture}

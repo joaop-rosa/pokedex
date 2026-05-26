@@ -95,9 +95,7 @@ export function PokemonDetailed() {
 							</div>
 						)}
 
-						<div
-							className={s.container}
-						>
+						<div className={s.container}>
 							<div className={s.content}>
 								<PokedexScreen />
 								<PokemonTabs />

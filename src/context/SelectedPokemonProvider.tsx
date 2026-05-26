@@ -86,9 +86,9 @@ export function SelectedPokemonProvider({ children }: { children: ReactNode }) {
 		[hasSpecies, selectedPokemon, isLoadingSpecies],
 	);
 
-	const [infoScreenContent, setInfoScreenContent] = useState<
-		ValueOf<typeof INFOS_VARIATION> | null
-	>(null);
+	const [infoScreenContent, setInfoScreenContent] = useState<ValueOf<
+		typeof INFOS_VARIATION
+	> | null>(null);
 	const [spriteVariation, setSpriteVariation] = useState<
 		ValueOf<typeof SPRITE_VARIATIONS>
 	>(SPRITE_VARIATIONS.DEFAULT);

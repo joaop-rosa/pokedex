@@ -5,13 +5,13 @@ import { Carousel } from "../UI/Carousel";
 import s from "./EvolutionLineScreen.module.css";
 
 export function EvolutionLineScreen() {
-	const { selectedPokemon, speciesInfo, setSelectedPokemon } = useSelectedPokemon();
+	const { selectedPokemon, speciesInfo, setSelectedPokemon } =
+		useSelectedPokemon();
 	if (!selectedPokemon) return null;
 
 	const initialIndex =
-		speciesInfo?.evolutionLine.findIndex(
-			(p) => p.id === selectedPokemon?.id,
-		) || 0;
+		speciesInfo?.evolutionLine.findIndex((p) => p.id === selectedPokemon?.id) ||
+		0;
 
 	return (
 		<div className={s.variationsWrapper}>
@@ -36,7 +36,9 @@ export function EvolutionLineScreen() {
 								<div className={s.variationInfos}>
 									<p>{upperFirst(variation.name)}</p>
 									{variation.evolutionLevel ? (
-										<span className={s.level}>Lv. {variation.evolutionLevel}</span>
+										<span className={s.level}>
+											Lv. {variation.evolutionLevel}
+										</span>
 									) : (
 										<span className={s.level}>Base</span>
 									)}

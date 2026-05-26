@@ -4,7 +4,8 @@ import { Carousel } from "../UI/Carousel";
 import s from "./FormsScreen.module.css";
 
 export function FormsScreen() {
-	const { selectedPokemon, setSelectedPokemon, speciesInfo } = useSelectedPokemon();
+	const { selectedPokemon, setSelectedPokemon, speciesInfo } =
+		useSelectedPokemon();
 	if (!selectedPokemon) return null;
 
 	const initialIndex =

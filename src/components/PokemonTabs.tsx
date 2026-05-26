@@ -47,7 +47,11 @@ export function PokemonTabs() {
 	];
 
 	return (
-		<motion.div layout transition={{ type: "spring", bounce: 0.15, duration: 0.8 }} className={s.tabsWrapper}>
+		<motion.div
+			layout
+			transition={{ type: "spring", bounce: 0.15, duration: 0.8 }}
+			className={s.tabsWrapper}
+		>
 			{TABS.map((tab) => {
 				const isActive = infoScreenContent === tab.value;
 				return (

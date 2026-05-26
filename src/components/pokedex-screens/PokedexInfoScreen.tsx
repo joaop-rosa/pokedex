@@ -43,7 +43,12 @@ export function PokedexInfoScreen() {
 					initial={false}
 					animate={{ opacity: 1, marginTop: 20 }}
 					transition={{ type: "spring", bounce: 0.15, duration: 0.8 }}
-					style={{ height: isDataMode ? 350 : 25, overflow: "hidden", flexShrink: 0, width: "100%" }}
+					style={{
+						height: isDataMode ? 350 : 25,
+						overflow: "hidden",
+						flexShrink: 0,
+						width: "100%",
+					}}
 				>
 					<motion.div
 						layout

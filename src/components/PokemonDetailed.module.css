@@ -130,7 +130,7 @@
 	.closeButton {
 		display: none; /* Usually handle or swipe replaces the close button on bottom sheet */
 	}
-	
+
 	.container {
 		padding: 40px 20px 40px;
 		flex: 1 1 auto;
