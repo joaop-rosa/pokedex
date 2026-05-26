@@ -101,6 +101,7 @@ export default function Home() {
 
 			{isButtonToTopVisible ? (
 				<button
+					id="buttonToTop"
 					type="button"
 					onClick={handleButtonToTop}
 					className={s.buttonToTop}

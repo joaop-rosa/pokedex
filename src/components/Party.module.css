@@ -1,164 +1,426 @@
-.party {
-	position: fixed;
-	left: 0;
-	top: 0;
-	bottom: 0;
-	z-index: 3;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	max-height: 100%;
+/* Root container just to anchor the FAB if needed, but FAB is fixed */
+.root {
+	position: relative;
+	z-index: 50;
 }
 
-.partyContent {
-	width: 0px;
-	min-height: 250px;
-	background: var(--white);
-	transition: width 0.3s ease-out;
-	border-radius: 0 10px 10px 0;
-	box-shadow: 0 0 10px 1px var(--black);
+/* ----------------------------------
+   FAB (Floating Action Button)
+---------------------------------- */
+.fab {
+	position: fixed;
+	bottom: 24px;
+	right: 24px;
+	width: 64px;
+	height: 64px;
+	border-radius: 50%;
+	background: var(--slate-900);
+	color: var(--white);
+	border: 3px solid var(--white-alpha-20);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	box-shadow: 0 10px 25px var(--black-alpha-50);
+	z-index: 100;
+	transition:
+		border-color 0.3s ease,
+		box-shadow 0.3s ease,
+		transform 0.2s ease,
+		opacity 0.2s ease;
+}
+
+.fab:hover {
+	border-color: var(--color-pokedex);
+	box-shadow: 0 10px 30px var(--color-pokedex);
+}
+
+@media (hover: hover) {
+	.fab:hover {
+		transform: scale(1.1);
+	}
+}
+
+.fab:active {
+	transform: scale(0.9);
+}
+
+.fabIcon {
+	color: var(--white);
+}
+
+.badge {
+	position: absolute;
+	top: -5px;
+	right: -5px;
+	background: var(--color-pokedex);
+	color: var(--white);
+	font-size: 0.75rem;
+	font-weight: bold;
+	padding: 4px 8px;
+	border-radius: 12px;
+	border: 2px solid var(--slate-900);
+	box-shadow: 0 2px 5px var(--black-alpha-50);
+	pointer-events: none;
+}
+
+/* ----------------------------------
+   Glassmorphism Panel
+---------------------------------- */
+.panel {
+	position: fixed;
+	bottom: 100px;
+	right: 24px;
+	width: 340px;
+	background: var(--slate-900-alpha-80);
+	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(12px);
+	border-radius: 24px;
+	border: 1px solid var(--white-alpha-10);
+	box-shadow: 0 20px 40px var(--black-alpha-70);
+	z-index: 99;
 	display: flex;
 	flex-direction: column;
-	align-items: center;
-	justify-content: flex-start;
-	gap: 15px;
-	overflow-x: hidden;
-	overflow-y: auto;
-	padding: 15px 0;
-	max-height: 100%;
+	overflow: hidden;
 }
 
-.partyContentOpen {
-	width: 250px;
-	padding: 15px;
+.dragHandle {
+	display: none;
+}
+
+.panelHeader {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 20px 24px 16px;
+	border-bottom: 1px solid var(--white-alpha-10);
+}
+
+.panelTitle {
+	font-size: 1.25rem;
+	font-weight: 700;
+	color: var(--white);
+	margin: 0;
+	text-shadow: 0 2px 4px var(--black-alpha-50);
+}
+
+.closeButton {
+	background: transparent;
+	border: none;
+	color: var(--white-alpha-50);
+	cursor: pointer;
+	padding: 4px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition:
+		color 0.2s ease,
+		background-color 0.2s ease;
+}
+
+.closeButton:hover {
+	color: var(--white);
+	background: var(--white-alpha-10);
+}
+
+.slotsList {
+	padding: 16px;
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	max-height: 60vh;
+	overflow-y: auto;
+}
+
+/* ----------------------------------
+   Slots
+---------------------------------- */
+.slot {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 10px 16px;
+	border-radius: 16px;
+	min-height: 64px;
+	transition:
+		background-color 0.3s ease,
+		border-color 0.3s ease;
+}
+
+.slotEmpty {
+	background: var(--white-alpha-05);
+	border: 2px dashed var(--white-alpha-20);
+	justify-content: flex-start;
+	gap: 16px;
+}
+
+.emptyIconWrapper {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	background: var(--white-alpha-05);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.emptyIcon {
+	color: var(--white-alpha-20);
+}
+
+.emptyText {
+	color: var(--white-alpha-30);
+	font-size: 0.9rem;
+	font-weight: 500;
+}
+
+.slotOccupied {
+	background: linear-gradient(
+		135deg,
+		var(--white-alpha-10),
+		var(--white-alpha-05)
+	);
+	border: 1px solid var(--white-alpha-10);
+	box-shadow: inset 0 1px 1px var(--white-alpha-10);
+	position: relative;
+	overflow: hidden;
+}
+
+/* The remove button is hidden by default on desktop, shown on hover */
+.removeButton {
+	background: var(--white-alpha-10);
+	border: none;
+	color: var(--white-alpha-50);
+	cursor: pointer;
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	opacity: 0;
+	transform: translateX(10px);
+	transition: all 0.3s ease;
+}
+
+.slotOccupied:hover .removeButton {
+	opacity: 1;
+	transform: translateX(0);
+}
+
+.removeButton:hover {
+	color: var(--red);
+	background: var(--white-alpha-20);
+}
+
+.pokemonInfo {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+}
+
+.spriteWrapper {
+	width: 48px;
+	height: 48px;
+	border-radius: 50%;
+	background: var(--white-alpha-10);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0 4px 8px var(--black-alpha-25);
+	overflow: hidden;
+}
+
+.sprite {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	/* Scale up mini sprites a bit so they fit nicely */
+	transform: scale(1.2);
+}
+
+.pokemonDetails {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.pokemonName {
+	color: var(--white);
+	font-weight: 600;
+	font-size: 1rem;
+	text-shadow: 0 1px 2px var(--black-alpha-50);
+}
+
+.pokemonId {
+	color: var(--white-alpha-50);
+	font-size: 0.8rem;
+	font-weight: 700;
+}
+
+/* ----------------------------------
+   Panel Footer
+---------------------------------- */
+.panelFooter {
+	padding: 16px 24px 24px;
+	border-top: 1px solid var(--white-alpha-10);
+	display: flex;
+	justify-content: center;
 }
 
 .lobbyLink {
-	white-space: nowrap;
-}
-
-.partyPokemon {
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	min-height: 200px;
-	min-width: 200px;
-	border: solid 2px var(--black);
-}
-
-.buttonClose {
-	position: absolute;
-	right: 0;
-	top: 0;
-	width: 35px;
-	height: 35px;
-	background: var(--close-button);
-	color: var(--white);
-	font-weight: 700;
-	font-size: 18px;
-	cursor: pointer;
-}
-
-.photoPokemon {
-	padding: 20px;
-	height: 169px;
-}
-
-.pokemonNameWrapper {
+	display: block;
+	width: 100%;
 	text-align: center;
-	background-color: var(--black);
+	padding: 12px 0;
+	border-radius: 12px;
+	background: var(--color-pokedex);
 	color: var(--white);
-	padding: 4px 5px;
-	font-size: 16px;
+	text-decoration: none;
 	font-weight: 700;
-	box-shadow: 0 0 1px 1px var(--black);
+	font-size: 0.95rem;
+	transition:
+		background-color 0.3s ease,
+		transform 0.2s ease;
+	box-shadow: 0 4px 10px rgba(220, 66, 60, 0.4);
 }
 
-.partyButtonOpen {
-	margin-left: -1px;
-	padding: 60px 5px;
-	cursor: pointer;
-	background: var(--white);
-	clip-path: polygon(0 0, 100% 20%, 100% 80%, 0% 100%);
+.lobbyLink:hover {
+	background: #e55353;
+	transform: translateY(-2px);
 }
 
-.partyButtonOpenIcon {
-	color: var(--black);
-	width: 30px;
+.lobbyLink:active {
+	transform: translateY(0);
 }
 
-.partyButtonCloseIcon {
-	transform: rotate(180deg);
+/* ----------------------------------
+   Responsive / Mobile Bottom Sheet
+---------------------------------- */
+@media (max-width: 768px) {
+	.overlay {
+		position: fixed;
+		inset: 0;
+		background: var(--black-alpha-50);
+		z-index: 98;
+	}
+
+	.panel {
+		bottom: 0;
+		right: 0;
+		width: 100%;
+		border-radius: 24px 24px 0 0;
+		border: none;
+		border-top: 1px solid var(--white-alpha-20);
+		padding-bottom: env(safe-area-inset-bottom, 20px);
+	}
+
+	.dragHandle {
+		display: flex;
+		justify-content: center;
+		padding: 12px 0 0;
+		cursor: grab;
+	}
+
+	.dragHandle:active {
+		cursor: grabbing;
+	}
+
+	.dragIndicator {
+		width: 40px;
+		height: 5px;
+		border-radius: 3px;
+		background: var(--white-alpha-30);
+	}
+
+	.panelHeader {
+		padding-top: 10px;
+	}
+
+	.fab {
+		bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+		right: 24px;
+	}
+
+	.fabHiddenMobile {
+		opacity: 0;
+		pointer-events: none;
+		transform: scale(0.8);
+	}
+
+	.slotsList {
+		max-height: 65vh;
+	}
+
+	/* Show remove button permanently on mobile with neutral color */
+	.removeButton {
+		opacity: 1;
+		transform: translateX(0);
+		background: transparent;
+		color: var(--white-alpha-40);
+	}
+
+	.removeButton:active {
+		color: var(--red);
+		background: var(--white-alpha-10);
+	}
 }
 
-.poisonType {
-	composes: poisonType from global;
-}
-
-.rockType {
-	composes: rockType from global;
-}
-
-.fireType {
-	composes: fireType from global;
-}
-
+/* ----------------------------------
+   Types Background Variations
+---------------------------------- */
 .normalType {
-	composes: normalType from global;
+	border-left: 4px solid var(--color-normal);
 }
-
+.fireType {
+	border-left: 4px solid var(--color-fire);
+}
 .waterType {
-	composes: waterType from global;
+	border-left: 4px solid var(--color-water);
 }
-
 .grassType {
-	composes: grassType from global;
+	border-left: 4px solid var(--color-grass);
 }
-
 .flyingType {
-	composes: flyingType from global;
+	border-left: 4px solid var(--color-flying);
 }
-
 .fightingType {
-	composes: fightingType from global;
+	border-left: 4px solid var(--color-fighting);
 }
-
+.poisonType {
+	border-left: 4px solid var(--color-poison);
+}
 .electricType {
-	composes: electricType from global;
+	border-left: 4px solid var(--color-electric);
 }
-
 .groundType {
-	composes: groundType from global;
+	border-left: 4px solid var(--color-ground);
 }
-
+.rockType {
+	border-left: 4px solid var(--color-rock);
+}
 .psychicType {
-	composes: psychicType from global;
+	border-left: 4px solid var(--color-psychic);
 }
-
 .iceType {
-	composes: iceType from global;
+	border-left: 4px solid var(--color-ice);
 }
-
 .bugType {
-	composes: bugType from global;
+	border-left: 4px solid var(--color-bug);
 }
-
 .ghostType {
-	composes: ghostType from global;
+	border-left: 4px solid var(--color-ghost);
 }
-
 .steelType {
-	composes: steelType from global;
+	border-left: 4px solid var(--color-steel);
 }
-
 .dragonType {
-	composes: dragonType from global;
+	border-left: 4px solid var(--color-dragon);
 }
-
 .darkType {
-	composes: darkType from global;
+	border-left: 4px solid var(--color-dark);
 }
-
 .fairyType {
-	composes: fairyType from global;
+	border-left: 4px solid var(--color-fairy);
 }

@@ -49,13 +49,41 @@
 
 .buttonToTop {
 	position: fixed;
-	width: 100px;
-	height: 100px;
-	bottom: 50px;
-	right: 5vh;
-	border-radius: 50px;
-	background-color: var(--white);
+	width: 64px;
+	height: 64px;
+	bottom: 24px;
+	left: 24px;
+	border-radius: 50%;
+	background: var(--slate-900);
+	color: var(--white);
+	border: 3px solid var(--white-alpha-20);
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	cursor: pointer;
+	box-shadow: 0 10px 25px var(--black-alpha-50);
+	z-index: 100;
+	transition:
+		border-color 0.3s ease,
+		box-shadow 0.3s ease,
+		transform 0.2s ease;
+}
+
+.buttonToTop:hover {
+	border-color: var(--color-pokedex);
+	box-shadow: 0 10px 30px rgba(220, 66, 60, 0.4);
+	transform: translateY(-4px);
+}
+
+.buttonToTop:active {
+	transform: translateY(0);
+}
+
+.arrowUp {
+	color: var(--white);
+	width: 32px;
+	height: 32px;
+	transition: transform 0.3s ease;
 }
 
 .buttonToTop:hover .arrowUp {
@@ -64,7 +92,7 @@
 
 @keyframes pulse {
 	from {
-		transform: scale(0.8);
+		transform: scale(0.9);
 	}
 	to {
 		transform: scale(1.1);
@@ -77,9 +105,7 @@
 	}
 
 	.buttonToTop {
-		width: 90px;
-		height: 90px;
-		bottom: 20px;
-		right: 2vh;
+		bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+		left: 24px;
 	}
 }

@@ -5,7 +5,6 @@ import { components, hooks, utils } from "@generouted/react-router/client";
 
 export type Path = `/` | `/battle` | `/lobby`;
 
-// biome-ignore lint/complexity/noBannedTypes: Auto-generated file
 export type Params = {};
 
 export type ModalPath = never;

@@ -11,7 +11,7 @@ import { PARTY_KEY } from "../contants/storage";
 import { fetchMoveFn } from "../hooks/useApi";
 import type { MoveDetailed, PokemonDetailed } from "../types/pokemon";
 
-export const MAX_PARTY_LENGTH = 3;
+export const MAX_PARTY_LENGTH = 6;
 
 export const MOVE_SELECT_PROPS = {
 	ATTACK1: "ATTACK1",
