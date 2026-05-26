@@ -48,7 +48,7 @@
 }
 
 .selectedButtonPokemonMiniature {
-	border: 1px solid red;
+	border: 1px solid var(--red);
 }
 
 .buttonPokemonMiniature:disabled {
@@ -78,7 +78,7 @@
 }
 
 .healthBar::-webkit-progress-value {
-	background-color: darkgoldenrod;
+	background-color: var(--darkgoldenrod);
 }
 
 .healthBarGreen::-webkit-progress-value {
@@ -86,7 +86,7 @@
 }
 
 .healthBarRed::-webkit-progress-value {
-	background-color: darkred;
+	background-color: var(--darkred);
 }
 
 /* progress::-moz-progress-bar { background: blue; }
