@@ -58,6 +58,7 @@ export function PokemonDetailed() {
 						onClick={handleClose}
 					/>
 					<motion.div
+						layout
 						className={s.contentWrapper}
 						initial={initialPos}
 						animate={animatePos}

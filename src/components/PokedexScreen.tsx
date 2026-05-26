@@ -1,5 +1,7 @@
 import cn from "classnames";
+import { AnimatePresence, motion } from "framer-motion";
 import { upperFirst } from "lodash";
+import type React from "react";
 import FemaleIcon from "../assets/icons/female.svg?react";
 import MaleIcon from "../assets/icons/male.svg?react";
 import Rotate from "../assets/icons/rotate.svg?react";
@@ -18,6 +20,8 @@ export function PokedexScreen() {
 		selectedPokemon,
 		speciesInfo,
 		positionVariation,
+		infoScreenContent,
+		setInfoScreenContent,
 		isFemale,
 		isBack,
 		isShiny,
@@ -25,6 +29,8 @@ export function PokedexScreen() {
 		setPositionVariation,
 		setSpriteVariation,
 	} = useSelectedPokemon();
+
+	const isHero = infoScreenContent === null;
 
 	function renderImage() {
 		if (!selectedPokemon?.sprites?.frontAnimated) {
@@ -171,34 +177,117 @@ export function PokedexScreen() {
 		: {};
 
 	return (
-		<div className={s.screenWrapper}>
-			<div className={s.screen} style={glowStyle}>
+		<motion.div
+			layout
+			animate={{
+				borderRadius: isHero ? "15px 15px 15px 60px" : "15px 15px 15px 15px",
+			}}
+			transition={{ type: "spring", bounce: 0.15, duration: 0.8 }}
+			className={cn(s.screenWrapper, { [s.compactMode]: !isHero })}
+			style={{
+				overflow: "hidden",
+				minHeight: isHero ? 350 : 90,
+				maxHeight: isHero ? 350 : 90,
+				padding: isHero ? "20px 30px 10px 30px" : "10px 30px",
+				marginBottom: isHero ? 20 : 15,
+			}}
+		>
+			<motion.div
+				layout
+				transition={{ type: "spring", bounce: 0.15, duration: 0.8 }}
+				className={s.screen}
+				style={glowStyle}
+				onClick={!isHero ? () => setInfoScreenContent(null) : undefined}
+				whileTap={!isHero ? { scale: 0.98 } : undefined}
+			>
 				{selectedPokemon ? (
 					<>
-						<img src={background} className={s.background} alt="" />
-						<div className={s.photoPokemonWrapper}>
-							<img
-								loading="lazy"
-								className={s.photoPokemon}
-								src={renderImage()}
-								alt={`Foto do pokemon ${selectedPokemon?.name}`}
-							/>
-						</div>
+						<AnimatePresence>
+							{isHero && (
+								<motion.img
+									layout
+									initial={{ opacity: 0 }}
+									animate={{ opacity: 1 }}
+									exit={{ opacity: 0 }}
+									transition={{ type: "spring", bounce: 0, duration: 0.5 }}
+									src={background}
+									className={s.background}
+									alt=""
+								/>
+							)}
+						</AnimatePresence>
 
-						<div className={s.pokemonInfoWrapper}>
-							<p className={s.pokemonName}>
+						<motion.div
+							layout
+							transition={{ type: "spring", bounce: 0.15, duration: 0.8 }}
+							className={s.photoPokemonWrapper}
+						>
+							<AnimatePresence mode="popLayout">
+								{isHero ? (
+									<motion.img
+										key="hero-img"
+										layoutId={`pokemon-image-${selectedPokemon.id}`}
+										transition={{ type: "spring", bounce: 0.15, duration: 0.8 }}
+										className={s.photoPokemon}
+										src={renderImage()}
+										alt={`Foto do pokemon ${selectedPokemon?.name}`}
+									/>
+								) : (
+									<motion.img
+										key="icon-img"
+										layoutId={`pokemon-image-${selectedPokemon.id}`}
+										transition={{ type: "spring", bounce: 0.15, duration: 0.8 }}
+										className={s.iconPokemon}
+										src={
+											selectedPokemon?.sprites?.icon ||
+											selectedPokemon?.sprites?.miniature ||
+											renderImage()
+										}
+										alt={`Ícone do pokemon ${selectedPokemon?.name}`}
+									/>
+								)}
+							</AnimatePresence>
+						</motion.div>
+
+						<motion.div
+							layout
+							transition={{ type: "spring", bounce: 0.15, duration: 0.8 }}
+							className={s.pokemonInfoWrapper}
+						>
+							<motion.p
+								layout
+								transition={{ type: "spring", bounce: 0.15, duration: 0.8 }}
+								className={s.pokemonName}
+							>
 								{upperFirst(selectedPokemon.name)}
-							</p>
-							<p className={s.pokemonId}>{`#${selectedPokemon.id}`}</p>
-						</div>
+							</motion.p>
+							<motion.p
+								layout
+								transition={{ type: "spring", bounce: 0.15, duration: 0.8 }}
+								className={s.pokemonId}
+							>
+								{`#${selectedPokemon.id}`}
+							</motion.p>
+						</motion.div>
 					</>
 				) : null}
-			</div>
-			<div className={s.screenButtons}>
-				{renderShinyButton()}
-				{renderRotateButton()}
-				{renderToggleSwitchSex()}
-			</div>
-		</div>
+			</motion.div>
+
+			<AnimatePresence>
+				{isHero && (
+					<motion.div
+						layout
+						className={s.screenButtons}
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1, transition: { duration: 0, delay: 0} }}
+						exit={{ opacity: 0, transition: { duration: 0, delay: 0} }}
+					>
+						{renderShinyButton()}
+						{renderRotateButton()}
+						{renderToggleSwitchSex()}
+					</motion.div>
+				)}
+			</AnimatePresence>
+		</motion.div>
 	);
 }

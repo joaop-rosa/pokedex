@@ -136,6 +136,7 @@ export const fetchDetailedPokemonFn = async (
 			backAnimatedFemaleShiny:
 				response.data.sprites.other.showdown.back_shiny_female,
 			miniature: response.data.sprites.front_default,
+			icon: response.data.sprites.front_default,
 		},
 		types: response.data.types.reduce(
 			(acc: string[], type: { type: { name: string } }) => {

@@ -5,8 +5,8 @@ import { Carousel } from "../UI/Carousel";
 import s from "./EvolutionLineScreen.module.css";
 
 export function EvolutionLineScreen() {
-	const { selectedPokemon, speciesInfo, setSelectedPokemon } =
-		useSelectedPokemon();
+	const { selectedPokemon, speciesInfo, setSelectedPokemon } = useSelectedPokemon();
+	if (!selectedPokemon) return null;
 
 	const initialIndex =
 		speciesInfo?.evolutionLine.findIndex(

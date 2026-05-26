@@ -44,9 +44,9 @@ export interface SelectedPokemonContextType {
 	>;
 	speciesInfo: PokemonSpecies | null;
 	isLoadingScreen: boolean;
-	infoScreenContent: ValueOf<typeof INFOS_VARIATION>;
+	infoScreenContent: ValueOf<typeof INFOS_VARIATION> | null;
 	setInfoScreenContent: React.Dispatch<
-		React.SetStateAction<ValueOf<typeof INFOS_VARIATION>>
+		React.SetStateAction<ValueOf<typeof INFOS_VARIATION> | null>
 	>;
 	isFemale: boolean;
 	isBack: boolean;
@@ -87,8 +87,8 @@ export function SelectedPokemonProvider({ children }: { children: ReactNode }) {
 	);
 
 	const [infoScreenContent, setInfoScreenContent] = useState<
-		ValueOf<typeof INFOS_VARIATION>
-	>(INFOS_VARIATION.DEFAULT);
+		ValueOf<typeof INFOS_VARIATION> | null
+	>(null);
 	const [spriteVariation, setSpriteVariation] = useState<
 		ValueOf<typeof SPRITE_VARIATIONS>
 	>(SPRITE_VARIATIONS.DEFAULT);
@@ -114,7 +114,7 @@ export function SelectedPokemonProvider({ children }: { children: ReactNode }) {
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: Needs to reset when selectedPokemon changes
 	useEffect(() => {
-		setInfoScreenContent(INFOS_VARIATION.DEFAULT);
+		setInfoScreenContent(null);
 		setSpriteVariation(SPRITE_VARIATIONS.DEFAULT);
 		setPositionVariation(POSITION_VARIATIONS.FRONT);
 		setSexVariation(SEX_VARIATIONS.MALE);

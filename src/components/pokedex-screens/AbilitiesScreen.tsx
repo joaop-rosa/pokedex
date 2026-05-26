@@ -5,6 +5,7 @@ import s from "./AbilitiesScreen.module.css";
 
 export function AbilitiesScreen() {
 	const { selectedPokemon } = useSelectedPokemon();
+	if (!selectedPokemon) return null;
 
 	return (
 		<div className={s.abilitiesWrapper}>

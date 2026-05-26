@@ -79,10 +79,11 @@ const STATS_NAMES = {
 
 export function RadarChart() {
 	const { selectedPokemon } = useSelectedPokemon();
-	const { stats } = selectedPokemon;
 	const chartRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
+		if (!selectedPokemon) return;
+		const { stats } = selectedPokemon;
 		const width = 500;
 		const height = 450;
 		const radius = 140;
@@ -196,7 +197,13 @@ export function RadarChart() {
 			// Ensure we have a valid DOM node
 			chartRef.current.innerHTML = (svg.node() as HTMLElement).outerHTML;
 		}
-	}, [stats]);
+	}, [selectedPokemon]);
 
-	return <div className={s.chartWrapper} ref={chartRef} />;
+	if (!selectedPokemon) return null;
+
+	return (
+		<div className={s.chartWrapper}>
+			<div className={s.chart} ref={chartRef} />
+		</div>
+	);
 }

@@ -1,4 +1,5 @@
 import cn from "classnames";
+import { AnimatePresence, motion } from "framer-motion";
 import { INFOS_VARIATION } from "../../context/SelectedPokemonProvider";
 import { useSelectedPokemon } from "../../hooks/useSelectedPokemon";
 import { Spinner } from "../UI/Spinner";
@@ -14,7 +15,10 @@ export function PokedexInfoScreen() {
 	const { selectedPokemon, infoScreenContent, isLoadingScreen } =
 		useSelectedPokemon();
 
+	const isDataMode = infoScreenContent !== null;
+
 	function renderInfoScreen() {
+		if (!isDataMode) return null;
 		switch (infoScreenContent) {
 			case INFOS_VARIATION.FORMS:
 				return <FormsScreen />;
@@ -32,20 +36,44 @@ export function PokedexInfoScreen() {
 	}
 
 	return (
-		<div
-			className={cn(s.infoScreen, {
-				[s.infoScreenActive]: selectedPokemon,
-			})}
-		>
+		<AnimatePresence>
 			{selectedPokemon && (
-				<div className={s.infoScreenContentWrapper}>
-					{!isLoadingScreen ? (
-						renderInfoScreen()
-					) : (
-						<Spinner containerClassname={s.spinnerScreen} />
-					)}
-				</div>
+				<motion.div
+					layout
+					initial={false}
+					animate={{ opacity: 1, marginTop: 20 }}
+					transition={{ type: "spring", bounce: 0.15, duration: 0.8 }}
+					style={{ height: isDataMode ? 350 : 25, overflow: "hidden", flexShrink: 0, width: "100%" }}
+				>
+					<motion.div
+						layout
+						transition={{ type: "spring", bounce: 0.15, duration: 0.8 }}
+						className={cn(s.infoScreen, {
+							[s.infoScreenActive]: selectedPokemon,
+						})}
+						style={{ height: isDataMode ? 350 : 25, margin: "0 auto" }}
+					>
+						<AnimatePresence>
+							{isDataMode && (
+								<motion.div
+									key="content"
+									initial={{ opacity: 0 }}
+									animate={{ opacity: 1 }}
+									exit={{ opacity: 0 }}
+									transition={{ duration: 0.2 }}
+									className={s.infoScreenContentWrapper}
+								>
+									{!isLoadingScreen ? (
+										renderInfoScreen()
+									) : (
+										<Spinner containerClassname={s.spinnerScreen} />
+									)}
+								</motion.div>
+							)}
+						</AnimatePresence>
+					</motion.div>
+				</motion.div>
 			)}
-		</div>
+		</AnimatePresence>
 	);
 }

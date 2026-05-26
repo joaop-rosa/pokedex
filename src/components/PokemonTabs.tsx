@@ -1,4 +1,5 @@
 import cn from "classnames";
+import { motion } from "framer-motion";
 import { INFOS_VARIATION } from "../context/SelectedPokemonProvider";
 import { useSelectedPokemon } from "../hooks/useSelectedPokemon";
 import s from "./PokemonTabs.module.css";
@@ -46,21 +47,25 @@ export function PokemonTabs() {
 	];
 
 	return (
-		<div className={s.tabsWrapper}>
-			{TABS.map((tab) => (
-				<button
-					type="button"
-					key={tab.name}
-					disabled={tab.isDisabled}
-					className={cn(s.tab, {
-						[s.tabActive]: infoScreenContent === tab.value,
-						[s.tabDisabled]: tab.isDisabled,
-					})}
-					onClick={() => setInfoScreenContent(tab.value)}
-				>
-					{tab.name}
-				</button>
-			))}
-		</div>
+		<motion.div layout transition={{ type: "spring", bounce: 0.15, duration: 0.8 }} className={s.tabsWrapper}>
+			{TABS.map((tab) => {
+				const isActive = infoScreenContent === tab.value;
+				return (
+					<motion.button
+						type="button"
+						key={tab.name}
+						disabled={tab.isDisabled}
+						whileTap={tab.isDisabled ? undefined : { scale: 0.95 }}
+						className={cn(s.tab, {
+							[s.tabActive]: isActive,
+							[s.tabDisabled]: tab.isDisabled,
+						})}
+						onClick={() => setInfoScreenContent(isActive ? null : tab.value)}
+					>
+						{tab.name}
+					</motion.button>
+				);
+			})}
+		</motion.div>
 	);
 }

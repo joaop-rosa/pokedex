@@ -29,6 +29,7 @@ export interface PokemonSprites {
 	frontAnimatedFemaleShiny: string | null;
 	backAnimatedFemaleShiny: string | null;
 	miniature: string | null;
+	icon: string | null;
 }
 
 export interface PokemonDetailed {

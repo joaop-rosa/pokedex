@@ -1,12 +1,26 @@
 import cn from "classnames";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelectedPokemon } from "../../hooks/useSelectedPokemon";
 import { MoveItem } from "./MoveItem";
 import s from "./MovesScreen.module.css";
 
 export function MovesScreen() {
 	const { selectedPokemon } = useSelectedPokemon();
-	const [selectedMethod, setSelectedMethod] = useState("LEVEL UP");
+	const [selectedMethod, setSelectedMethod] = useState("level-up");
+
+	const pokemonId = selectedPokemon?.id;
+	const moves = selectedPokemon?.moves;
+
+	// biome-ignore lint/correctness/useExhaustiveDependencies: is necessary
+	useEffect(() => {
+		if (!moves) return;
+		const keys = Object.keys(moves);
+		if (keys.length > 0 && !keys.includes(selectedMethod)) {
+			setSelectedMethod(keys[0]);
+		}
+	}, [pokemonId, moves, selectedMethod]);
+
+	if (!selectedPokemon) return null;
 
 	return (
 		<div className={s.movesWrapper}>
@@ -25,7 +39,7 @@ export function MovesScreen() {
 				))}
 			</div>
 			<div className={s.movesContentWrapper}>
-				{selectedPokemon.moves[selectedMethod].map((move) => (
+				{selectedPokemon.moves[selectedMethod]?.map((move) => (
 					<MoveItem key={move.name} move={move} />
 				))}
 			</div>

@@ -5,6 +5,7 @@ import s from "./DefaultScreen.module.css";
 
 export function DefaultScreen() {
 	const { selectedPokemon, speciesInfo } = useSelectedPokemon();
+	if (!selectedPokemon) return null;
 
 	return (
 		<div className={s.infoScreenContent}>
