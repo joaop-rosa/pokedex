@@ -14,9 +14,9 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	color: rgba(0, 255, 150, 0.9);
+	color: var(--color-spring-green-alpha-90);
 	font-family: monospace;
-	border-bottom: 1px dashed rgba(0, 255, 150, 0.3);
+	border-bottom: 1px dashed var(--color-spring-green-alpha-30);
 	line-height: 40px;
 }
 

@@ -1,6 +1,6 @@
 .cardPokemon {
 	cursor: pointer;
-	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+	box-shadow: 0px 4px 10px var(--black-alpha-20);
 	background-color: var(--white);
 	border-radius: 18px;
 	overflow: hidden;
@@ -22,7 +22,7 @@
 		box-shadow 0.3s ease;
 	transform: perspective(1000px) rotateX(var(--rotate-x, 0deg))
 		rotateY(var(--rotate-y, 0deg)) translateY(-4px);
-	box-shadow: 0px 12px 20px rgba(0, 0, 0, 0.3);
+	box-shadow: 0px 12px 20px var(--black-alpha-30);
 }
 
 .cardPokemonContent {
@@ -51,7 +51,7 @@
 		opacity: 1;
 		background: radial-gradient(
 			circle 250px at var(--mouse-x, 50%) var(--mouse-y, 50%),
-			rgba(255, 255, 255, 0.25),
+			var(--white-alpha-25),
 			transparent 80%
 		);
 	}
@@ -89,7 +89,7 @@
 	object-fit: contain;
 	object-position: center bottom;
 	transform-origin: center bottom;
-	filter: drop-shadow(0 10px 8px rgba(0, 0, 0, 0.5));
+	filter: drop-shadow(0 10px 8px var(--black-alpha-50));
 	transition: transform 0.3s ease;
 	transform: scale(0.8);
 }
@@ -161,7 +161,7 @@
 	font-size: 14px;
 	font-weight: bold;
 	cursor: pointer;
-	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+	box-shadow: 0 4px 10px var(--black-alpha-30);
 	color: var(--white);
 	background-color: var(--emerald);
 	border: 2px solid var(--white);
@@ -195,7 +195,7 @@
 .addPartyButton.added {
 	max-width: 150px;
 	padding: 0 15px;
-	background-color: #3cb371;
+	background-color: var(--color-medium-sea-green);
 }
 
 .addPartyButton.added {
@@ -247,9 +247,9 @@
 	font-weight: bold;
 	font-size: 13px;
 	color: var(--white);
-	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-	border: 1px solid rgba(255, 255, 255, 0.4);
+	text-shadow: 0 1px 2px var(--black-alpha-50);
+	box-shadow: 0 2px 5px var(--black-alpha-30);
+	border: 1px solid var(--white-alpha-40);
 }
 
 .typeName {

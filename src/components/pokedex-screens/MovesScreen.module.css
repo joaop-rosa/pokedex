@@ -3,8 +3,8 @@
 	justify-content: space-evenly;
 	padding: 10px;
 	gap: 10px;
-	background: rgba(0, 255, 150, 0.05);
-	border-bottom: 2px solid rgba(0, 255, 150, 0.2);
+	background: var(--color-spring-green-alpha-05);
+	border-bottom: 2px solid var(--color-spring-green-alpha-20);
 }
 
 .movesWrapper {
@@ -16,7 +16,7 @@
 	font-family: monospace;
 	font-size: 14px;
 	font-weight: 600;
-	color: rgba(0, 255, 150, 0.4);
+	color: var(--color-spring-green-alpha-40);
 	padding: 5px 10px;
 	cursor: pointer;
 	border: 1px solid transparent;
@@ -25,14 +25,14 @@
 }
 
 .movesMethodButton:hover {
-	color: rgba(0, 255, 150, 0.8);
+	color: var(--color-spring-green-alpha-80);
 }
 
 .movesMethodButtonSelected {
-	border: 1px solid rgba(0, 255, 150, 0.6);
-	background: rgba(0, 255, 150, 0.1);
-	color: rgba(0, 255, 150, 1);
-	box-shadow: 0 0 10px rgba(0, 255, 150, 0.2);
+	border: 1px solid var(--color-spring-green-alpha-60);
+	background: var(--color-spring-green-alpha-10);
+	color: var(--color-spring-green);
+	box-shadow: 0 0 10px var(--color-spring-green-alpha-20);
 }
 
 @media screen and (max-width: 380px) {

@@ -62,11 +62,11 @@
 }
 
 .attackButton {
-	background-color: green;
-	color: white;
+	background-color: var(--emerald);
+	color: var(--white);
 }
 
 .changePokemonButton {
-	background-color: yellow;
-	color: black;
+	background-color: var(--yellow);
+	color: var(--black);
 }

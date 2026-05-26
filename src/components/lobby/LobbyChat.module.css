@@ -2,7 +2,7 @@
 	height: 300px;
 	width: 100%;
 	max-width: 600px;
-	background-color: white;
+	background-color: var(--white);
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;

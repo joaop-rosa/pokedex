@@ -7,14 +7,14 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+	box-shadow: 0px 4px 4px var(--black-alpha-25);
 	z-index: 1;
-	background: whitesmoke;
+	background: var(--whitesmoke);
 }
 
 .header a {
-	color: yellow;
-	-webkit-text-stroke: 1px #3761a8;
+	color: var(--yellow);
+	-webkit-text-stroke: 1px var(--azure);
 	font-family: pokemon, sans-serif;
 	font-size: 36px;
 }

@@ -17,5 +17,5 @@
 }
 
 .spinner {
-	color: white;
+	color: var(--white);
 }

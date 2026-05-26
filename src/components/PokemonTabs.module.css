@@ -35,10 +35,10 @@
 
 .tab {
 	position: relative;
-	background: #333;
-	border: 1px solid #111;
+	background: var(--gray-300);
+	border: 1px solid var(--gray-100);
 	border-radius: 6px;
-	color: #ccc;
+	color: var(--gray-800);
 	font-size: 15px;
 	font-family: var(--font-primary);
 	font-weight: 600;
@@ -48,8 +48,8 @@
 	white-space: nowrap;
 	transition: all 0.2s ease;
 	box-shadow:
-		0 4px 6px rgba(0, 0, 0, 0.3),
-		inset 0 1px 1px rgba(255, 255, 255, 0.2);
+		0 4px 6px var(--black-alpha-30),
+		inset 0 1px 1px var(--white-alpha-20);
 	letter-spacing: 1px;
 }
 
@@ -58,35 +58,35 @@
 	color: var(--white);
 	transform: translateY(-2px);
 	box-shadow:
-		0 6px 12px rgba(0, 0, 0, 0.4),
-		inset 0 1px 1px rgba(255, 255, 255, 0.3);
+		0 6px 12px var(--black-alpha-40),
+		inset 0 1px 1px var(--white-alpha-30);
 }
 
 .tabActive {
-	background: var(--black, #222);
-	color: var(--blue, #00bfff);
-	text-shadow: 0 0 5px rgba(0, 191, 255, 0.5);
+	background: var(--gray-200);
+	color: var(--azure);
+	text-shadow: 0 0 5px var(--color-deep-sky-blue-alpha-50);
 	box-shadow:
-		inset 0 4px 8px rgba(0, 0, 0, 0.8),
-		inset 0 1px 3px rgba(0, 0, 0, 0.5);
+		inset 0 4px 8px var(--black-alpha-80),
+		inset 0 1px 3px var(--black-alpha-50);
 	transform: translateY(2px);
-	border-color: #000;
+	border-color: var(--black);
 }
 
 .tabActive:hover:not(:disabled) {
-	background: var(--black, #222);
-	color: var(--blue, #00bfff);
+	background: var(--gray-200);
+	color: var(--azure);
 	transform: translateY(2px);
 	box-shadow:
-		inset 0 4px 8px rgba(0, 0, 0, 0.8),
-		inset 0 1px 3px rgba(0, 0, 0, 0.5);
+		inset 0 4px 8px var(--black-alpha-80),
+		inset 0 1px 3px var(--black-alpha-50);
 }
 
 .tabDisabled {
-	background: #222;
-	color: #555;
+	background: var(--gray-200);
+	color: var(--gray-500);
 	box-shadow: none;
-	border-color: #222;
+	border-color: var(--gray-200);
 	cursor: not-allowed;
 	transform: scale(1);
 }

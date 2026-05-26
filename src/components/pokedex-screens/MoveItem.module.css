@@ -9,19 +9,19 @@
 	justify-content: space-between;
 	padding: 15px 20px 15px 10px;
 	font-size: 16px;
-	color: rgba(0, 255, 150, 0.9);
+	color: var(--color-spring-green-alpha-90);
 	font-family: monospace;
-	border-bottom: 1px dashed rgba(0, 255, 150, 0.3);
+	border-bottom: 1px dashed var(--color-spring-green-alpha-30);
 	text-transform: uppercase;
 }
 
 .moveHeader:hover {
-	background: rgba(0, 255, 150, 0.1);
+	background: var(--color-spring-green-alpha-10);
 }
 
 .moveButtonOpen {
 	font-size: 18px;
-	color: rgba(0, 255, 150, 1);
+	color: var(--color-spring-green);
 }
 
 .moveContent {
@@ -31,23 +31,23 @@
 	justify-content: center;
 	gap: 10px;
 	font-size: 14px;
-	color: rgba(0, 255, 150, 0.7);
+	color: var(--color-spring-green-alpha-70);
 	font-family: monospace;
 	padding: 15px 10px;
-	background: rgba(0, 255, 150, 0.02);
+	background: var(--color-spring-green-alpha-02);
 }
 
 .moveInfoType {
 	padding: 3px 7px;
 	border-radius: 4px;
-	border: 1px solid rgba(0, 255, 150, 0.5);
-	background: rgba(0, 255, 150, 0.1);
-	color: rgba(0, 255, 150, 1);
-	text-shadow: 0 0 5px rgba(0, 255, 150, 0.5);
+	border: 1px solid var(--color-spring-green-alpha-50);
+	background: var(--color-spring-green-alpha-10);
+	color: var(--color-spring-green);
+	text-shadow: 0 0 5px var(--color-spring-green-alpha-50);
 }
 
 .spinner {
-	color: rgba(0, 255, 150, 1);
+	color: var(--color-spring-green);
 	width: 25px;
 	height: auto;
 	margin: 0 auto 20px;

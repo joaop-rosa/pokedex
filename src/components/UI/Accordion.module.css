@@ -6,7 +6,7 @@
 	align-items: flex-start;
 	gap: 8px;
 	padding: 10px 0;
-	border-bottom: 1px dashed rgba(0, 255, 150, 0.3);
+	border-bottom: 1px dashed var(--color-spring-green-alpha-30);
 }
 
 .accordion:first-child {
