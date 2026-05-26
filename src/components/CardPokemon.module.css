@@ -46,17 +46,6 @@
 	border-radius: inherit;
 }
 
-@media (hover: hover) {
-	.cardPokemon:hover .cardPokemonContent::after {
-		opacity: 1;
-		background: radial-gradient(
-			circle 250px at var(--mouse-x, 50%) var(--mouse-y, 50%),
-			var(--white-alpha-25),
-			transparent 80%
-		);
-	}
-}
-
 .cardPokemonContent::before {
 	content: "";
 	position: absolute;
@@ -179,18 +168,6 @@
 	pointer-events: auto;
 }
 
-@media (hover: hover) {
-	.addPartyButton {
-		opacity: 0;
-		transform: translateY(-10px);
-	}
-
-	.cardPokemon:hover .addPartyButton {
-		opacity: 1;
-		transform: translateY(0);
-	}
-}
-
 .addPartyButton:hover,
 .addPartyButton.added {
 	max-width: 150px;
@@ -254,4 +231,25 @@
 
 .typeName {
 	margin: 0;
+}
+
+@media (hover: hover) {
+	.cardPokemon:hover .cardPokemonContent::after {
+		opacity: 1;
+		background: radial-gradient(
+			circle 250px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+			var(--white-alpha-25),
+			transparent 80%
+		);
+	}
+
+	.addPartyButton {
+		opacity: 0;
+		transform: translateY(-10px);
+	}
+
+	.cardPokemon:hover .addPartyButton {
+		opacity: 1;
+		transform: translateY(0);
+	}
 }

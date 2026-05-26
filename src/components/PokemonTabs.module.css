@@ -7,28 +7,6 @@
 	scrollbar-width: none;
 }
 
-@media screen and (max-width: 1024px) {
-	.tabsWrapper {
-		overflow-x: auto;
-		justify-content: flex-start;
-		flex-wrap: nowrap;
-	}
-
-	.tabsWrapper::before,
-	.tabsWrapper::after {
-		content: "";
-		margin: auto;
-	}
-}
-
-@media screen and (min-width: 1025px) {
-	.tabsWrapper {
-		flex-wrap: wrap;
-		justify-content: center;
-		overflow-x: visible;
-	}
-}
-
 .tabsWrapper::-webkit-scrollbar {
 	display: none;
 }
@@ -99,4 +77,26 @@
 	height: 3px;
 	background-color: var(--azure);
 	border-radius: 3px 3px 0 0;
+}
+
+@media screen and (max-width: 1024px) {
+	.tabsWrapper {
+		overflow-x: auto;
+		justify-content: flex-start;
+		flex-wrap: nowrap;
+	}
+
+	.tabsWrapper::before,
+	.tabsWrapper::after {
+		content: "";
+		margin: auto;
+	}
+}
+
+@media screen and (min-width: 1025px) {
+	.tabsWrapper {
+		flex-wrap: wrap;
+		justify-content: center;
+		overflow-x: visible;
+	}
 }
