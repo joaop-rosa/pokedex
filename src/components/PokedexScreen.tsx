@@ -188,7 +188,7 @@ export function PokedexScreen() {
 				overflow: "hidden",
 				minHeight: isHero ? 350 : 90,
 				maxHeight: isHero ? 350 : 90,
-				padding: isHero ? "20px 30px 10px 30px" : "10px 30px",
+				padding: isHero ? "20px 30px 10px 30px" : "10px 20px",
 				marginBottom: isHero ? 20 : 15,
 			}}
 		>

@@ -95,6 +95,17 @@ export function PokemonDetailed() {
 							</div>
 						)}
 
+						<div className={s.pokedexDecorations}>
+							<div className={s.bigBlueLens}>
+								<div className={s.lensReflect} />
+							</div>
+							<div className={s.smallLights}>
+								<div className={`${s.lightBase} ${s.lightRed}`} />
+								<div className={`${s.lightBase} ${s.lightYellow}`} />
+								<div className={`${s.lightBase} ${s.lightGreen}`} />
+							</div>
+						</div>
+
 						<div className={s.container}>
 							<div className={s.content}>
 								<PokedexScreen />
