@@ -1,6 +1,6 @@
 import cn from "classnames";
 import { upperFirst } from "lodash";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSocket } from "../../hooks/useSocket";
 import { LobbyChat } from "./LobbyChat";
 import { LobbyLogin } from "./LobbyLogin";
@@ -17,50 +17,77 @@ export function LobbySection() {
 		socketId,
 	} = useSocket();
 
+	const [challengedUsers, setChallengedUsers] = useState<
+		Record<string, boolean>
+	>({});
+
 	useEffect(() => {
 		refreshConnectedList();
 	}, [refreshConnectedList]);
 
+	const handleChallenge = async (userId: string) => {
+		const isSended = await challengeUser(userId);
+		if (isSended) {
+			setChallengedUsers((prev) => ({ ...prev, [userId]: true }));
+			setTimeout(() => {
+				setChallengedUsers((prev) => ({ ...prev, [userId]: false }));
+			}, 3000);
+		}
+	};
+
 	function renderLoggedFeatures() {
 		return (
-			<>
-				<LobbyChat />
-				<div className={s.connectUsersWrapper}>
-					{connectUsers
-						.filter((user) => user.id !== socketId)
-						.map((user) => (
-							<div
-								key={user.id}
-								className={cn(s.userWrapper, {
-									[s.userWrapperInBattle]: user.isInBattle,
-								})}
-							>
-								<p>{user.data.name}</p>
-								<p>
-									ID: <span>{user.id}</span>
-								</p>
-								<div className={s.partyWrapper}>
-									{user.data.party.map((pokemon) => (
-										<div
-											key={pokemon.partyId}
-											className={s.partyPokemonWrapper}
+			<div className={s.lobbyFeatures}>
+				<div className={s.trainersColumn}>
+					<div className={s.connectUsersWrapper}>
+						{connectUsers
+							.filter((user) => user.id !== socketId)
+							.map((user) => (
+								<div
+									key={user.id}
+									className={cn(s.userWrapper, {
+										[s.userWrapperInBattle]: user.isInBattle,
+									})}
+								>
+									<div className={s.userInfo}>
+										<p className={s.userName}>{user.data.name}</p>
+										<p className={s.userId}>
+											ID: <span>{user.id}</span>
+										</p>
+									</div>
+									<div className={s.partyWrapper}>
+										{user.data.party.map((pokemon) => (
+											<div
+												key={pokemon.partyId}
+												className={s.partyPokemonWrapper}
+											>
+												<img
+													className={s.partyPokemonImage}
+													src={pokemon.sprites.front}
+													alt={pokemon.name}
+													title={upperFirst(pokemon.name)}
+												/>
+											</div>
+										))}
+									</div>
+									{isConnected && !user.isInBattle && (
+										<button
+											type="button"
+											className={s.challengeButton}
+											onClick={() => handleChallenge(user.id)}
+											disabled={challengedUsers[user.id]}
 										>
-											<img
-												className={s.partyPokemonImage}
-												src={pokemon.sprites.miniature}
-												alt=""
-											/>
-											<p>{upperFirst(pokemon.name)}</p>
-										</div>
-									))}
+											{challengedUsers[user.id]
+												? "Desafio enviado"
+												: "Desafiar"}
+										</button>
+									)}
 								</div>
-								{isConnected && !user.isInBattle && (
-									<button type="button" onClick={() => challengeUser(user.id)}>
-										Desafiar
-									</button>
-								)}
-							</div>
-						))}
+							))}
+					</div>
+				</div>
+				<div className={s.chatColumn}>
+					<LobbyChat />
 				</div>
 				{!!challenges.length && (
 					<div className={s.challengesPopup}>
@@ -81,7 +108,7 @@ export function LobbySection() {
 						</div>
 					</div>
 				)}
-			</>
+			</div>
 		);
 	}
 

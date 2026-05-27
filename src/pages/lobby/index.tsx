@@ -5,6 +5,7 @@ import { LobbySection } from "../../components/lobby/LobbySection";
 import { PartySection } from "../../components/lobby/lobby-party/PartySection";
 import { Header } from "../../components/UI/Header";
 import { useParty } from "../../hooks/useParty";
+import { useSocket } from "../../hooks/useSocket";
 import s from "./index.module.css";
 
 const SECTIONS = {
@@ -15,6 +16,7 @@ const SECTIONS = {
 export default function Lobby() {
 	const [sectionSelected, setSectionSelected] = useState(SECTIONS.PARTY);
 	const { party } = useParty();
+	const { isConnected, disconnect } = useSocket();
 
 	function renderSection() {
 		if (sectionSelected === SECTIONS.LOBBY) {
@@ -30,7 +32,13 @@ export default function Lobby() {
 
 	return (
 		<section className={s.lobbySection}>
-			<Header theme="dark" showBackButton backButtonUrl="/" />
+			<Header
+				theme="dark"
+				showBackButton
+				backButtonUrl="/"
+				showLogout={isConnected}
+				onLogout={disconnect}
+			/>
 			<div className={s.container}>
 				<div className={s.buttonsWrapper}>
 					<button

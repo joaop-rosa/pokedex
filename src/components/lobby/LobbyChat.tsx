@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FaPaperPlane } from "react-icons/fa";
 import { useSocket } from "../../hooks/useSocket";
 import s from "./LobbyChat.module.css";
 
@@ -26,8 +27,10 @@ export function LobbyChat() {
 					return (
 						<div key={hour} className={s.message}>
 							<div className={s.messageHeader}>
-								<h4 style={{ color }}>{name}</h4>
-								<p>{hourFormatted}</p>
+								<h4 className={s.messageName} style={{ color }}>
+									{name}
+								</h4>
+								<p className={s.messageHour}>{hourFormatted}</p>
 							</div>
 
 							<p className={s.messageText}>{message}</p>
@@ -35,20 +38,28 @@ export function LobbyChat() {
 					);
 				})}
 			</div>
-			<div className={s.inputWrapper}>
-				<textarea
+			<form
+				className={s.inputWrapper}
+				onSubmit={(e) => {
+					e.preventDefault();
+					handleSendMessage();
+				}}
+			>
+				<input
+					type="text"
 					className={s.inputMessage}
 					value={message}
 					onChange={(event) => setMessage(event.target.value)}
+					placeholder="ENVIAR MENSAGEM_"
 				/>
 				<button
-					type="button"
-					disabled={!message.length}
-					onClick={handleSendMessage}
+					type="submit"
+					className={s.submitButton}
+					disabled={!message.trim().length}
 				>
-					Enviar
+					<FaPaperPlane />
 				</button>
-			</div>
+			</form>
 		</div>
 	);
 }

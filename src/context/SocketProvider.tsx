@@ -58,7 +58,7 @@ export interface SocketContextType {
 	socketId: string | null;
 	setUsername: React.Dispatch<React.SetStateAction<string>>;
 	refreshConnectedList: () => void;
-	challengeUser: (userInvitedSocketId: string) => void;
+	challengeUser: (userInvitedSocketId: string) => Promise<boolean>;
 	login: (username: string, party: PokemonPartyItem[]) => void;
 	responseChallenge: (challengerId: string, response: boolean) => void;
 	battleAction: (
@@ -108,13 +108,10 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
 	}, [battle, socketId]);
 
 	useEffect(() => {
-		let connectionAttempts = 0;
-
 		function onConnection() {
 			console.log("conectado");
 			setIsConnected(true);
 			setSocketId(socket.id || "");
-			connectionAttempts = 0;
 		}
 
 		function onDisconnect() {
@@ -124,23 +121,25 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
 		}
 
 		function onConnectError() {
-			connectionAttempts++;
-			if (connectionAttempts >= 3) {
-				setLoadingLogin(false);
-				setLoginError("Servidor indisponível após 3 tentativas de conexão.");
-				socket.disconnect();
-				connectionAttempts = 0;
-			}
+			console.warn("Falha ao conectar. Tentando novamente...");
+		}
+
+		function onReconnectFailed() {
+			setLoadingLogin(false);
+			setLoginError("Servidor indisponível após tentativas de conexão.");
+			socket.disconnect(); // Safe to disconnect here
 		}
 
 		socket.on("connect", onConnection);
 		socket.on("disconnect", onDisconnect);
 		socket.on("connect_error", onConnectError);
+		socket.on("reconnect_failed", onReconnectFailed);
 
 		return () => {
 			socket.off("connect", onConnection);
 			socket.off("disconnect", onDisconnect);
 			socket.off("connect_error", onConnectError);
+			socket.off("reconnect_failed", onReconnectFailed);
 		};
 	}, []);
 
@@ -204,10 +203,10 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
 	}, []);
 
 	const challengeUser = useCallback((userInvitedSocketId: string) => {
-		socket.emit("battle:invite", userInvitedSocketId, (isSended: boolean) => {
-			if (isSended) {
-				alert("Desafio enviado");
-			}
+		return new Promise<boolean>((resolve) => {
+			socket.emit("battle:invite", userInvitedSocketId, (isSended: boolean) => {
+				resolve(isSended);
+			});
 		});
 	}, []);
 

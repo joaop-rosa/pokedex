@@ -1,5 +1,4 @@
 import { Routes } from "@generouted/react-router";
-import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
 import "./assets/global/global.css";
@@ -18,9 +17,7 @@ const queryClient = new QueryClient({
 
 // biome-ignore lint/style/noNonNullAssertion: root is present in index.html
 createRoot(document.getElementById("root")!).render(
-	<StrictMode>
-		<QueryClientProvider client={queryClient}>
-			<Routes />
-		</QueryClientProvider>
-	</StrictMode>,
+	<QueryClientProvider client={queryClient}>
+		<Routes />
+	</QueryClientProvider>,
 );

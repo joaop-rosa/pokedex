@@ -10,7 +10,6 @@ export function LobbyLogin() {
 		setUsername,
 		isConnected,
 		login,
-		disconnect,
 		isLoadingLogin,
 		loginError,
 	} = useSocket();
@@ -19,6 +18,10 @@ export function LobbyLogin() {
 		if (username.trim().length) {
 			login(username, party);
 		}
+	}
+
+	if (isConnected) {
+		return null;
 	}
 
 	if (isLoadingLogin) {
@@ -36,31 +39,25 @@ export function LobbyLogin() {
 				className={s.inputWrapper}
 				onSubmit={(e) => {
 					e.preventDefault();
-					if (!isConnected && username.trim().length) {
+					if (username.trim().length) {
 						handleConnect();
-					} else if (isConnected) {
-						disconnect();
 					}
 				}}
 			>
-				{!isConnected && (
-					<>
-						<input
-							className={s.inputName}
-							value={username}
-							onChange={(event) => setUsername(event.target.value)}
-							type="text"
-							placeholder="ENTER NICKNAME_"
-						/>
-						{loginError && <p className={s.errorMessage}>{loginError}</p>}
-					</>
-				)}
+				<input
+					className={s.inputName}
+					value={username}
+					onChange={(event) => setUsername(event.target.value)}
+					type="text"
+					placeholder="ENTER NICKNAME_"
+				/>
+				{loginError && <p className={s.errorMessage}>{loginError}</p>}
 				<button
 					type="submit"
-					disabled={!isConnected && !username.trim().length}
+					disabled={!username.trim().length}
 					className={s.submitButton}
 				>
-					{isConnected ? "Desconectar" : "Conectar"}
+					Conectar
 				</button>
 			</form>
 		</div>

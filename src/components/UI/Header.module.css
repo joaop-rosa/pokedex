@@ -23,6 +23,11 @@
 	justify-content: flex-start;
 }
 
+.headerRight {
+	display: flex;
+	justify-content: flex-end;
+}
+
 .header h1 {
 	flex: 0 1 auto;
 	text-align: center;
@@ -64,16 +69,40 @@
 	box-shadow: 0 0 10px var(--color-battle-prep-neon);
 }
 
+.logoutButton {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	background: transparent;
+	border: 1px solid var(--color-battle-prep-card-border);
+	color: var(--white-alpha-40);
+	font-size: 16px;
+	font-weight: bold;
+	text-transform: uppercase;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	padding: 10px 15px;
+	border-radius: 8px;
+}
+
+.logoutButton:hover {
+	color: #ef4444;
+	border-color: #ef4444;
+	box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+}
+
 @media screen and (max-width: 768px) {
 	.header {
 		padding: 0 15px;
 	}
 
-	.backButton {
+	.backButton,
+	.logoutButton {
 		padding: 10px;
 	}
 
-	.backButtonText {
+	.backButtonText,
+	.logoutText {
 		display: none;
 	}
 }

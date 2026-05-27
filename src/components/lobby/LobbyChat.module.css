@@ -1,58 +1,130 @@
 .lobbyChat {
-	height: 300px;
+	height: calc(100vh - 150px);
+	max-height: 600px;
 	width: 100%;
-	max-width: 600px;
-	background-color: var(--white);
+	background: var(--color-battle-prep-card-bg);
+	border: 1px solid var(--color-battle-prep-card-border);
+	backdrop-filter: blur(10px);
+	border-radius: 12px;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	padding: 20px;
+	padding: 15px;
+	box-shadow: 0 4px 15px var(--black-alpha-50);
 }
 
 .messagesWrapper {
 	flex: 1;
 	overflow-y: auto;
 	padding-right: 10px;
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+}
+
+.messagesWrapper::-webkit-scrollbar {
+	width: 6px;
+}
+
+.messagesWrapper::-webkit-scrollbar-track {
+	background: var(--black-alpha-20);
+	border-radius: 4px;
+}
+
+.messagesWrapper::-webkit-scrollbar-thumb {
+	background: var(--color-battle-prep-card-border);
+	border-radius: 4px;
 }
 
 .message {
-	border-bottom: 1px solid var(--black);
-	padding: 5px 0;
-}
-
-.message:last-child {
-	border-bottom: none;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
 }
 
 .messageHeader {
 	display: flex;
 	justify-content: space-between;
-	align-items: center;
+	align-items: baseline;
 }
 
-.messageHeader p {
-	color: darkgray;
-	font-size: 12px;
+.messageName {
+	font-size: 14px;
+	font-weight: bold;
+	text-transform: uppercase;
+	text-shadow: 0 0 5px currentColor;
+}
+
+.messageHour {
+	color: var(--white-alpha-40);
+	font-size: 11px;
+	font-family: monospace;
 }
 
 .messageText {
 	word-wrap: break-word;
+	color: var(--white);
+	font-size: 14px;
+	line-height: 1.4;
+	background: var(--black-alpha-20);
+	padding: 8px 10px;
+	border-radius: 8px;
+	border-left: 2px solid var(--white-alpha-20);
 }
 
 .inputWrapper {
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
 	gap: 10px;
-	padding-top: 10px;
+	padding-top: 15px;
+	border-top: 1px solid var(--white-alpha-10);
+	margin-top: 10px;
 }
 
 .inputMessage {
-	height: 60px;
-	padding: 5px;
 	flex: 1;
+	background: var(--color-battle-prep-input-bg);
+	border: none;
+	border-bottom: 2px solid var(--color-battle-prep-input-border);
+	color: var(--color-battle-prep-neon);
+	font-family: monospace;
+	font-size: 14px;
+	padding: 10px;
+	outline: none;
+	transition: all 0.3s ease;
+	border-radius: 4px 4px 0 0;
 }
 
-.inputWrapper button {
-	padding: 5px 10px;
+.inputMessage:focus {
+	border-bottom-color: var(--color-battle-prep-neon);
+}
+
+.inputMessage::placeholder {
+	color: var(--white-alpha-20);
+}
+
+.submitButton {
+	background: var(--color-battle-prep-input-bg);
+	border: 1px solid var(--color-battle-prep-input-border);
+	color: var(--color-battle-prep-neon);
+	padding: 10px;
+	border-radius: 8px;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.submitButton:not(:disabled):hover {
+	background: var(--color-battle-prep-neon);
+	color: var(--black);
+	border-color: var(--color-battle-prep-neon);
+	box-shadow: 0 0 10px var(--color-battle-prep-neon);
+}
+
+.submitButton:disabled {
+	cursor: not-allowed;
+	opacity: 0.5;
+	color: var(--white-alpha-40);
 }
