@@ -3,11 +3,7 @@ import { upperFirst } from "lodash";
 import { useBattle } from "../../hooks/useBattle";
 import s from "./BattleField.module.css";
 
-type BattleFieldProps = {
-	isOpponent?: boolean;
-};
-
-export function BattleField({ isOpponent }: BattleFieldProps) {
+export function BattleField() {
 	const {
 		selectedPokemon,
 		getActivePokemon,
@@ -16,6 +12,7 @@ export function BattleField({ isOpponent }: BattleFieldProps) {
 		opponent,
 	} = useBattle();
 
+	// Render party miniatures (the small pokeballs/sprites indicating party health)
 	function renderPartyMiniatures(party, isMyParty = false) {
 		return party
 			.filter((pokemon) => !pokemon.isActive)
@@ -53,67 +50,77 @@ export function BattleField({ isOpponent }: BattleFieldProps) {
 			});
 	}
 
-	function renderInfos(player) {
+	// Render Player HUD
+	function renderHUD(player, isOpponent: boolean) {
+		if (!player?.party) return null;
+		
 		const activePokemon = getActivePokemon(player.party);
+		if (!activePokemon) return null;
+
+		const hpPercent = (activePokemon.currentLife / activePokemon.stats.hp) * 100;
+		let hpColorClass = s.healthBarGreen;
+		if (hpPercent <= 20) hpColorClass = s.healthBarRed;
+		else if (hpPercent <= 50) hpColorClass = s.healthBarYellow;
 
 		return (
-			<>
-				<p>
-					{player.name} <span>({player.socketId})</span>
-				</p>
-				<h2>{upperFirst(activePokemon.name)}</h2>
-				<div className={s.healthBarWrapper}>
-					<progress
-						className={cn(s.healthBar, {
-							[s.healthBarRed]:
-								(activePokemon.currentLife / activePokemon.stats.hp) * 100 <=
-								30,
-							[s.healthBarGreen]:
-								(activePokemon.currentLife / activePokemon.stats.hp) * 100 >=
-								70,
-						})}
-						max={activePokemon.stats.hp}
-						value={activePokemon.currentLife}
-					/>
-					<p className={s.healthBarText}>
-						{activePokemon.currentLife >= 0 ? activePokemon.currentLife : 0} /
-						{activePokemon.stats.hp}
-					</p>
+			<div className={cn(s.hudContainer, isOpponent ? s.hudOpponent : s.hudPlayer)}>
+				<div className={s.hudHeader}>
+					<h2 className={s.pokemonName}>{upperFirst(activePokemon.name)}</h2>
+					<span className={s.pokemonLevel}>Lv50</span>
 				</div>
-			</>
+				<div className={s.healthBarWrapper}>
+					<div className={s.hpLabel}>HP</div>
+					<div className={s.healthBarTrack}>
+						<div 
+							className={cn(s.healthBarFill, hpColorClass)} 
+							style={{ width: `${Math.max(0, hpPercent)}%` }}
+						/>
+					</div>
+				</div>
+				<p className={s.healthBarText}>
+					{Math.max(0, activePokemon.currentLife)} / {activePokemon.stats.hp}
+				</p>
+				<div className={s.miniaturesContainer}>
+					{renderPartyMiniatures(player.party, !isOpponent)}
+				</div>
+			</div>
 		);
 	}
 
-	return (
-		<div className={cn(s.field, { [s.opponentField]: isOpponent })}>
-			<div className={s.infosWrapper}>
-				<div
-					className={cn(s.pokemonInfos, {
-						[s.opponentPokemonInfos]: isOpponent,
-					})}
-				>
-					{isOpponent ? renderInfos(opponent) : renderInfos(myUser)}
-				</div>
+	const myActivePokemon = myUser?.party ? getActivePokemon(myUser.party) : null;
+	const oppActivePokemon = opponent?.party ? getActivePokemon(opponent.party) : null;
 
-				<div
-					className={cn(s.miniaturesWrapper, {
-						[s.opponentMiniaturesWrapper]: isOpponent,
-					})}
-				>
-					{isOpponent
-						? renderPartyMiniatures(opponent.party)
-						: renderPartyMiniatures(myUser.party, true)}
+	return (
+		<div className={s.arenaContainer}>
+			{/* Opponent Side (Top Right Sprite, Top Left HUD) */}
+			{oppActivePokemon && (
+				<div className={s.opponentSide}>
+					{renderHUD(opponent, true)}
+					<div className={s.spriteWrapperOpponent}>
+						<div className={s.groundShadow} />
+						<img
+							className={s.spriteImageOpponent}
+							src={oppActivePokemon.sprites.front}
+							alt={oppActivePokemon.name}
+						/>
+					</div>
 				</div>
-			</div>
-			<img
-				className={s.activePokemonImage}
-				src={
-					isOpponent
-						? getActivePokemon(opponent.party).sprites.front
-						: getActivePokemon(myUser.party).sprites.back
-				}
-				alt=""
-			/>
+			)}
+
+			{/* Player Side (Bottom Left Sprite, Bottom Right HUD) */}
+			{myActivePokemon && (
+				<div className={s.playerSide}>
+					<div className={s.spriteWrapperPlayer}>
+						<div className={s.groundShadow} />
+						<img
+							className={s.spriteImagePlayer}
+							src={myActivePokemon.sprites.back || myActivePokemon.sprites.front}
+							alt={myActivePokemon.name}
+						/>
+					</div>
+					{renderHUD(myUser, false)}
+				</div>
+			)}
 		</div>
 	);
 }

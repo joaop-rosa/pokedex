@@ -37,7 +37,7 @@ export function BattleActions() {
 		const moveList = Object.values(moves) as unknown as (MoveDetailed | null)[];
 
 		return (
-			<div className={s.attackSelectionWrapper}>
+			<div className={s.actionGrid}>
 				{moveList.map((move, index) => {
 					if (move) {
 						return (
@@ -49,12 +49,16 @@ export function BattleActions() {
 								onClick={() => setSelectedMove(move)}
 								key={move.name}
 							>
-								{move.name}
+								<span className={s.attackName}>{move.name}</span>
+								<span className={s.attackPp}>PP {move.pp}/{move.pp}</span>
 							</button>
 						);
 					}
-					// biome-ignore lint/suspicious/noArrayIndexKey: empty slot key
-					return <span key={`empty-move-${index}`}>------</span>;
+					return (
+						<button type="button" key={`empty-move-${index}`} className={cn(s.buttonAttack, s.buttonEmpty)} disabled>
+							-
+						</button>
+					);
 				})}
 			</div>
 		);
@@ -78,62 +82,68 @@ export function BattleActions() {
 
 		if (hasToChangePokemon) {
 			return (
-				<>
+				<div className={s.narrativeBox}>
 					<p>Selecione outro pokemon para continuar</p>
 					<button
 						type="button"
 						onClick={() =>
-							changePokemonAction(battleId, String(selectedPokemon.id))
+							changePokemonAction(battleId, String(selectedPokemon?.id || ""))
 						}
 						className={cn(s.actionsButton, s.changePokemonButton)}
 						disabled={!selectedPokemon}
 					>
 						Change Pokemon
 					</button>
-				</>
+				</div>
 			);
 		}
 
 		if (hasOpponentToChangePokemon) {
-			return <p>Aguardando o oponente selecionar outro pokemon...</p>;
+			return (
+				<div className={s.narrativeBox}>
+					<p>Aguardando o oponente selecionar outro pokemon...</p>
+				</div>
+			);
 		}
 
 		if (isWaitingOponentMove) {
-			return <p>Aguardando o oponente fazer a ação...</p>;
+			return (
+				<div className={s.narrativeBox}>
+					<p>Aguardando o oponente fazer a ação...</p>
+				</div>
+			);
 		}
 
 		return (
-			<>
-				{renderAttackSelection()}
-				<div className={s.confirmsSection}>
-					<div className={s.attackSelectedInfosWrapper}>
-						<span>
-							PP: {selectedMove?.pp || "----"} / {selectedMove?.pp || "----"}
-						</span>
-						<span>Power: {selectedMove?.power || "----"}</span>
-						<span>Accuracy: {selectedMove?.accuracy || "----"}</span>
-					</div>
-
-					<div className={s.actionsConfirmWrapper}>
-						<button
-							type="button"
-							className={cn(s.actionsButton, s.attackButton)}
-							onClick={handleAttack}
-							disabled={!selectedMove}
-						>
-							Attack
-						</button>
-						<button
-							type="button"
-							className={cn(s.actionsButton, s.changePokemonButton)}
-							disabled={!selectedPokemon}
-							onClick={handleChangePokemon}
-						>
-							Change Pokemon
-						</button>
-					</div>
+			<div className={s.consoleSplit}>
+				<div className={s.narrativeBox}>
+					<p>O que {myUser?.party ? getActivePokemon(myUser.party)?.name : "você"} fará?</p>
+					
+					{selectedMove && (
+						<div className={s.confirmActionArea}>
+							<button
+								type="button"
+								className={cn(s.actionsButton, s.attackButton)}
+								onClick={handleAttack}
+							>
+								Confirmar Ataque
+							</button>
+						</div>
+					)}
+					
+					<button
+						type="button"
+						className={cn(s.actionsButton, s.changePokemonButtonAlt)}
+						disabled={!selectedPokemon}
+						onClick={handleChangePokemon}
+					>
+						Trocar Pokémon
+					</button>
 				</div>
-			</>
+				<div className={s.actionBox}>
+					{renderAttackSelection()}
+				</div>
+			</div>
 		);
 	}
 
