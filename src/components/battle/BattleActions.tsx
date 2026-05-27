@@ -1,6 +1,7 @@
 import cn from "classnames";
 import { useBattle } from "../../hooks/useBattle";
 import { useSocket } from "../../hooks/useSocket";
+import type { MoveDetailed } from "../../types/pokemon";
 import s from "./BattleActions.module.css";
 
 export function BattleActions() {
@@ -11,7 +12,7 @@ export function BattleActions() {
 		changePokemonAction,
 		finishBattle,
 	} = useSocket();
-	const { isOver, battleId, winner } = battle;
+	const { isOver, battleId, winner } = battle || {};
 	const {
 		selectedMove,
 		selectedPokemon,
@@ -23,18 +24,21 @@ export function BattleActions() {
 	} = useBattle();
 
 	function handleAttack() {
-		battleAction(battleId, "ATTACK", selectedMove);
+		if (battleId) battleAction(battleId, "ATTACK", selectedMove);
 	}
 
 	function handleChangePokemon() {
-		battleAction(battleId, "CHANGE", selectedPokemon);
+		if (battleId) battleAction(battleId, "CHANGE", selectedPokemon);
 	}
 
 	function renderAttackSelection() {
-		const { movesSelected: moves } = getActivePokemon(myUser.party);
+		const activePokemon = getActivePokemon(myUser?.party || []);
+		const moves = activePokemon?.moves || {};
+		const moveList = Object.values(moves) as unknown as (MoveDetailed | null)[];
+
 		return (
 			<div className={s.attackSelectionWrapper}>
-				{Object.values(moves).map((move, index) => {
+				{moveList.map((move, index) => {
 					if (move) {
 						return (
 							<button
