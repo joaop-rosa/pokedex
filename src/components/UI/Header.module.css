@@ -6,15 +6,74 @@
 	height: 100px;
 	display: flex;
 	align-items: center;
-	justify-content: center;
+	justify-content: space-between;
+	padding: 0 30px;
 	box-shadow: 0px 4px 4px var(--black-alpha-25);
 	z-index: 1;
 	background: var(--whitesmoke);
 }
 
-.header a {
+.headerLeft,
+.headerRight {
+	flex: 1;
+}
+
+.headerLeft {
+	display: flex;
+	justify-content: flex-start;
+}
+
+.header h1 {
+	flex: 0 1 auto;
+	text-align: center;
+}
+
+.header h1 a {
 	color: var(--yellow);
 	-webkit-text-stroke: 1px var(--azure);
 	font-family: pokemon, sans-serif;
 	font-size: 36px;
+}
+
+.headerDark {
+	background: var(--color-battle-prep-bg);
+	border-bottom: 1px solid var(--color-battle-prep-card-border);
+	box-shadow: 0px 4px 10px var(--black-alpha-50);
+}
+
+.backButton {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	color: var(--white-alpha-40);
+	font-size: 16px;
+	font-weight: bold;
+	text-decoration: none;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	transition: all 0.2s ease;
+	background: transparent;
+	padding: 10px 15px;
+	border-radius: 8px;
+	border: 1px solid var(--color-battle-prep-card-border);
+}
+
+.backButton:hover {
+	color: var(--white);
+	border-color: var(--color-battle-prep-neon);
+	box-shadow: 0 0 10px var(--color-battle-prep-neon);
+}
+
+@media screen and (max-width: 768px) {
+	.header {
+		padding: 0 15px;
+	}
+
+	.backButton {
+		padding: 10px;
+	}
+
+	.backButtonText {
+		display: none;
+	}
 }

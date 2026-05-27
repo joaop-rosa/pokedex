@@ -30,7 +30,7 @@ export default function Lobby() {
 
 	return (
 		<section className={s.lobbySection}>
-			<Header />
+			<Header theme="dark" showBackButton backButtonUrl="/" />
 			<div className={s.container}>
 				<div className={s.buttonsWrapper}>
 					<button

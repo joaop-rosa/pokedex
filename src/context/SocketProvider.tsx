@@ -54,6 +54,7 @@ export interface SocketContextType {
 	isWaitingOponentMove: boolean;
 	isConnected: boolean;
 	isLoadingLogin: boolean;
+	loginError: string | null;
 	socketId: string | null;
 	setUsername: React.Dispatch<React.SetStateAction<string>>;
 	refreshConnectedList: () => void;
@@ -85,6 +86,7 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
 	const [challenges, setChallenges] = useState<Challenge[]>([]);
 	const [battle, setBattle] = useState<BattleData | null>(null);
 	const [isLoadingLogin, setLoadingLogin] = useState<boolean>(false);
+	const [loginError, setLoginError] = useState<string | null>(null);
 	const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
 
 	const isWaitingOponentMove = useMemo(() => {
@@ -106,10 +108,13 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
 	}, [battle, socketId]);
 
 	useEffect(() => {
+		let connectionAttempts = 0;
+
 		function onConnection() {
 			console.log("conectado");
 			setIsConnected(true);
 			setSocketId(socket.id || "");
+			connectionAttempts = 0;
 		}
 
 		function onDisconnect() {
@@ -118,12 +123,24 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
 			setSocketId(null);
 		}
 
+		function onConnectError() {
+			connectionAttempts++;
+			if (connectionAttempts >= 3) {
+				setLoadingLogin(false);
+				setLoginError("Servidor indisponível após 3 tentativas de conexão.");
+				socket.disconnect();
+				connectionAttempts = 0;
+			}
+		}
+
 		socket.on("connect", onConnection);
 		socket.on("disconnect", onDisconnect);
+		socket.on("connect_error", onConnectError);
 
 		return () => {
 			socket.off("connect", onConnection);
 			socket.off("disconnect", onDisconnect);
+			socket.off("connect_error", onConnectError);
 		};
 	}, []);
 
@@ -157,9 +174,9 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
 
 	const loginCallback = useCallback((isLogged: boolean) => {
 		if (isLogged) {
-			alert("Logado com sucesso");
+			setLoginError(null);
 		} else {
-			alert("Ocorreu um erro ao fazer o login");
+			setLoginError("Nickname indisponível ou inválido.");
 		}
 
 		setLoadingLogin(false);
@@ -167,6 +184,7 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
 
 	const login = useCallback(
 		(uname: string, party: PokemonPartyItem[]) => {
+			setLoginError(null);
 			socket.connect();
 			socket.emit("connect:server", uname, party, loginCallback);
 			setLoadingLogin(true);
@@ -182,6 +200,7 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
 		socket.disconnect();
 		setUsername("");
 		setConnectUsers([]);
+		setLoginError(null);
 	}, []);
 
 	const challengeUser = useCallback((userInvitedSocketId: string) => {
@@ -242,6 +261,7 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
 				isWaitingOponentMove,
 				isConnected,
 				isLoadingLogin,
+				loginError,
 				socketId,
 				setUsername,
 				refreshConnectedList,

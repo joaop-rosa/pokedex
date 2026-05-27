@@ -80,13 +80,21 @@ export const PartyProvider = ({ children }: { children: ReactNode }) => {
 
 	async function addPokemonToParty(pokemon: PokemonDetailed) {
 		if (!isPartyFull) {
-			const firstMoveUrl = pokemon.moves["LEVEL UP"]?.[0]?.url;
-			const firstMove = firstMoveUrl
-				? await queryClient.fetchQuery({
-						queryKey: ["move", firstMoveUrl],
-						queryFn: () => fetchMoveFn(firstMoveUrl),
-					})
-				: null;
+			const flatMoveList = Object.keys(pokemon.moves)
+				.flatMap((key) => pokemon.moves[key])
+				.filter((move, index, movesArray) => {
+					return movesArray.findIndex((m) => m.name === move.name) === index;
+				});
+
+			const movesToFetch = flatMoveList.slice(0, 4);
+			const mappedMoves = await Promise.all(
+				movesToFetch.map((move) =>
+					queryClient.fetchQuery({
+						queryKey: ["move", move.url],
+						queryFn: () => fetchMoveFn(move.url),
+					}),
+				),
+			);
 
 			setParty((prev) => [
 				...prev,
@@ -94,11 +102,10 @@ export const PartyProvider = ({ children }: { children: ReactNode }) => {
 					partyId: idGenerator(),
 					...pokemon,
 					movesSelected: {
-						// [MOVE_SELECT_PROPS.ABILITY]: pokemon.abilities[0],
-						[MOVE_SELECT_PROPS.ATTACK1]: firstMove,
-						[MOVE_SELECT_PROPS.ATTACK2]: null,
-						[MOVE_SELECT_PROPS.ATTACK3]: null,
-						[MOVE_SELECT_PROPS.ATTACK4]: null,
+						[MOVE_SELECT_PROPS.ATTACK1]: mappedMoves[0] || null,
+						[MOVE_SELECT_PROPS.ATTACK2]: mappedMoves[1] || null,
+						[MOVE_SELECT_PROPS.ATTACK3]: mappedMoves[2] || null,
+						[MOVE_SELECT_PROPS.ATTACK4]: mappedMoves[3] || null,
 					},
 				},
 			]);

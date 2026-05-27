@@ -12,41 +12,57 @@ export function LobbyLogin() {
 		login,
 		disconnect,
 		isLoadingLogin,
+		loginError,
 	} = useSocket();
+
 	function handleConnect() {
-		if (username.length) {
+		if (username.trim().length) {
 			login(username, party);
 		}
 	}
 
 	if (isLoadingLogin) {
-		return <Spinner containerClassname={s.spinner} />;
-	}
-
-	if (isConnected) {
 		return (
-			<button type="button" className={s.submitButton} onClick={disconnect}>
-				Desconectar
-			</button>
+			<div className={s.loginContainer}>
+				<Spinner containerClassname={s.spinner} />
+			</div>
 		);
 	}
 
 	return (
-		<div className={s.inputWrapper}>
-			<input
-				className={s.inputName}
-				value={username}
-				onChange={(event) => setUsername(event.target.value)}
-				type="text"
-			/>
-			<button
-				type="button"
-				disabled={!username.length}
-				className={s.submitButton}
-				onClick={handleConnect}
+		<div className={s.loginContainer}>
+			<h2 className={s.title}>Trainer Registration</h2>
+			<form
+				className={s.inputWrapper}
+				onSubmit={(e) => {
+					e.preventDefault();
+					if (!isConnected && username.trim().length) {
+						handleConnect();
+					} else if (isConnected) {
+						disconnect();
+					}
+				}}
 			>
-				Conectar
-			</button>
+				{!isConnected && (
+					<>
+						<input
+							className={s.inputName}
+							value={username}
+							onChange={(event) => setUsername(event.target.value)}
+							type="text"
+							placeholder="ENTER NICKNAME_"
+						/>
+						{loginError && <p className={s.errorMessage}>{loginError}</p>}
+					</>
+				)}
+				<button
+					type="submit"
+					disabled={!isConnected && !username.trim().length}
+					className={s.submitButton}
+				>
+					{isConnected ? "Desconectar" : "Conectar"}
+				</button>
+			</form>
 		</div>
 	);
 }

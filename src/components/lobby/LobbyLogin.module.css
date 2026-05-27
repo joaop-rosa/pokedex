@@ -1,21 +1,104 @@
-.inputWrapper {
+.loginContainer {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	gap: 8px;
+	background: var(--color-battle-prep-card-bg);
+	backdrop-filter: blur(10px);
+	border: 1px solid var(--color-battle-prep-card-border);
+	border-radius: 16px;
+	padding: 40px;
+	width: 100%;
+	max-width: 500px;
+	box-shadow: 0 10px 30px var(--black-alpha-50);
+	margin-top: 40px;
+}
+
+.title {
+	font-family: monospace;
+	color: var(--white);
+	font-size: 24px;
+	margin-bottom: 30px;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	text-shadow: 0 0 10px var(--color-battle-prep-neon);
+}
+
+.inputWrapper {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	gap: 20px;
 }
 
 .inputName {
-	padding: 5px 10px;
+	width: 100%;
+	background: var(--color-battle-prep-input-bg);
+	border: none;
+	border-bottom: 2px solid var(--color-battle-prep-input-border);
+	color: var(--color-battle-prep-neon);
+	font-family: monospace;
+	font-size: 18px;
+	padding: 15px;
+	outline: none;
+	transition: all 0.3s ease;
+	border-radius: 4px 4px 0 0;
+}
+
+.inputName:focus {
+	border-bottom-color: var(--color-battle-prep-neon);
+	box-shadow: 0 4px 10px -4px var(--color-battle-prep-neon);
+}
+
+.inputName::placeholder {
+	color: var(--white-alpha-20);
 }
 
 .submitButton {
-	padding: 5px 10px;
+	width: 100%;
+	background: var(--color-battle-prep-input-bg);
+	border: 1px solid var(--color-battle-prep-input-border);
+	color: var(--white-alpha-40);
+	font-size: 18px;
+	font-weight: bold;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	padding: 15px;
+	border-radius: 8px;
 	cursor: pointer;
-	border-radius: 10px;
+	transition: all 0.2s ease;
+	box-shadow:
+		0 6px 10px var(--black-alpha-50),
+		inset 0 2px 2px var(--white-alpha-10);
+}
+
+.submitButton:not(:disabled) {
+	color: var(--white);
+	border-color: var(--color-battle-prep-neon);
+	box-shadow:
+		0 0 20px var(--color-battle-prep-neon),
+		inset 0 2px 2px var(--white-alpha-20);
+}
+
+.submitButton:not(:disabled):active {
+	transform: translateY(4px);
+	box-shadow:
+		0 2px 5px var(--color-battle-prep-neon),
+		inset 0 4px 8px var(--black-alpha-80);
+}
+
+.submitButton:disabled {
+	cursor: not-allowed;
+	opacity: 0.5;
 }
 
 .spinner {
-	color: var(--white);
+	color: var(--color-battle-prep-neon);
+}
+
+.errorMessage {
+	color: #ef4444;
+	font-size: 14px;
+	margin-top: -10px;
+	text-shadow: 0 0 5px rgba(239, 68, 68, 0.5);
 }

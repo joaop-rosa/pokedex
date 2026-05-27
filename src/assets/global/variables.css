@@ -113,3 +113,13 @@ body.party-open #buttonToTop {
 		overflow: hidden;
 	}
 }
+
+/* Battle Prep / Dark Mode */
+:root {
+	--color-battle-prep-bg: #111827;
+	--color-battle-prep-card-bg: rgba(31, 41, 55, 0.7);
+	--color-battle-prep-card-border: rgba(255, 255, 255, 0.1);
+	--color-battle-prep-input-bg: #1f2937;
+	--color-battle-prep-input-border: #374151;
+	--color-battle-prep-neon: #3b82f6;
+}
