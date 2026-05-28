@@ -14,9 +14,11 @@ const SECTIONS = {
 };
 
 export default function Lobby() {
-	const [sectionSelected, setSectionSelected] = useState(SECTIONS.PARTY);
 	const { party } = useParty();
 	const { isConnected, disconnect } = useSocket();
+	const [sectionSelected, setSectionSelected] = useState(
+		isConnected ? SECTIONS.LOBBY : SECTIONS.PARTY
+	);
 
 	function renderSection() {
 		if (sectionSelected === SECTIONS.LOBBY) {

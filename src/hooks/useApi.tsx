@@ -125,6 +125,8 @@ export const fetchDetailedPokemonFn = async (
 		sprites: {
 			front: response.data.sprites.other["official-artwork"].front_default,
 			back: response.data.sprites.back_default,
+			battleFront: response.data.sprites.front_default,
+			battleBack: response.data.sprites.back_default,
 			frontAnimated: response.data.sprites.other.showdown.front_default,
 			backAnimated: response.data.sprites.other.showdown.back_default,
 			frontAnimatedFemale: response.data.sprites.other.showdown.front_female,

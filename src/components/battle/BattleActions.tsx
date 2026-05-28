@@ -1,4 +1,5 @@
 import cn from "classnames";
+import { useState } from "react";
 import { useBattle } from "../../hooks/useBattle";
 import { useSocket } from "../../hooks/useSocket";
 import type { MoveDetailed } from "../../types/pokemon";
@@ -19,9 +20,12 @@ export function BattleActions() {
 		getActivePokemon,
 		myUser,
 		setSelectedMove,
+		setSelectedPokemon,
 		hasToChangePokemon,
 		hasOpponentToChangePokemon,
 	} = useBattle();
+
+	const [menuMode, setMenuMode] = useState<"FIGHT" | "POKEMON">("FIGHT");
 
 	function handleAttack() {
 		if (battleId) battleAction(battleId, "ATTACK", selectedMove);
@@ -64,6 +68,38 @@ export function BattleActions() {
 		);
 	}
 
+	function renderPokemonSelection() {
+		const party = myUser?.party || [];
+		return (
+			<div className={s.pokemonGrid}>
+				{party.map((pokemon) => {
+					const isDead = pokemon.currentLife <= 0;
+					return (
+						<button
+							type="button"
+							key={pokemon.id}
+							disabled={isDead || pokemon.isActive}
+							className={cn(s.buttonAttack, s.buttonPokemon, {
+								[s.buttonAttackSelected]: selectedPokemon?.id === pokemon.id,
+							})}
+							onClick={() => setSelectedPokemon(pokemon)}
+						>
+							<img 
+								src={pokemon.sprites.miniature} 
+								className={cn(s.miniatureSprite, { [s.miniatureDead]: isDead })} 
+								alt={pokemon.name} 
+							/>
+							<div className={s.pokemonInfoWrapper}>
+								<span className={s.attackName}>{pokemon.name}</span>
+								<span className={s.attackPp}>HP: {Math.max(0, pokemon.currentLife)}/{pokemon.stats.hp}</span>
+							</div>
+						</button>
+					);
+				})}
+			</div>
+		);
+	}
+
 	function renderBottomSection() {
 		if (isOver) {
 			return (
@@ -82,18 +118,23 @@ export function BattleActions() {
 
 		if (hasToChangePokemon) {
 			return (
-				<div className={s.narrativeBox}>
-					<p>Selecione outro pokemon para continuar</p>
-					<button
-						type="button"
-						onClick={() =>
-							changePokemonAction(battleId, String(selectedPokemon?.id || ""))
-						}
-						className={cn(s.actionsButton, s.changePokemonButton)}
-						disabled={!selectedPokemon}
-					>
-						Change Pokemon
-					</button>
+				<div className={s.consoleSplit}>
+					<div className={s.narrativeBox}>
+						<p className={s.narrativeBoxMessage}>Selecione outro pokemon para continuar</p>
+						<button
+							type="button"
+							onClick={() =>
+								changePokemonAction(battleId, String(selectedPokemon?.id || ""))
+							}
+							className={cn(s.actionsButton, s.changePokemonButtonAlt)}
+							disabled={!selectedPokemon}
+						>
+							Trocar Pokémon
+						</button>
+					</div>
+					<div className={s.actionBox}>
+						{renderPokemonSelection()}
+					</div>
 				</div>
 			);
 		}
@@ -117,9 +158,26 @@ export function BattleActions() {
 		return (
 			<div className={s.consoleSplit}>
 				<div className={s.narrativeBox}>
-					<p>O que {myUser?.party ? getActivePokemon(myUser.party)?.name : "você"} fará?</p>
+					<p className={s.narrativeBoxMessage}>O que {myUser?.party ? getActivePokemon(myUser.party)?.name : "você"} fará?</p>
 					
-					{selectedMove && (
+					<div className={s.mainMenuButtons}>
+						<button 
+							type="button" 
+							className={cn(s.menuButton, { [s.menuButtonActive]: menuMode === "FIGHT" })}
+							onClick={() => setMenuMode("FIGHT")}
+						>
+							Lutar
+						</button>
+						<button 
+							type="button" 
+							className={cn(s.menuButton, { [s.menuButtonActive]: menuMode === "POKEMON" })}
+							onClick={() => setMenuMode("POKEMON")}
+						>
+							Pokémon
+						</button>
+					</div>
+
+					{menuMode === "FIGHT" && selectedMove && (
 						<div className={s.confirmActionArea}>
 							<button
 								type="button"
@@ -131,17 +189,20 @@ export function BattleActions() {
 						</div>
 					)}
 					
-					<button
-						type="button"
-						className={cn(s.actionsButton, s.changePokemonButtonAlt)}
-						disabled={!selectedPokemon}
-						onClick={handleChangePokemon}
-					>
-						Trocar Pokémon
-					</button>
+					{menuMode === "POKEMON" && selectedPokemon && (
+						<div className={s.confirmActionArea}>
+							<button
+								type="button"
+								className={cn(s.actionsButton, s.changePokemonButtonAlt)}
+								onClick={handleChangePokemon}
+							>
+								Confirmar Troca
+							</button>
+						</div>
+					)}
 				</div>
 				<div className={s.actionBox}>
-					{renderAttackSelection()}
+					{menuMode === "FIGHT" ? renderAttackSelection() : renderPokemonSelection()}
 				</div>
 			</div>
 		);

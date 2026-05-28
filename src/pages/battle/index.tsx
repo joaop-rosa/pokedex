@@ -19,6 +19,14 @@ function BattleContent() {
 					{/* O componente BattleField agora controlará a arena completa (Jogador + Oponente) */}
 					<BattleField />
 					<BattleActions />
+					
+					<button 
+						className={s.mobileLogToggle}
+						onClick={() => setShowLogMobile(true)}
+						type="button"
+					>
+						📝 Histórico de Batalha
+					</button>
 				</div>
 				<div className={cn(s.sidebarArea, { [s.sidebarAreaMobileVisible]: showLogMobile })}>
 					<button 
@@ -31,14 +39,6 @@ function BattleContent() {
 					<BattleMessages />
 				</div>
 			</div>
-
-			<button 
-				className={s.mobileLogToggle}
-				onClick={() => setShowLogMobile(true)}
-				type="button"
-			>
-				📝 Histórico
-			</button>
 
 			{isOver && (
 				<div className={s.gameOverOverlay}>

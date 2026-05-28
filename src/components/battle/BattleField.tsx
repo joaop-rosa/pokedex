@@ -5,46 +5,26 @@ import s from "./BattleField.module.css";
 
 export function BattleField() {
 	const {
-		selectedPokemon,
 		getActivePokemon,
 		myUser,
-		setSelectedPokemon,
 		opponent,
 	} = useBattle();
 
-	// Render party miniatures (the small pokeballs/sprites indicating party health)
-	function renderPartyMiniatures(party, isMyParty = false) {
+	// Render party miniatures (the small pokeballs indicating party health)
+	function renderPartyMiniatures(party) {
 		return party
 			.filter((pokemon) => !pokemon.isActive)
 			.map((pokemon) => {
-				if (isMyParty) {
-					return (
-						<button
-							type="button"
-							key={pokemon.id}
-							disabled={pokemon.currentLife <= 0}
-							className={cn(s.buttonPokemonMiniature, {
-								[s.selectedButtonPokemonMiniature]:
-									pokemon.id === selectedPokemon?.id,
-							})}
-							onClick={() => setSelectedPokemon(pokemon)}
-						>
-							<img
-								className={s.miniaturesImages}
-								src={pokemon.sprites.miniature}
-								alt="pokemon miniature"
-							/>
-						</button>
-					);
-				}
+				const isDead = pokemon.currentLife <= 0;
 				return (
 					<img
 						key={pokemon.id}
 						className={cn(s.miniaturesImages, {
-							[s.miniaturesImagesDisabled]: pokemon.currentLife <= 0,
+							[s.miniaturesImagesDisabled]: isDead,
 						})}
-						src={pokemon.sprites.miniature}
-						alt=""
+						src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png"
+						alt="pokeball"
+						title={pokemon.name}
 					/>
 				);
 			});
@@ -81,7 +61,7 @@ export function BattleField() {
 					{Math.max(0, activePokemon.currentLife)} / {activePokemon.stats.hp}
 				</p>
 				<div className={s.miniaturesContainer}>
-					{renderPartyMiniatures(player.party, !isOpponent)}
+					{renderPartyMiniatures(player.party)}
 				</div>
 			</div>
 		);
@@ -92,35 +72,31 @@ export function BattleField() {
 
 	return (
 		<div className={s.arenaContainer}>
-			{/* Opponent Side (Top Right Sprite, Top Left HUD) */}
+			{/* Sprites layer */}
 			{oppActivePokemon && (
-				<div className={s.opponentSide}>
-					{renderHUD(opponent, true)}
-					<div className={s.spriteWrapperOpponent}>
-						<div className={s.groundShadow} />
-						<img
-							className={s.spriteImageOpponent}
-							src={oppActivePokemon.sprites.front}
-							alt={oppActivePokemon.name}
-						/>
-					</div>
+				<div className={s.spriteWrapperOpponent}>
+					<div className={s.groundShadow} />
+					<img
+						className={s.spriteImageOpponent}
+						src={oppActivePokemon.sprites.battleFront}
+						alt={oppActivePokemon.name}
+					/>
+				</div>
+			)}
+			{myActivePokemon && (
+				<div className={s.spriteWrapperPlayer}>
+					<div className={s.groundShadow} />
+					<img
+						className={s.spriteImagePlayer}
+						src={myActivePokemon.sprites.battleBack}
+						alt={myActivePokemon.name}
+					/>
 				</div>
 			)}
 
-			{/* Player Side (Bottom Left Sprite, Bottom Right HUD) */}
-			{myActivePokemon && (
-				<div className={s.playerSide}>
-					<div className={s.spriteWrapperPlayer}>
-						<div className={s.groundShadow} />
-						<img
-							className={s.spriteImagePlayer}
-							src={myActivePokemon.sprites.back || myActivePokemon.sprites.front}
-							alt={myActivePokemon.name}
-						/>
-					</div>
-					{renderHUD(myUser, false)}
-				</div>
-			)}
+			{/* HUDs layer */}
+			{oppActivePokemon && renderHUD(opponent, true)}
+			{myActivePokemon && renderHUD(myUser, false)}
 		</div>
 	);
 }
