@@ -60,3 +60,9 @@
 		inset 0 2px 2px var(--white-alpha-10);
 	transform: translateY(1px);
 }
+
+@media (max-width: 600px) {
+	.container {
+		padding: 110px 15px 0;
+	}
+}
