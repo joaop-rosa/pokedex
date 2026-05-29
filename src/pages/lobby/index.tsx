@@ -17,7 +17,7 @@ export default function Lobby() {
 	const { party } = useParty();
 	const { isConnected, disconnect } = useSocket();
 	const [sectionSelected, setSectionSelected] = useState(
-		isConnected ? SECTIONS.LOBBY : SECTIONS.PARTY
+		isConnected ? SECTIONS.LOBBY : SECTIONS.PARTY,
 	);
 
 	function renderSection() {

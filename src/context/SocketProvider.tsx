@@ -109,24 +109,22 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
 
 	useEffect(() => {
 		function onConnection() {
-			console.log("conectado");
 			setIsConnected(true);
 			setSocketId(socket.id || "");
 		}
 
 		function onDisconnect() {
-			console.log("desconectado");
 			setIsConnected(false);
 			setSocketId(null);
 		}
 
 		function onConnectError() {
-			console.warn("Falha ao conectar. Tentando novamente...");
+			console.warn("Failed to connect. Trying again...");
 		}
 
 		function onReconnectFailed() {
 			setLoadingLogin(false);
-			setLoginError("Servidor indisponível após tentativas de conexão.");
+			setLoginError("Server unavailable after connection attempts.");
 			socket.disconnect(); // Safe to disconnect here
 		}
 
@@ -175,7 +173,7 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
 		if (isLogged) {
 			setLoginError(null);
 		} else {
-			setLoginError("Nickname indisponível ou inválido.");
+			setLoginError("Nickname unavailable or invalid.");
 		}
 
 		setLoadingLogin(false);

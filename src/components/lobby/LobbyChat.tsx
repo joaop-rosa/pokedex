@@ -50,7 +50,7 @@ export function LobbyChat() {
 					className={s.inputMessage}
 					value={message}
 					onChange={(event) => setMessage(event.target.value)}
-					placeholder="ENVIAR MENSAGEM_"
+					placeholder="SEND MESSAGE_"
 				/>
 				<button
 					type="submit"

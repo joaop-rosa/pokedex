@@ -1,3 +1,4 @@
+import cn from "classnames";
 import { useState } from "react";
 import { BattleActions } from "../../components/battle/BattleActions";
 import { BattleField } from "../../components/battle/BattleField";
@@ -5,7 +6,6 @@ import { BattleMessages } from "../../components/battle/BattleMessages";
 import { BattleProvider } from "../../context/BattleProvider";
 import { useSocket } from "../../hooks/useSocket";
 import s from "./index.module.css";
-import cn from "classnames";
 
 function BattleContent() {
 	const { battle, finishBattle } = useSocket();
@@ -16,25 +16,28 @@ function BattleContent() {
 		<div className={s.sectionBattle}>
 			<div className={s.splitContainer}>
 				<div className={s.mainArea}>
-					{/* O componente BattleField agora controlará a arena completa (Jogador + Oponente) */}
 					<BattleField />
 					<BattleActions />
-					
-					<button 
+
+					<button
 						className={s.mobileLogToggle}
 						onClick={() => setShowLogMobile(true)}
 						type="button"
 					>
-						📝 Histórico de Batalha
+						📝 Battle Log
 					</button>
 				</div>
-				<div className={cn(s.sidebarArea, { [s.sidebarAreaMobileVisible]: showLogMobile })}>
-					<button 
-						className={s.closeLogMobile} 
+				<div
+					className={cn(s.sidebarArea, {
+						[s.sidebarAreaMobileVisible]: showLogMobile,
+					})}
+				>
+					<button
+						className={s.closeLogMobile}
 						onClick={() => setShowLogMobile(false)}
 						type="button"
 					>
-						✕ Fechar Histórico
+						✕ Close Log
 					</button>
 					<BattleMessages />
 				</div>
@@ -42,13 +45,13 @@ function BattleContent() {
 
 			{isOver && (
 				<div className={s.gameOverOverlay}>
-					<h1 className={s.gameOverTitle}>{winner} venceu a partida!</h1>
+					<h1 className={s.gameOverTitle}>{winner} won the battle!</h1>
 					<button
 						type="button"
 						className={s.finishButton}
 						onClick={finishBattle}
 					>
-						Finalizar Batalha
+						Finish Battle
 					</button>
 				</div>
 			)}

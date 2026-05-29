@@ -4,11 +4,7 @@ import { useBattle } from "../../hooks/useBattle";
 import s from "./BattleField.module.css";
 
 export function BattleField() {
-	const {
-		getActivePokemon,
-		myUser,
-		opponent,
-	} = useBattle();
+	const { getActivePokemon, myUser, opponent } = useBattle();
 
 	// Render party miniatures (the small pokeballs indicating party health)
 	function renderPartyMiniatures(party) {
@@ -33,17 +29,20 @@ export function BattleField() {
 	// Render Player HUD
 	function renderHUD(player, isOpponent: boolean) {
 		if (!player?.party) return null;
-		
+
 		const activePokemon = getActivePokemon(player.party);
 		if (!activePokemon) return null;
 
-		const hpPercent = (activePokemon.currentLife / activePokemon.stats.hp) * 100;
+		const hpPercent =
+			(activePokemon.currentLife / activePokemon.stats.hp) * 100;
 		let hpColorClass = s.healthBarGreen;
 		if (hpPercent <= 20) hpColorClass = s.healthBarRed;
 		else if (hpPercent <= 50) hpColorClass = s.healthBarYellow;
 
 		return (
-			<div className={cn(s.hudContainer, isOpponent ? s.hudOpponent : s.hudPlayer)}>
+			<div
+				className={cn(s.hudContainer, isOpponent ? s.hudOpponent : s.hudPlayer)}
+			>
 				<div className={s.hudHeader}>
 					<h2 className={s.pokemonName}>{upperFirst(activePokemon.name)}</h2>
 					<span className={s.pokemonLevel}>Lv50</span>
@@ -51,8 +50,8 @@ export function BattleField() {
 				<div className={s.healthBarWrapper}>
 					<div className={s.hpLabel}>HP</div>
 					<div className={s.healthBarTrack}>
-						<div 
-							className={cn(s.healthBarFill, hpColorClass)} 
+						<div
+							className={cn(s.healthBarFill, hpColorClass)}
 							style={{ width: `${Math.max(0, hpPercent)}%` }}
 						/>
 					</div>
@@ -68,7 +67,9 @@ export function BattleField() {
 	}
 
 	const myActivePokemon = myUser?.party ? getActivePokemon(myUser.party) : null;
-	const oppActivePokemon = opponent?.party ? getActivePokemon(opponent.party) : null;
+	const oppActivePokemon = opponent?.party
+		? getActivePokemon(opponent.party)
+		: null;
 
 	return (
 		<div className={s.arenaContainer}>

@@ -82,6 +82,7 @@
 	display: flex;
 	flex-direction: column;
 	overflow: hidden;
+	max-height: 60vh;
 }
 
 .dragHandle {
@@ -286,13 +287,21 @@
 	box-shadow: 0 4px 10px rgba(220, 66, 60, 0.4);
 }
 
-.lobbyLink:hover {
-	background: #e55353;
+.lobbyLink:hover:not(:disabled) {
+	background: var(--slate-700);
+	border-color: var(--slate-500);
 	transform: translateY(-2px);
 }
 
-.lobbyLink:active {
-	transform: translateY(0);
+.lobbyLink:active:not(:disabled) {
+	background: var(--slate-900);
+	transform: translateY(2px);
+}
+
+.lobbyLink:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+	pointer-events: none;
 }
 
 /* ----------------------------------

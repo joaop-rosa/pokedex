@@ -54,12 +54,20 @@ export function BattleActions() {
 								key={move.name}
 							>
 								<span className={s.attackName}>{move.name}</span>
-								<span className={s.attackPp}>PP {move.pp}/{move.pp}</span>
+								<span className={s.attackPp}>
+									PP {move.pp}/{move.pp}
+								</span>
 							</button>
 						);
 					}
 					return (
-						<button type="button" key={`empty-move-${index}`} className={cn(s.buttonAttack, s.buttonEmpty)} disabled>
+						<button
+							type="button"
+							// biome-ignore lint/suspicious/noArrayIndexKey: Empty slots don't have unique IDs
+							key={`empty-move-${index}`}
+							className={cn(s.buttonAttack, s.buttonEmpty)}
+							disabled
+						>
 							-
 						</button>
 					);
@@ -84,14 +92,16 @@ export function BattleActions() {
 							})}
 							onClick={() => setSelectedPokemon(pokemon)}
 						>
-							<img 
-								src={pokemon.sprites.miniature} 
-								className={cn(s.miniatureSprite, { [s.miniatureDead]: isDead })} 
-								alt={pokemon.name} 
+							<img
+								src={pokemon.sprites.miniature}
+								className={cn(s.miniatureSprite, { [s.miniatureDead]: isDead })}
+								alt={pokemon.name}
 							/>
 							<div className={s.pokemonInfoWrapper}>
 								<span className={s.attackName}>{pokemon.name}</span>
-								<span className={s.attackPp}>HP: {Math.max(0, pokemon.currentLife)}/{pokemon.stats.hp}</span>
+								<span className={s.attackPp}>
+									HP: {Math.max(0, pokemon.currentLife)}/{pokemon.stats.hp}
+								</span>
 							</div>
 						</button>
 					);
@@ -104,13 +114,13 @@ export function BattleActions() {
 		if (isOver) {
 			return (
 				<>
-					<p>{winner} venceu a partida</p>
+					<p>{winner} won the battle</p>
 					<button
 						type="button"
 						onClick={finishBattle}
 						className={s.finishButton}
 					>
-						Finalizar batalha
+						Finish battle
 					</button>
 				</>
 			);
@@ -120,7 +130,9 @@ export function BattleActions() {
 			return (
 				<div className={s.consoleSplit}>
 					<div className={s.narrativeBox}>
-						<p className={s.narrativeBoxMessage}>Selecione outro pokemon para continuar</p>
+						<p className={s.narrativeBoxMessage}>
+							Select another pokemon to continue
+						</p>
 						<button
 							type="button"
 							onClick={() =>
@@ -129,12 +141,10 @@ export function BattleActions() {
 							className={cn(s.actionsButton, s.changePokemonButtonAlt)}
 							disabled={!selectedPokemon}
 						>
-							Trocar Pokémon
+							Switch Pokémon
 						</button>
 					</div>
-					<div className={s.actionBox}>
-						{renderPokemonSelection()}
-					</div>
+					<div className={s.actionBox}>{renderPokemonSelection()}</div>
 				</div>
 			);
 		}
@@ -142,7 +152,7 @@ export function BattleActions() {
 		if (hasOpponentToChangePokemon) {
 			return (
 				<div className={s.narrativeBox}>
-					<p>Aguardando o oponente selecionar outro pokemon...</p>
+					<p>Waiting for the opponent to select another pokemon...</p>
 				</div>
 			);
 		}
@@ -150,7 +160,7 @@ export function BattleActions() {
 		if (isWaitingOponentMove) {
 			return (
 				<div className={s.narrativeBox}>
-					<p>Aguardando o oponente fazer a ação...</p>
+					<p>Waiting for opponent's action...</p>
 				</div>
 			);
 		}
@@ -158,19 +168,26 @@ export function BattleActions() {
 		return (
 			<div className={s.consoleSplit}>
 				<div className={s.narrativeBox}>
-					<p className={s.narrativeBoxMessage}>O que {myUser?.party ? getActivePokemon(myUser.party)?.name : "você"} fará?</p>
-					
+					<p className={s.narrativeBoxMessage}>
+						What will{" "}
+						{myUser?.party ? getActivePokemon(myUser.party)?.name : "you"} do?
+					</p>
+
 					<div className={s.mainMenuButtons}>
-						<button 
-							type="button" 
-							className={cn(s.menuButton, { [s.menuButtonActive]: menuMode === "FIGHT" })}
+						<button
+							type="button"
+							className={cn(s.menuButton, {
+								[s.menuButtonActive]: menuMode === "FIGHT",
+							})}
 							onClick={() => setMenuMode("FIGHT")}
 						>
-							Lutar
+							Fight
 						</button>
-						<button 
-							type="button" 
-							className={cn(s.menuButton, { [s.menuButtonActive]: menuMode === "POKEMON" })}
+						<button
+							type="button"
+							className={cn(s.menuButton, {
+								[s.menuButtonActive]: menuMode === "POKEMON",
+							})}
 							onClick={() => setMenuMode("POKEMON")}
 						>
 							Pokémon
@@ -188,7 +205,7 @@ export function BattleActions() {
 							</button>
 						</div>
 					)}
-					
+
 					{menuMode === "POKEMON" && selectedPokemon && (
 						<div className={s.confirmActionArea}>
 							<button
@@ -202,7 +219,9 @@ export function BattleActions() {
 					)}
 				</div>
 				<div className={s.actionBox}>
-					{menuMode === "FIGHT" ? renderAttackSelection() : renderPokemonSelection()}
+					{menuMode === "FIGHT"
+						? renderAttackSelection()
+						: renderPokemonSelection()}
 				</div>
 			</div>
 		);

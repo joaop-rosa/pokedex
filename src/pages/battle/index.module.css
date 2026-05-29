@@ -106,7 +106,8 @@
 		border: 1px solid rgba(255, 255, 255, 0.1);
 	}
 
-	.closeLogMobile, .mobileLogToggle {
+	.closeLogMobile,
+	.mobileLogToggle {
 		display: none;
 	}
 }
@@ -129,7 +130,9 @@
 .gameOverTitle {
 	font-size: 3rem;
 	color: #fff;
-	text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px var(--color-primary, #3b82f6);
+	text-shadow:
+		0 0 10px rgba(255, 255, 255, 0.8),
+		0 0 20px var(--color-primary, #3b82f6);
 	margin-bottom: 2rem;
 	text-transform: uppercase;
 	letter-spacing: 2px;

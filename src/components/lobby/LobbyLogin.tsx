@@ -57,7 +57,7 @@ export function LobbyLogin() {
 					disabled={!username.trim().length}
 					className={s.submitButton}
 				>
-					Conectar
+					Connect
 				</button>
 			</form>
 		</div>

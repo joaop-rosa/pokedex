@@ -38,14 +38,17 @@
 	width: 100%;
 	min-height: 400px;
 	height: 50vh;
-	background: url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/environments/grass.png') center/cover no-repeat; /* Placeholder arena bg */
+	background:
+		url("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/environments/grass.png")
+		center / cover no-repeat; /* Placeholder arena bg */
 	background-color: #8dbd71; /* Fallback grass color */
 	border-radius: 8px 8px 0 0;
 	overflow: hidden;
-	border: 2px solid rgba(0,0,0,0.2);
+	border: 2px solid rgba(0, 0, 0, 0.2);
 }
 
-.opponentSide, .playerSide {
+.opponentSide,
+.playerSide {
 	position: absolute;
 	width: 100%;
 	height: 100%;
@@ -86,7 +89,8 @@
 	z-index: 1;
 }
 
-.spriteImageOpponent, .spriteImagePlayer {
+.spriteImageOpponent,
+.spriteImagePlayer {
 	position: relative;
 	width: auto;
 	height: auto;
@@ -106,7 +110,7 @@
 	border: 3px solid #334155;
 	border-radius: 8px 0 8px 0;
 	padding: 10px 15px;
-	box-shadow: 4px 4px 0 rgba(0,0,0,0.3);
+	box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.3);
 	pointer-events: auto;
 	z-index: 3;
 }
@@ -173,12 +177,20 @@
 
 .healthBarFill {
 	height: 100%;
-	transition: width 0.5s ease-out, background-color 0.5s ease;
+	transition:
+		width 0.5s ease-out,
+		background-color 0.5s ease;
 }
 
-.healthBarGreen { background: #22c55e; }
-.healthBarYellow { background: #eab308; }
-.healthBarRed { background: #ef4444; }
+.healthBarGreen {
+	background: #22c55e;
+}
+.healthBarYellow {
+	background: #eab308;
+}
+.healthBarRed {
+	background: #ef4444;
+}
 
 .healthBarText {
 	text-align: right;

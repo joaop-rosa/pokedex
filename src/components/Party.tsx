@@ -58,12 +58,12 @@ export function Party() {
 							</div>
 
 							<div className={s.panelHeader}>
-								<h2 className={s.panelTitle}>Sua Equipe</h2>
+								<h2 className={s.panelTitle}>Your Team</h2>
 								<button
 									type="button"
 									className={s.closeButton}
 									onClick={() => setIsOpen(false)}
-									title="Fechar"
+									title="Close"
 								>
 									<MdClose size={24} />
 								</button>
@@ -108,7 +108,7 @@ export function Party() {
 													type="button"
 													className={s.removeButton}
 													onClick={() => removePokemonFromParty(pokemon)}
-													title="Remover Pokémon"
+													title="Remove Pokémon"
 												>
 													<MdDeleteOutline size={20} />
 												</button>
@@ -126,16 +126,22 @@ export function Party() {
 											<div className={s.emptyIconWrapper}>
 												<MdCatchingPokemon className={s.emptyIcon} size={24} />
 											</div>
-											<span className={s.emptyText}>Slot Vazio</span>
+											<span className={s.emptyText}>Empty Slot</span>
 										</div>
 									);
 								})}
 							</div>
 
 							<div className={s.panelFooter}>
-								<a className={s.lobbyLink} href="/lobby">
-									Ir para o Lobby
-								</a>
+								{party.length === 0 ? (
+									<button type="button" className={s.lobbyLink} disabled>
+										Go to Lobby
+									</button>
+								) : (
+									<a className={s.lobbyLink} href="/lobby">
+										Go to Lobby
+									</a>
+								)}
 							</div>
 						</motion.div>
 					</>
@@ -146,7 +152,7 @@ export function Party() {
 				type="button"
 				className={cn(s.fab, { [s.fabHiddenMobile]: isOpen })}
 				onClick={() => setIsOpen((prev) => !prev)}
-				title="Ver Equipe"
+				title="View Team"
 			>
 				<MdCatchingPokemon size={36} className={s.fabIcon} />
 				<span className={s.badge}>

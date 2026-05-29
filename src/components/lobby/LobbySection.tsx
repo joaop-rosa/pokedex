@@ -78,8 +78,8 @@ export function LobbySection() {
 											disabled={challengedUsers[user.id]}
 										>
 											{challengedUsers[user.id]
-												? "Desafio enviado"
-												: "Desafiar"}
+												? "Challenge sent"
+												: "Challenge"}
 										</button>
 									)}
 								</div>
@@ -91,19 +91,19 @@ export function LobbySection() {
 				</div>
 				{!!challenges.length && (
 					<div className={s.challengesPopup}>
-						<p>{challenges[0].name} lhe desafiou</p>
+						<p>{challenges[0].name} challenged you</p>
 						<div className={s.challengesPopupButtons}>
 							<button
 								type="button"
 								onClick={() => responseChallenge(challenges[0].id, true)}
 							>
-								Aceitar
+								Accept
 							</button>
 							<button
 								type="button"
 								onClick={() => responseChallenge(challenges[0].id, false)}
 							>
-								Recusar
+								Decline
 							</button>
 						</div>
 					</div>
