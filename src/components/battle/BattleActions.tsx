@@ -201,7 +201,7 @@ export function BattleActions() {
 								className={cn(s.actionsButton, s.attackButton)}
 								onClick={handleAttack}
 							>
-								Confirmar Ataque
+								Confirm Attack
 							</button>
 						</div>
 					)}
@@ -213,7 +213,7 @@ export function BattleActions() {
 								className={cn(s.actionsButton, s.changePokemonButtonAlt)}
 								onClick={handleChangePokemon}
 							>
-								Confirmar Troca
+								Confirm Switch
 							</button>
 						</div>
 					)}
