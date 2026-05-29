@@ -177,9 +177,9 @@
 }
 
 .challengesPopupButtons button:first-child {
-	background: #10b981;
+	background: var(--emerald-500);
 }
 
 .challengesPopupButtons button:last-child {
-	background: #ef4444;
+	background: var(--red-500);
 }

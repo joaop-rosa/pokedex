@@ -7,7 +7,7 @@
 	border: 2px solid rgba(255, 255, 255, 0.1);
 	border-radius: 0 0 8px 8px;
 	padding: 16px;
-	color: #e2e8f0;
+	color: var(--slate-200);
 	box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.2);
 }
 
@@ -57,10 +57,10 @@
 }
 
 .buttonAttack {
-	background: linear-gradient(180deg, #334155 0%, #1e293b 100%);
-	border: 2px solid #475569;
+	background: linear-gradient(180deg, var(--slate-700) 0%, var(--slate-800) 100%);
+	border: 2px solid var(--slate-600);
 	border-radius: 6px;
-	color: #f8fafc;
+	color: var(--slate-50);
 	padding: 10px;
 	display: flex;
 	flex-direction: column;
@@ -72,13 +72,13 @@
 }
 
 .buttonAttack:hover:not(:disabled) {
-	background: linear-gradient(180deg, #475569 0%, #334155 100%);
-	border-color: #94a3b8;
+	background: linear-gradient(180deg, var(--slate-600) 0%, var(--slate-700) 100%);
+	border-color: var(--slate-400);
 }
 
 .buttonAttackSelected {
-	border-color: #3b82f6;
-	background: linear-gradient(180deg, #1d4ed8 0%, #1e40af 100%);
+	border-color: var(--blue-500);
+	background: linear-gradient(180deg, var(--blue-700) 0%, var(--blue-800) 100%);
 	box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
 }
 
@@ -96,7 +96,7 @@
 
 .attackPp {
 	font-size: 0.8rem;
-	color: #94a3b8;
+	color: var(--slate-400);
 	margin-top: 4px;
 }
 
@@ -117,24 +117,24 @@
 }
 
 .attackButton {
-	background: #ef4444;
-	color: #fff;
+	background: var(--red-500);
+	color: var(--white);
 	width: 100%;
 	margin-bottom: 8px;
 }
 
 .attackButton:hover {
-	background: #dc2626;
+	background: var(--red-600);
 }
 
 .changePokemonButtonAlt {
-	background: #3b82f6;
-	color: #fff;
+	background: var(--blue-500);
+	color: var(--white);
 	width: 100%;
 }
 
 .changePokemonButtonAlt:hover:not(:disabled) {
-	background: #2563eb;
+	background: var(--blue-600);
 }
 
 .changePokemonButtonAlt:disabled {
@@ -154,7 +154,7 @@
 	flex: 1;
 	background: rgba(255, 255, 255, 0.1);
 	border: 2px solid rgba(255, 255, 255, 0.2);
-	color: #fff;
+	color: var(--white);
 	padding: 8px 12px;
 	border-radius: 6px;
 	font-weight: bold;
@@ -168,8 +168,8 @@
 }
 
 .menuButtonActive {
-	background: #3b82f6;
-	border-color: #60a5fa;
+	background: var(--blue-500);
+	border-color: var(--blue-400);
 	box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
 }
 

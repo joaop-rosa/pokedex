@@ -97,7 +97,7 @@
 }
 
 .errorMessage {
-	color: #ef4444;
+	color: var(--red-500);
 	font-size: 14px;
 	margin-top: -10px;
 	text-shadow: 0 0 5px rgba(239, 68, 68, 0.5);
