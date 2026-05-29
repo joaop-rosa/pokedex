@@ -1,0 +1,71 @@
+import cn from "classnames";
+import { useState } from "react";
+import { Navigate } from "react-router-dom";
+import { LobbySection } from "../../components/lobby/LobbySection";
+import { PartySection } from "../../components/lobby/lobby-party/PartySection";
+import { Header } from "../../components/UI/Header";
+import { useParty } from "../../hooks/useParty";
+import { useSocket } from "../../hooks/useSocket";
+import s from "./index.module.css";
+
+const SECTIONS = {
+	PARTY: "PARTY",
+	LOBBY: "LOBBY",
+};
+
+export default function Lobby() {
+	const { party } = useParty();
+	const { isConnected, disconnect } = useSocket();
+	const [sectionSelected, setSectionSelected] = useState(
+		isConnected ? SECTIONS.LOBBY : SECTIONS.PARTY,
+	);
+
+	function renderSection() {
+		if (sectionSelected === SECTIONS.LOBBY) {
+			return <LobbySection />;
+		}
+
+		return <PartySection />;
+	}
+
+	if (!party.length) {
+		return <Navigate to="/" replace={true} />;
+	}
+
+	return (
+		<section className={s.lobbySection}>
+			<Header
+				theme="dark"
+				showBackButton
+				backButtonUrl="/"
+				showLogout={isConnected}
+				onLogout={disconnect}
+			/>
+			<div className={s.container}>
+				<div className={s.buttonsWrapper}>
+					<button
+						type="button"
+						className={cn(s.changeSectionButton, {
+							[s.changeSectionButtonSelected]:
+								sectionSelected === SECTIONS.PARTY,
+						})}
+						onClick={() => setSectionSelected(SECTIONS.PARTY)}
+					>
+						Party
+					</button>
+					<button
+						type="button"
+						className={cn(s.changeSectionButton, {
+							[s.changeSectionButtonSelected]:
+								sectionSelected === SECTIONS.LOBBY,
+						})}
+						onClick={() => setSectionSelected(SECTIONS.LOBBY)}
+					>
+						Lobby
+					</button>
+				</div>
+				{renderSection()}
+			</div>
+		</section>
+	);
+}

@@ -1,96 +1,147 @@
 @import url(./variables.css);
 
+*,
+*:after,
+*:before {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	text-decoration: none;
+}
+
+html {
+	min-height: 100vh;
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+img {
+	max-width: 100%;
+}
+
+li {
+	list-style: none;
+}
+
+button {
+	border: none;
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+body,
+#root {
+	list-style-type: none;
+	min-height: 100vh;
+	background: var(--ebony-clay);
+}
+
+::-webkit-scrollbar {
+	width: 3px;
+}
+
+::-webkit-scrollbar-track {
+	background: var(--black);
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: var(--white);
+}
+
 @font-face {
-  font-family: pokemon;
-  src: url(../font/Pokemon\ Solid.ttf);
+	font-family: pokemon;
+	src: url(../font/PokemonSolid.ttf);
+}
+
+@font-face {
+	font-family: pokemon-hollow;
+	src: url(../font/PokemonHollow.ttf);
 }
 
 .poisonType {
-  background-color: var(--color-poison);
-  color: var(--white);
+	background-color: var(--color-poison);
+	color: var(--white);
 }
 
 .fireType {
-  background-color: var(--color-fire);
-  color: var(--white);
+	background-color: var(--color-fire);
+	color: var(--white);
 }
 
 .normalType {
-  background-color: var(--color-normal);
-  color: var(--white);
+	background-color: var(--color-normal);
+	color: var(--white);
 }
 
 .rockType {
-  background-color: var(--color-rock);
-  color: var(--white);
+	background-color: var(--color-rock);
+	color: var(--white);
 }
 
 .waterType {
-  background-color: var(--color-water);
-  color: var(--white);
+	background-color: var(--color-water);
+	color: var(--white);
 }
 
 .grassType {
-  background-color: var(--color-grass);
-  color: var(--white);
+	background-color: var(--color-grass);
+	color: var(--white);
 }
 
 .flyingType {
-  background-color: var(--color-flying);
-  color: var(--white);
+	background-color: var(--color-flying);
+	color: var(--white);
 }
 
 .fightingType {
-  background-color: var(--color-fighting);
-  color: var(--white);
+	background-color: var(--color-fighting);
+	color: var(--white);
 }
 
 .electricType {
-  background-color: var(--color-electric);
-  color: var(--white);
+	background-color: var(--color-electric);
+	color: var(--white);
 }
 
 .groundType {
-  background-color: var(--color-ground);
-  color: var(--white);
+	background-color: var(--color-ground);
+	color: var(--white);
 }
 
 .psychicType {
-  background-color: var(--color-psychic);
-  color: var(--white);
+	background-color: var(--color-psychic);
+	color: var(--white);
 }
 
 .iceType {
-  background-color: var(--color-ice);
-  color: var(--white);
+	background-color: var(--color-ice);
+	color: var(--white);
 }
 
 .bugType {
-  background-color: var(--color-bug);
-  color: var(--white);
+	background-color: var(--color-bug);
+	color: var(--white);
 }
 
 .ghostType {
-  background-color: var(--color-ghost);
-  color: var(--white);
+	background-color: var(--color-ghost);
+	color: var(--white);
 }
 
 .steelType {
-  background-color: var(--color-steel);
-  color: var(--white);
+	background-color: var(--color-steel);
+	color: var(--white);
 }
 
 .dragonType {
-  background-color: var(--color-dragon);
-  color: var(--white);
+	background-color: var(--color-dragon);
+	color: var(--white);
 }
 
 .darkType {
-  background-color: var(--color-dark);
-  color: var(--white);
+	background-color: var(--color-dark);
+	color: var(--white);
 }
 
 .fairyType {
-  background-color: var(--color-fairy);
-  color: var(--white);
+	background-color: var(--color-fairy);
+	color: var(--white);
 }

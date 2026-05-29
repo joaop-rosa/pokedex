@@ -1,0 +1,27 @@
+.carouselContainer {
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+	overflow-x: auto;
+	overflow-y: hidden;
+	scroll-snap-type: x mandatory;
+	padding: 25px 0; /* Gives space for hover scale so it doesn't cut off */
+}
+
+.carouselContainer::-webkit-scrollbar {
+	display: none;
+}
+
+.innerCarousel {
+	display: flex;
+	cursor: grab;
+	gap: 20px;
+	padding: 0 calc(50% - 130px); /* 130px is half of 260px */
+	width: max-content; /* Ensure the flex row grows to hold all items */
+	align-items: center;
+	height: 100%;
+}
+
+.noGap {
+	gap: 0;
+}

@@ -1,0 +1,111 @@
+.sectionHome {
+	position: relative;
+	background-color: var(--malibu);
+	margin: 0 auto;
+}
+
+.spinner {
+	margin-top: 40px;
+}
+
+.container {
+	padding: 130px 30px 0;
+	max-width: 1280px;
+	width: 100%;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	min-height: 100vh;
+	padding-bottom: 50px;
+}
+
+.pokemonList {
+	width: 100%;
+	justify-content: center;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, 300px);
+	grid-template-rows: repeat(auto-fit, 300px);
+	gap: 30px;
+	padding-bottom: 20px;
+	margin-top: 40px;
+}
+
+.listEmpty {
+	width: 100%;
+	font-size: 22px;
+	font-weight: 700;
+	text-align: center;
+	padding: 0 0 50px;
+	margin: 10px auto 0;
+}
+
+.pikachuNotFound {
+	padding-top: 50px;
+	width: 100%;
+	max-width: 150px;
+	margin: 0 auto;
+}
+
+.buttonToTop {
+	position: fixed;
+	width: 64px;
+	height: 64px;
+	bottom: 24px;
+	left: 24px;
+	border-radius: 50%;
+	background: var(--slate-900);
+	color: var(--white);
+	border: 3px solid var(--white-alpha-20);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	box-shadow: 0 10px 25px var(--black-alpha-50);
+	z-index: 100;
+	transition:
+		border-color 0.3s ease,
+		box-shadow 0.3s ease,
+		transform 0.2s ease;
+}
+
+.buttonToTop:hover {
+	border-color: var(--color-pokedex);
+	box-shadow: 0 10px 30px rgba(220, 66, 60, 0.4);
+	transform: translateY(-4px);
+}
+
+.buttonToTop:active {
+	transform: translateY(0);
+}
+
+.arrowUp {
+	color: var(--white);
+	width: 32px;
+	height: 32px;
+	transition: transform 0.3s ease;
+}
+
+.buttonToTop:hover .arrowUp {
+	animation: pulse 1s infinite ease-in-out alternate;
+}
+
+@keyframes pulse {
+	from {
+		transform: scale(0.9);
+	}
+	to {
+		transform: scale(1.1);
+	}
+}
+
+@media screen and (max-width: 768px) {
+	.container {
+		padding: 130px 20px 0;
+	}
+
+	.buttonToTop {
+		bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+		left: 24px;
+	}
+}

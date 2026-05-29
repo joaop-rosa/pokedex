@@ -1,103 +1,285 @@
 .field {
-  width: 100%;
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: space-between;
-  align-items: center;
+	width: 100%;
+	display: flex;
+	flex-direction: row-reverse;
+	justify-content: space-between;
+	align-items: center;
 }
 
 .infosWrapper {
-  width: 100%;
-  max-width: 500px;
-  display: flex;
-  flex-direction: column;
-  background-color: white;
-  padding: 15px;
-  gap: 15px;
+	width: 100%;
+	max-width: 500px;
+	display: flex;
+	flex-direction: column;
+	background-color: var(--white);
+	padding: 15px;
+	gap: 15px;
 }
 
 .activePokemonImage {
-  width: 200px;
-  height: 200px;
-  margin: 0 auto;
+	width: 200px;
+	height: 200px;
+	margin: 0 auto;
 }
 
 .opponentField {
-  flex-direction: row;
+	flex-direction: row;
 }
 
 .pokemonInfos {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  align-items: flex-end;
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+	align-items: flex-end;
 }
 
-.opponentPokemonInfos {
-  align-items: flex-start;
+.arenaContainer {
+	position: relative;
+	width: 100%;
+	min-height: 400px;
+	height: 50vh;
+	background:
+		url("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/environments/grass.png")
+		center / cover no-repeat; /* Placeholder arena bg */
+	background-color: #8dbd71; /* Fallback grass color */
+	border-radius: 8px 8px 0 0;
+	overflow: hidden;
+	border: 2px solid rgba(0, 0, 0, 0.2);
 }
 
-.miniaturesWrapper {
-  display: flex;
-  align-items: center;
-  flex-direction: row-reverse;
+.opponentSide,
+.playerSide {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	pointer-events: none; /* Let clicks pass through */
 }
 
-.opponentMiniaturesWrapper {
-  flex-direction: row;
+/* Z-Rule layout */
+.spriteWrapperOpponent {
+	position: absolute;
+	right: 15%;
+	width: 200px;
+	height: 200px;
+	display: flex;
+	justify-content: center;
+	align-items: flex-end;
 }
 
-.selectedButtonPokemonMiniature {
-  border: 1px solid red;
+.spriteWrapperPlayer {
+	position: absolute;
+	bottom: 5%;
+	left: 10%;
+	width: 250px;
+	height: 250px;
+	display: flex;
+	justify-content: center;
+	align-items: flex-end;
+	z-index: 2;
 }
 
-.buttonPokemonMiniature:disabled {
-  opacity: 0.3;
+.groundShadow {
+	position: absolute;
+	bottom: 0;
+	width: 60%;
+	height: 20px;
+	background: rgba(0, 0, 0, 0.4);
+	border-radius: 50%;
+	filter: blur(4px);
+	z-index: 1;
 }
 
-.miniaturesImages {
-  width: 50px;
-  height: 50px;
+.spriteImageOpponent,
+.spriteImagePlayer {
+	position: relative;
+	width: auto;
+	height: auto;
+	max-width: 100%;
+	max-height: 100%;
+	object-fit: contain;
+	object-position: bottom;
+	z-index: 2;
+	image-rendering: pixelated; /* Classic retro feel */
 }
 
-.miniaturesImagesDisabled {
-  opacity: 0.2;
+/* HUD / Status Plates */
+.hudContainer {
+	position: absolute;
+	width: 280px;
+	background: #f1f5f9;
+	border: 3px solid #334155;
+	border-radius: 8px 0 8px 0;
+	padding: 10px 15px;
+	box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.3);
+	pointer-events: auto;
+	z-index: 3;
+}
+
+.hudOpponent {
+	top: 10%;
+	left: 5%;
+}
+
+.hudPlayer {
+	bottom: 10%;
+	right: 5%;
+}
+
+.hudHeader {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-end;
+	margin-bottom: 8px;
+	border-bottom: 2px solid #cbd5e1;
+	padding-bottom: 4px;
+}
+
+.pokemonName {
+	font-size: 1.2rem;
+	font-weight: bold;
+	color: #1e293b;
+	margin: 0;
+	text-transform: uppercase;
+}
+
+.pokemonLevel {
+	font-size: 1rem;
+	font-weight: bold;
+	color: #475569;
 }
 
 .healthBarWrapper {
-  position: relative;
-  height: 30px;
-  border: none;
-  width: 85%;
+	display: flex;
+	align-items: center;
+	background: #334155;
+	padding: 2px;
+	border-radius: 10px;
+	margin-bottom: 4px;
 }
 
-.healthBar {
-  height: 100%;
-  border: none;
-  width: 100%;
+.hpLabel {
+	color: #fbbf24;
+	font-weight: bold;
+	font-size: 0.8rem;
+	padding: 0 6px;
+	text-shadow: 1px 1px 0 #000;
 }
 
-.healthBar::-webkit-progress-value {
-  background-color: darkgoldenrod;
+.healthBarTrack {
+	flex: 1;
+	height: 12px;
+	background: #0f172a;
+	border-radius: 6px;
+	overflow: hidden;
+	margin-right: 4px;
+	border: 1px solid #000;
 }
 
-.healthBarGreen::-webkit-progress-value {
-  background-color: green;
+.healthBarFill {
+	height: 100%;
+	transition:
+		width 0.5s ease-out,
+		background-color 0.5s ease;
 }
 
-.healthBarRed::-webkit-progress-value {
-  background-color: darkred;
+.healthBarGreen {
+	background: #22c55e;
 }
-
-/* progress::-moz-progress-bar { background: blue; }
-progress::-webkit-progress-value { background: blue; }*/
+.healthBarYellow {
+	background: #eab308;
+}
+.healthBarRed {
+	background: #ef4444;
+}
 
 .healthBarText {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-  font-weight: bold;
-  font-size: 18px;
+	text-align: right;
+	font-size: 0.9rem;
+	font-weight: bold;
+	color: #334155;
+	margin: 0;
+}
+
+.miniaturesContainer {
+	display: flex;
+	gap: 4px;
+	margin-top: 6px;
+	justify-content: flex-end;
+}
+
+.buttonPokemonMiniature {
+	background: none;
+	border: none;
+	cursor: pointer;
+	padding: 0;
+	transition: transform 0.1s;
+}
+
+.buttonPokemonMiniature:hover:not(:disabled) {
+	transform: translateY(-2px);
+}
+
+.selectedButtonPokemonMiniature {
+	filter: drop-shadow(0 0 2px var(--color-primary, #3b82f6));
+}
+
+.miniaturesImages {
+	width: 24px;
+	height: 24px;
+	image-rendering: pixelated;
+}
+
+.miniaturesImagesDisabled {
+	filter: grayscale(100%) opacity(0.5);
+}
+
+@media (max-width: 600px) {
+	.arenaContainer {
+		height: 40vh;
+		min-height: 250px;
+	}
+	.spriteWrapperOpponent {
+		top: 5%;
+		right: 5%;
+		width: 120px;
+		height: 120px;
+	}
+	.spriteWrapperPlayer {
+		bottom: 5%;
+		left: 5%;
+		width: 150px;
+		height: 150px;
+	}
+	.hudContainer {
+		width: 180px;
+		padding: 6px 10px;
+	}
+	.hudOpponent {
+		top: 5%;
+		left: 2%;
+	}
+	.hudPlayer {
+		bottom: 5%;
+		right: 2%;
+	}
+	.pokemonName {
+		font-size: 0.8rem;
+	}
+	.pokemonLevel {
+		font-size: 0.75rem;
+	}
+	.healthBarText {
+		font-size: 0.7rem;
+	}
+	.hpLabel {
+		font-size: 0.6rem;
+		padding: 0 4px;
+	}
+	.miniaturesImages {
+		width: 16px;
+		height: 16px;
+	}
+	.groundShadow {
+		height: 12px;
+	}
 }

@@ -1,0 +1,62 @@
+.lobbySection {
+	position: relative;
+	background-color: var(--color-battle-prep-bg);
+	margin: 0 auto;
+	min-height: 100vh;
+}
+
+.container {
+	padding: 130px 30px 0;
+	max-width: 1280px;
+	width: 100%;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	min-height: 100vh;
+	padding-bottom: 50px;
+}
+
+.buttonsWrapper {
+	width: 100%;
+	max-width: 600px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 15px;
+	margin-bottom: 30px;
+}
+
+.changeSectionButton {
+	background: var(--color-battle-prep-input-bg);
+	font-size: 18px;
+	font-weight: bold;
+	color: var(--white-alpha-40);
+	padding: 10px 30px;
+	cursor: pointer;
+	border-radius: 8px;
+	border: 1px solid var(--color-battle-prep-card-border);
+	box-shadow:
+		0 4px 6px var(--black-alpha-30),
+		inset 0 2px 2px var(--white-alpha-10);
+	transition: all 0.2s ease;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+}
+
+.changeSectionButton:active {
+	transform: translateY(2px);
+	box-shadow:
+		0 1px 2px var(--black-alpha-50),
+		inset 0 2px 4px var(--black-alpha-50);
+}
+
+.changeSectionButtonSelected {
+	background: var(--color-battle-prep-card-bg);
+	color: var(--white);
+	border-color: var(--color-battle-prep-neon);
+	box-shadow:
+		0 0 15px var(--color-battle-prep-neon),
+		inset 0 2px 2px var(--white-alpha-10);
+	transform: translateY(1px);
+}

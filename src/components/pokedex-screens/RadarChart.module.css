@@ -1,5 +1,18 @@
 .chartWrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 310px;
+}
+
+.chartWrapper text {
+	font-size: 14px;
+	transition: font-size 0.2s ease;
+}
+
+@media screen and (max-width: 420px) {
+	.chartWrapper text {
+		font-size: 10px;
+	}
 }

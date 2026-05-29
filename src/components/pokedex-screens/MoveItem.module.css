@@ -1,141 +1,126 @@
 .move {
-  gap: 0;
-  padding: 0;
-}
-
-.abilitiesWrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-}
-
-.abilityHeader {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 16px;
-  gap: 10px;
-  text-align: left;
-}
-
-.abilityHeaderInfo {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 2px;
-}
-
-.abilityButtonOpen {
-  font-size: 24px;
+	gap: 0;
+	padding: 0;
 }
 
 .moveHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 15px 20px 15px 0;
-  font-size: 16px;
-  color: var(--white);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 15px 20px 15px 10px;
+	font-size: 16px;
+	color: var(--color-spring-green-alpha-90);
+	font-family: monospace;
+	border-bottom: 1px dashed var(--color-spring-green-alpha-30);
+	text-transform: uppercase;
+}
+
+.moveHeader:hover {
+	background: var(--color-spring-green-alpha-10);
 }
 
 .moveButtonOpen {
-  font-size: 18px;
+	font-size: 18px;
+	color: var(--color-spring-green);
 }
 
 .moveContent {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 10px;
-  font-size: 14px;
-  color: var(--white);
-  padding-bottom: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: center;
+	gap: 10px;
+	font-size: 14px;
+	color: var(--color-spring-green-alpha-70);
+	font-family: monospace;
+	padding: 15px 10px;
+	background: var(--color-spring-green-alpha-02);
 }
 
 .moveInfoType {
-  padding: 3px 7px;
-  border-radius: 20px;
+	padding: 3px 7px;
+	border-radius: 4px;
+	border: 1px solid var(--color-spring-green-alpha-50);
+	background: var(--color-spring-green-alpha-10);
+	color: var(--color-spring-green);
+	text-shadow: 0 0 5px var(--color-spring-green-alpha-50);
 }
 
 .spinner {
-  color: var(--white);
-  width: 25px;
-  height: auto;
-  margin: 0 auto 20px;
+	color: var(--color-spring-green);
+	width: 25px;
+	height: auto;
+	margin: 0 auto 20px;
 }
 
 .poisonType {
-  composes: poisonType from global;
+	composes: poisonType from global;
 }
 
 .rockType {
-  composes: rockType from global;
+	composes: rockType from global;
 }
 
 .fireType {
-  composes: fireType from global;
+	composes: fireType from global;
 }
 
 .normalType {
-  composes: normalType from global;
+	composes: normalType from global;
 }
 
 .waterType {
-  composes: waterType from global;
+	composes: waterType from global;
 }
 
 .grassType {
-  composes: grassType from global;
+	composes: grassType from global;
 }
 
 .flyingType {
-  composes: flyingType from global;
+	composes: flyingType from global;
 }
 
 .fightingType {
-  composes: fightingType from global;
+	composes: fightingType from global;
 }
 
 .electricType {
-  composes: electricType from global;
+	composes: electricType from global;
 }
 
 .groundType {
-  composes: groundType from global;
+	composes: groundType from global;
 }
 
 .psychicType {
-  composes: psychicType from global;
+	composes: psychicType from global;
 }
 
 .iceType {
-  composes: iceType from global;
+	composes: iceType from global;
 }
 
 .bugType {
-  composes: bugType from global;
+	composes: bugType from global;
 }
 
 .ghostType {
-  composes: ghostType from global;
+	composes: ghostType from global;
 }
 
 .steelType {
-  composes: steelType from global;
+	composes: steelType from global;
 }
 
 .dragonType {
-  composes: dragonType from global;
+	composes: dragonType from global;
 }
 
 .darkType {
-  composes: darkType from global;
+	composes: darkType from global;
 }
 
 .fairyType {
-  composes: fairyType from global;
+	composes: fairyType from global;
 }

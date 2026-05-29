@@ -1,203 +1,339 @@
+.searchRow {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 15px;
+	width: 100%;
+	max-width: 900px;
+	margin-bottom: 20px;
+}
+
+.inputContainer {
+	position: relative;
+	flex: 1;
+	display: flex;
+	align-items: center;
+	background: var(--white);
+	border: 2px solid var(--black);
+	border-radius: 25px;
+	padding: 0 15px;
+	transition: box-shadow 0.2s ease;
+}
+
+.inputContainer:focus-within {
+	box-shadow: 0 0 0 3px var(--black-alpha-10);
+}
+
+.searchIcon {
+	color: var(--dove-gray);
+	font-size: 18px;
+}
+
 .inputText {
-  position: relative;
-  width: 100%;
-  max-width: 900px;
-  padding: 16px;
-  font-size: 18px;
-  text-align: center;
-  border: none;
-  border-bottom: solid 2px var(--black);
+	flex: 1;
+	padding: 12px 15px;
+	font-size: 16px;
+	border: none;
+	outline: none;
+	background: transparent;
+	width: 100%;
+}
+
+.clearIcon {
+	color: var(--dove-gray);
+	font-size: 18px;
+	cursor: pointer;
+	transition: color 0.2s;
+}
+
+.clearIcon:hover {
+	color: var(--black);
+}
+
+.filterToggleBtn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 46px;
+	height: 46px;
+	border-radius: 50%;
+	background-color: var(--black);
+	color: var(--white);
+	font-size: 18px;
+	cursor: pointer;
+	border: 2px solid var(--black);
+	transition: all 0.2s ease;
+}
+
+.filterToggleBtn:hover {
+	background-color: var(--white);
+	color: var(--black);
 }
 
 .filtersWrapper {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  max-width: 900px;
-}
-
-.buttonOpenFilters {
-  background-color: var(--black);
-  color: var(--white);
-  padding: 9px 0;
-  font-size: 17px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  cursor: pointer;
-  clip-path: polygon(0 0, 100% 0, 95% 100%, 5% 100%);
-  width: 100%;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	max-width: 900px;
 }
 
 .filters {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  max-height: 0px;
-  overflow: hidden;
-  width: 100%;
-  transition: all 0.5s ease;
-  background: var(--dove-gray);
-  border-left: solid 2px var(--black);
-  border-right: solid 2px var(--black);
-  padding: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	max-height: 0px;
+	overflow: hidden;
+	width: 100%;
+	transition: all 0.5s ease;
+	background: transparent;
+	padding: 0;
+	opacity: 0;
 }
 
 .filtersOpen {
-  max-height: 1000px;
-  padding: 30px 15px;
+	max-height: 1000px;
+	padding: 20px 25px;
+	opacity: 1;
+	background-color: var(--ebony-clay);
+	border: 2px solid var(--black);
+	border-radius: 20px;
+	margin-top: 10px;
+	overflow: visible;
+}
+
+.dropdownsRow {
+	display: flex;
+	gap: 20px;
+	width: 100%;
+	margin-bottom: 20px;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+.dropdownContainer {
+	position: relative;
+	width: 100%;
+	max-width: 300px;
+}
+
+.dropdownHeader {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	padding: 12px 20px;
+	background-color: var(--ebony-clay);
+	border: 2px solid var(--black);
+	border-radius: 12px;
+	font-size: 16px;
+	font-weight: bold;
+	cursor: pointer;
+	color: var(--white);
+	transition: background-color 0.2s ease;
+}
+
+.dropdownHeader:hover {
+	background-color: var(--black);
+}
+
+.chevron {
+	transition: transform 0.3s ease;
+}
+
+.chevronOpen {
+	transform: rotate(180deg);
+}
+
+.dropdownMenu {
+	position: absolute;
+	top: calc(100% + 10px);
+	left: 0;
+	width: 100%;
+	min-width: 280px;
+	background-color: var(--black);
+	border: 2px solid var(--dove-gray);
+	border-radius: 16px;
+	padding: 20px;
+	box-shadow: 0 8px 24px var(--black-alpha-50);
+	z-index: 10;
 }
 
 .generationWrapper {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 15px;
-  width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	gap: 12px;
+	width: 100%;
 }
 
 .generation {
-  width: 140px;
-  padding: 12px 0;
-  border-radius: 10px;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  background-color: var(--black);
-  color: var(--white);
-  border: solid 2px var(--black);
-  gap: 5px;
+	padding: 8px 16px;
+	border-radius: 9999px;
+	font-size: 14px;
+	font-weight: 700;
+	cursor: pointer;
+	background-color: transparent;
+	color: var(--white);
+	border: solid 2px var(--white);
+	transition: all 0.2s ease;
 }
 
-.generation:hover,
+.generation:hover {
+	background-color: var(--white-alpha-10);
+}
+
 .generationSelected {
-  background-color: var(--white);
-  color: var(--black);
-  border: solid 2px var(--black);
+	background-color: var(--white);
+	color: var(--black);
 }
 
 .typesFilterWrapper {
-  margin-bottom: 30px;
-  max-width: 900px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  width: 100%;
-  gap: 15px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+	width: 100%;
+	gap: 12px;
 }
 
 .buttonTypeFilter {
-  padding: 10px 0;
-  width: 120px;
-  border-radius: 10px;
-  font-size: 16px;
-  font-weight: 700;
-  cursor: pointer;
-  border: solid 3px var(--black);
-  gap: 5px;
+	padding: 8px 16px;
+	border-radius: 9999px;
+	font-size: 14px;
+	font-weight: 700;
+	cursor: pointer;
+	border: solid 2px;
+	background-color: transparent;
+	transition: all 0.2s ease;
 }
 
 .buttonTypeFilter:hover {
-  box-shadow: 0px 0px 5px 1px inset var(--black);
+	transform: scale(1.05);
 }
 
-.buttonTypeFilterSelected {
-  border-color: var(--white);
+.clearFiltersBtn {
+	padding: 10px 24px;
+	border-radius: 9999px;
+	background-color: var(--black);
+	color: var(--white);
+	border: 2px solid var(--black);
+	font-size: 15px;
+	font-weight: 700;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+
+.clearFiltersBtn:hover {
+	background-color: var(--dove-gray);
+	border-color: var(--white);
+}
+
+.clearFiltersShortcutBtn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 46px;
+	height: 46px;
+	border-radius: 50%;
+	background-color: var(--black);
+	color: var(--white);
+	font-size: 18px;
+	cursor: pointer;
+	border: 2px solid var(--black);
+	transition: all 0.2s ease;
+}
+
+.clearFiltersShortcutBtn:hover {
+	background-color: var(--white);
+	color: var(--black);
 }
 
 .poisonType {
-  composes: poisonType from global;
+	composes: poisonType from global;
 }
 
 .rockType {
-  composes: rockType from global;
+	composes: rockType from global;
 }
 
 .fireType {
-  composes: fireType from global;
+	composes: fireType from global;
 }
 
 .normalType {
-  composes: normalType from global;
+	composes: normalType from global;
 }
 
 .waterType {
-  composes: waterType from global;
+	composes: waterType from global;
 }
 
 .grassType {
-  composes: grassType from global;
+	composes: grassType from global;
 }
 
 .flyingType {
-  composes: flyingType from global;
+	composes: flyingType from global;
 }
 
 .fightingType {
-  composes: fightingType from global;
+	composes: fightingType from global;
 }
 
 .electricType {
-  composes: electricType from global;
+	composes: electricType from global;
 }
 
 .groundType {
-  composes: groundType from global;
+	composes: groundType from global;
 }
 
 .psychicType {
-  composes: psychicType from global;
+	composes: psychicType from global;
 }
 
 .iceType {
-  composes: iceType from global;
+	composes: iceType from global;
 }
 
 .bugType {
-  composes: bugType from global;
+	composes: bugType from global;
 }
 
 .ghostType {
-  composes: ghostType from global;
+	composes: ghostType from global;
 }
 
 .steelType {
-  composes: steelType from global;
+	composes: steelType from global;
 }
 
 .dragonType {
-  composes: dragonType from global;
+	composes: dragonType from global;
 }
 
 .darkType {
-  composes: darkType from global;
+	composes: darkType from global;
 }
 
 .fairyType {
-  composes: fairyType from global;
+	composes: fairyType from global;
 }
 
 @media screen and (max-width: 480px) {
-  .typesFilterWrapper {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .buttonTypeFilter {
-    border-radius: 10px;
-    font-size: 14px;
-    width: unset;
-  }
+	.buttonTypeFilter {
+		border-radius: 10px;
+		font-size: 14px;
+		width: unset;
+	}
 }
 
 @media screen and (max-width: 380px) {
-  .buttonTypeFilter {
-    font-size: 12px;
-  }
+	.buttonTypeFilter {
+		font-size: 12px;
+	}
 }
