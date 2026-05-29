@@ -231,7 +231,7 @@
 	margin: 0;
 }
 
-@media (hover: hover) {
+@media (hover: hover) and (pointer: fine) and (min-width: 769px) {
 	.cardPokemon {
 		transform: perspective(1000px) rotateX(var(--rotate-x, 0deg))
 			rotateY(var(--rotate-y, 0deg)) translateY(0);
